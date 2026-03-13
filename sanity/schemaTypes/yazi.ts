@@ -98,6 +98,28 @@ export default defineType({
         layout: 'dropdown',
       },
     }),
+    defineField({
+      name: 'metaBaslik',
+      title: 'SEO Meta Başlık',
+      type: 'string',
+      validation: (Rule) => Rule.max(60),
+    }),
+    defineField({
+      name: 'metaAciklama',
+      title: 'SEO Meta Açıklama',
+      type: 'text',
+      rows: 2,
+      validation: (Rule) => Rule.max(160),
+    }),
+    defineField({
+      name: 'anahtarKelimeler',
+      title: 'Anahtar Kelimeler',
+      type: 'array',
+      of: [{type: 'string'}],
+      options: {
+        layout: 'tags',
+      },
+    }),
   ],
 })
 
