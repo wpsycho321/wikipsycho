@@ -74,8 +74,9 @@ export default defineType({
       options: {
         list: [
           {title: 'Taslak', value: 'taslak'},
-          {title: 'İncelemede', value: 'incelemede'},
+          {title: 'Onayda', value: 'onayda'},
           {title: 'Yayında', value: 'yayinda'},
+          {title: 'Reddedildi', value: 'reddedildi'},
         ],
         layout: 'radio',
       },
