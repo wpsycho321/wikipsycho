@@ -22,25 +22,26 @@ function TestAction() {
   }
 }
 
-export default defineConfig({
-  basePath: '/studio',
-  projectId,
-  dataset,
-  // Add and edit the content schema in the './sanity/schemaTypes' folder
-  schema,
-  document: {
-    actions: (prev, { schemaType }) => {
-      const types = ['yazi', 'proje', 'eyayin', 'etkinlik']
-      if (schemaType && types.includes(schemaType)) {
-        return [...prev, TestAction, AiDoldurAction];
-      }
-      return prev;
+export default defineConfig([
+  {
+    name: 'default',
+    title: 'WikiPsycho',
+    basePath: '/studio',
+    projectId: projectId!,
+    dataset: dataset!,
+    schema,
+    document: {
+      actions: (prev, { schemaType }) => {
+        const types = ['yazi', 'proje', 'eyayin', 'etkinlik']
+        if (schemaType && types.includes(schemaType)) {
+          return [...prev, TestAction, AiDoldurAction]
+        }
+        return prev
+      },
     },
+    plugins: [
+      structureTool({structure}),
+      visionTool({defaultApiVersion: apiVersion}),
+    ],
   },
-  plugins: [
-    structureTool({structure}),
-    // Vision is for querying with GROQ from inside the Studio
-    // https://www.sanity.io/docs/the-vision-plugin
-    visionTool({defaultApiVersion: apiVersion}),
-  ],
-})
+])
