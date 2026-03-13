@@ -1,9 +1,9 @@
 import { Playfair_Display } from "next/font/google";
 import Image from "next/image";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { client } from "@/lib/sanity";
 import { ilanBySlugQuery } from "@/lib/queries";
-import IlanBasvuruForm from "./IlanBasvuruForm";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
@@ -71,7 +71,6 @@ export default async function IlanDetayPage({
 
   const gun = kalanGun(ilan.sonTarih);
   const doldu = gun !== null && gun < 0;
-  const formId = "basvuru-formu";
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -121,31 +120,14 @@ export default async function IlanDetayPage({
             </div>
           )}
 
-          {/* Başvur butonu / Form */}
+          {/* Başvur butonu */}
           {!doldu && (
-            <>
-              <a
-                href={`#${formId}`}
-                className="mt-10 inline-block rounded bg-black px-6 py-3 font-sans text-sm font-medium text-white transition hover:bg-gray-800"
-              >
-                Başvur
-              </a>
-              <div className="mt-10" id={formId}>
-                <h2 className="text-2xl font-bold">Başvuru Formu</h2>
-                <div className="mt-6">
-                  {(ilan.sorular ?? []).length > 0 ? (
-                    <IlanBasvuruForm
-                      ilanSlug={ilan.slug?.current ?? ""}
-                      sorular={ilan.sorular ?? []}
-                    />
-                  ) : (
-                    <p className="font-sans text-sm text-gray-500">
-                      Bu ilan için başvuru formu tanımlanmamış.
-                    </p>
-                  )}
-                </div>
-              </div>
-            </>
+            <Link
+              href={`/ilanlar/${ilan.slug?.current ?? slug}/basvur`}
+              className="mt-10 inline-block rounded bg-black px-6 py-3 font-sans text-sm font-medium text-white transition hover:bg-gray-800"
+            >
+              Başvur
+            </Link>
           )}
         </div>
       </article>
