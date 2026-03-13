@@ -1,9 +1,5 @@
 import { NextResponse } from "next/server";
-import { Resend } from "resend";
-
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const FROM_EMAIL = process.env.RESEND_FROM ?? "onay@wikipsycho.org.tr";
+import { sendIcerikOnayEmail } from "@/lib/send-icerik-onay-email";
 
 type Body = {
   icerikTuru: string;
@@ -47,21 +43,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const studioLink = `https://wikipsycho-hst.vercel.app/studio/structure/${icerikTuru};${sanityId}`;
-
-    const html = `
-      <h2>Onay Bekleyen İçerik</h2>
-      <p><strong>İçerik türü:</strong> ${icerikTuru}</p>
-      <p><strong>Başlık:</strong> ${baslik}</p>
-      <p><strong>Gönderen:</strong> ${gonderecelikKisi}</p>
-      <p><strong>Sanity Studio linki:</strong> <a href="${studioLink}">${studioLink}</a></p>
-    `;
-
-    const { data, error } = await resend.emails.send({
-      from: FROM_EMAIL,
-      to: birimLideriMail,
-      subject: `[WikiPsycho] Onay Bekleyen İçerik: ${baslik}`,
-      html,
+    const { data, error } = await sendIcerikOnayEmail({
+      icerikTuru,
+      baslik,
+      sanityId,
+      gonderecelikKisi,
+      birimLideriMail,
     });
 
     if (error) {
