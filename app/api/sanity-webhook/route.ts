@@ -71,7 +71,12 @@ export async function POST(request: Request) {
   if (!baslik || !durum) {
     const client = createSanityClient();
     const doc = await client.fetch<
-      { baslik?: string; durum?: string; yazar?: { isim?: string } } | null
+      {
+        baslik?: string;
+        durum?: string;
+        yazarIsim?: string;
+        yazar?: { isim?: string };
+      } | null
     >(
       `*[_id == $id][0]{ baslik, durum, "yazarIsim": yazar->isim }`,
       { id: documentId }
