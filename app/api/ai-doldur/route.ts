@@ -21,6 +21,7 @@ Döndür:
 
 export async function POST(request: Request) {
   const apiKey = process.env.GEMINI_API_KEY;
+  console.log("GEMINI_API_KEY exists:", !!apiKey);
   if (!apiKey) {
     return NextResponse.json(
       { error: "GEMINI_API_KEY tanımlı değil" },
