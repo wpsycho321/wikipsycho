@@ -1,8 +1,5 @@
 import { Resend } from "resend";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM_EMAIL = process.env.RESEND_FROM ?? "onay@wikipsycho.org.tr";
-
 export type SendIcerikOnayParams = {
   icerikTuru: string;
   baslik: string;
@@ -12,6 +9,10 @@ export type SendIcerikOnayParams = {
 };
 
 export async function sendIcerikOnayEmail(params: SendIcerikOnayParams) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+  const fromEmail =
+    process.env.RESEND_FROM ?? "onay@wikipsycho.org.tr";
+
   const { icerikTuru, baslik, sanityId, gonderecelikKisi, birimLideriMail } =
     params;
 
@@ -26,7 +27,7 @@ export async function sendIcerikOnayEmail(params: SendIcerikOnayParams) {
   `;
 
   return resend.emails.send({
-    from: FROM_EMAIL,
+    from: fromEmail,
     to: birimLideriMail,
     subject: `[WikiPsycho] Onay Bekleyen İçerik: ${baslik}`,
     html,
