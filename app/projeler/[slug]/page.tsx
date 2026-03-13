@@ -19,7 +19,7 @@ const projeBySlugQuery = `
     durum,
     yil,
     kategori,
-    gorsel,
+    "gorsel": gorsel.asset->url,
     istatistikler,
     ortaklar
   }
@@ -42,11 +42,12 @@ type Proje = {
 export default async function ProjeDetayPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const proje = (await client.fetch(projeBySlugQuery, {
-    slug: params.slug,
-  }).catch(() => null)) as Proje | null;
+  const { slug } = await params;
+  const proje = (await client.fetch(projeBySlugQuery, { slug }).catch(
+    () => null
+  )) as Proje | null;
 
   if (!proje) {
     notFound();
