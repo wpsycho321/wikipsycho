@@ -12,11 +12,12 @@ const navItems = [
   {
     label: "Hakkımızda",
     href: "#",
-    dropdown: [
-      { label: "Biz Kimiz", href: "/hakkimizda/biz-kimiz" },
-      { label: "Ekibimiz", href: "/hakkimizda/ekibimiz" },
-      { label: "Birimler", href: "/hakkimizda/birimler" },
-    ],
+      dropdown: [
+        { label: "Biz Kimiz", href: "/hakkimizda/biz-kimiz" },
+        { label: "Ekibimiz", href: "/hakkimizda/ekibimiz" },
+        { label: "Birimler", href: "/hakkimizda/birimler" },
+        { label: "Etkinlikler", href: "/hakkimizda/etkinlikler" },
+      ],
   },
   {
     label: "Yayınlar",
@@ -36,6 +37,7 @@ const navItems = [
   },
   { label: "Yazılar", href: "/yazilar" },
   { label: "Projeler", href: "/projeler" },
+  { label: "İlanlar", href: "/ilanlar" },
   { label: "İletişim", href: "/iletisim" },
 ];
 
@@ -62,7 +64,7 @@ export default function Navbar() {
             "dropdown" in item && item.dropdown ? (
               <div
                 key={item.label}
-                className="group relative"
+                className="group relative inline-flex"
               >
                 <button
                   type="button"
@@ -165,6 +167,12 @@ export default function Navbar() {
               </svg>
             </button>
           )}
+          <Link
+            href="/studio"
+            className="rounded border border-white px-3 py-1.5 font-sans text-xs font-medium transition hover:bg-white/10"
+          >
+            Ekip Girişi
+          </Link>
         </div>
 
         {/* Mobile: Hamburger + Search */}

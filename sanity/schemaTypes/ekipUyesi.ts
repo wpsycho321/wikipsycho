@@ -89,6 +89,14 @@ export default defineType({
       type: 'boolean',
       initialValue: true,
     }),
+    defineField({
+      name: 'onecikar',
+      title: 'Öne Çıkar',
+      type: 'boolean',
+      initialValue: false,
+      description:
+        'Bu true ise yazar "Yazarlarımız" bölümünde öne çıkar',
+    }),
   ],
 })
 

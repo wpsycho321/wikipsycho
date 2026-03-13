@@ -43,3 +43,53 @@ export const birimlerQuery = `*[_type == "birim"] {
   "lider": lider->{ _id, slug, isim, unvan, fotograf }
 }`
 
+export const duyurularQuery = `*[_type == "duyuru" && aktif == true] | order(sira asc) {
+  _id, metin, link
+}`
+
+export const ayinTemasiQuery = `*[_type == "ayinTemasi"] | order(_createdAt desc) [0] {
+  ay, tema, aciklama,
+  "gorsel": gorsel.asset->url
+}`
+
+export const oncuYazarQuery = `*[_type == "ekipUyesi" && onecikar == true && aktif == true] [0] {
+  _id, isim, slug, unvan, biyografi,
+  "fotograf": fotograf.asset->url,
+  "yazilari": *[_type == "yazi" && references(^._id) && durum == "yayinda"] | order(tarih desc) [0..2] {
+    baslik, slug, ozet,
+    "kapakGorseli": kapakGorseli.asset->url
+  }
+}`
+
+export const yazilarHomepageQuery = `*[_type == "yazi" && durum == "yayinda"] | order(tarih desc) [0...7] {
+  _id, baslik, slug, tarih, kategori, ozet,
+  "kapakGorseli": kapakGorseli.asset->url,
+  "yazar": yazar->{ isim, unvan }
+}`
+
+export const eyayinlarHomepageQuery = `*[_type == "eyayin"] | order(tarih desc) [0] {
+  _id, baslik, slug, altBaslik, ozet, hazirlayanlar,
+  "kapakGorseli": kapakGorseli.asset->url
+}`
+
+export const etkinliklerQuery = `*[_type == "etkinlik"] | order(tarih asc) {
+  _id, baslik, slug, tarih, konum, kategori, aciklama,
+  "gorsel": gorsel.asset->url,
+  durum
+}`
+
+export const ilanlarQuery = `*[_type == "ilan" && aktif == true && sonTarih > now()] | order(sonTarih asc) {
+  _id, baslik, slug, aciklama, birim, kategori, sonTarih,
+  "afis": afis.asset->url
+}`
+
+export const ilanlarAllQuery = `*[_type == "ilan" && aktif == true] | order(sonTarih asc) {
+  _id, baslik, slug, aciklama, birim, kategori, sonTarih,
+  "afis": afis.asset->url
+}`
+
+export const ilanBySlugQuery = `*[_type == "ilan" && slug.current == $slug][0] {
+  _id, baslik, slug, aciklama, birim, kategori, sonTarih, sorular,
+  "afis": afis.asset->url
+}`
+
