@@ -21,10 +21,12 @@ export default defineConfig({
   // Add and edit the content schema in the './sanity/schemaTypes' folder
   schema,
   document: {
-    actions: (prev, { schemaType }) =>
-      schemaType && ['yazi', 'proje', 'eyayin', 'etkinlik'].includes(schemaType)
-        ? [AiDoldurAction, ...prev]
-        : prev,
+    actions: (prev, { schemaType }) => {
+      if (schemaType && ['yazi', 'proje', 'eyayin', 'etkinlik'].includes(schemaType)) {
+        return [...prev, AiDoldurAction];
+      }
+      return prev;
+    },
   },
   plugins: [
     structureTool({structure}),
