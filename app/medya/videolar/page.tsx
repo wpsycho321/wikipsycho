@@ -1,26 +1,35 @@
-"use client";
+"use server";
 
-import { useMemo, useState } from "react";
-import { videolar } from "@/data/medya";
 import { Playfair_Display } from "next/font/google";
+import { client } from "@/lib/sanity";
+import { videolarQuery } from "@/lib/queries";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
-const tumKategoriler = [
-  "Tümü",
-  ...Array.from(new Set(videolar.map((v) => v.kategori))),
-];
+type Video = {
+  _id: string;
+  baslik: string;
+  altBaslik?: string;
+  youtubeUrl: string;
+  thumbnailUrl?: string;
+  tarih?: string;
+  sure?: string;
+  kategori?: string;
+  aciklama?: string;
+  yazar?: string;
+};
 
-export default function VideolarPage() {
-  const [aktifKategori, setAktifKategori] = useState("Tümü");
+function getKategoriler(videolar: Video[]) {
+  const set = new Set<string>();
+  videolar.forEach((v) => {
+    if (v.kategori) set.add(v.kategori);
+  });
+  return ["Tümü", ...Array.from(set)];
+}
 
-  const filtreliVideolar = useMemo(
-    () =>
-      aktifKategori === "Tümü"
-        ? videolar
-        : videolar.filter((v) => v.kategori === aktifKategori),
-    [aktifKategori]
-  );
+export default async function VideolarPage() {
+  const videolar: Video[] = await client.fetch(videolarQuery).catch(() => []);
+  const tumKategoriler = getKategoriler(videolar);
 
   return (
     <main className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -36,26 +45,21 @@ export default function VideolarPage() {
       <div className="sticky top-0 z-10 border-b border-gray-200 bg-white">
         <div className="flex gap-8 overflow-x-auto px-12 scrollbar-hide">
           {tumKategoriler.map((kategori) => (
-            <button
+            <span
               key={kategori}
-              onClick={() => setAktifKategori(kategori)}
-              className={`-mb-px whitespace-nowrap border-b-2 py-4 text-sm transition-colors ${
-                aktifKategori === kategori
-                  ? "border-black font-semibold text-black"
-                  : "border-transparent text-gray-400 hover:text-black"
-              }`}
+              className="border-b-2 border-transparent py-4 text-sm text-gray-400"
             >
               {kategori}
-            </button>
+            </span>
           ))}
         </div>
       </div>
 
       {/* VİDEO LİSTESİ */}
       <div className="max-w-5xl px-12 py-12">
-        {filtreliVideolar.map((video) => (
+        {videolar.map((video) => (
           <a
-            key={video.id}
+            key={video._id}
             href={video.youtubeUrl}
             target="_blank"
             rel="noopener noreferrer"

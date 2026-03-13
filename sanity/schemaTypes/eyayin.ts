@@ -1,0 +1,117 @@
+import {defineField, defineType} from 'sanity'
+
+export default defineType({
+  name: 'eyayin',
+  title: 'E-Yayın',
+  type: 'document',
+  fields: [
+    defineField({
+      name: 'baslik',
+      title: 'Başlık',
+      type: 'string',
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'slug',
+      title: 'Slug',
+      type: 'slug',
+      options: {
+        source: 'baslik',
+        maxLength: 96,
+      },
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: 'altBaslik',
+      title: 'Alt Başlık',
+      type: 'string',
+    }),
+    defineField({
+      name: 'seriNo',
+      title: 'Seri No',
+      type: 'string',
+    }),
+    defineField({
+      name: 'tur',
+      title: 'Tür',
+      type: 'string',
+    }),
+    defineField({
+      name: 'yil',
+      title: 'Yıl',
+      type: 'string',
+    }),
+    defineField({
+      name: 'tarih',
+      title: 'Tarih',
+      type: 'date',
+    }),
+    defineField({
+      name: 'kategori',
+      title: 'Kategori',
+      type: 'string',
+    }),
+    defineField({
+      name: 'ozet',
+      title: 'Özet',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
+      name: 'hedef',
+      title: 'Hedef',
+      type: 'text',
+      rows: 3,
+    }),
+    defineField({
+      name: 'bulgular',
+      title: 'Bulgular',
+      type: 'array',
+      of: [{type: 'string'}],
+    }),
+    defineField({
+      name: 'kapakGorseli',
+      title: 'Kapak Görseli',
+      type: 'image',
+      options: {hotspot: true},
+    }),
+    defineField({
+      name: 'pdfUrl',
+      title: 'PDF URL',
+      type: 'string',
+    }),
+    defineField({
+      name: 'sayfaSayisi',
+      title: 'Sayfa Sayısı',
+      type: 'number',
+    }),
+    defineField({
+      name: 'hazirlayanlar',
+      title: 'Hazırlayanlar',
+      type: 'array',
+      of: [{type: 'string'}],
+    }),
+    defineField({
+      name: 'editor',
+      title: 'Editör',
+      type: 'string',
+    }),
+    defineField({
+      name: 'danismanlar',
+      title: 'Danışmanlar',
+      type: 'array',
+      of: [{type: 'string'}],
+    }),
+    defineField({
+      name: 'yayin',
+      title: 'Yayın',
+      type: 'string',
+    }),
+    defineField({
+      name: 'ilgiliProjeSlug',
+      title: 'İlgili Proje Slug',
+      type: 'string',
+    }),
+  ],
+})
+

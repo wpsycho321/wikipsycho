@@ -1,26 +1,35 @@
-"use client";
+"use server";
 
-import { useMemo, useState } from "react";
-import { podcastlar } from "@/data/medya";
 import { Playfair_Display } from "next/font/google";
+import { client } from "@/lib/sanity";
+import { podcastlarQuery } from "@/lib/queries";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
-const tumKategoriler = [
-  "Tümü",
-  ...Array.from(new Set(podcastlar.map((p) => p.kategori))),
-];
+type Podcast = {
+  _id: string;
+  baslik: string;
+  altBaslik?: string;
+  spotifyUrl: string;
+  gorselUrl?: string;
+  tarih?: string;
+  sure?: string;
+  kategori?: string;
+  aciklama?: string;
+  konuk?: string;
+};
 
-export default function PodcastlarPage() {
-  const [aktifKategori, setAktifKategori] = useState("Tümü");
+function getKategoriler(podcastlar: Podcast[]) {
+  const set = new Set<string>();
+  podcastlar.forEach((p) => {
+    if (p.kategori) set.add(p.kategori);
+  });
+  return ["Tümü", ...Array.from(set)];
+}
 
-  const filtreliPodcastlar = useMemo(
-    () =>
-      aktifKategori === "Tümü"
-        ? podcastlar
-        : podcastlar.filter((p) => p.kategori === aktifKategori),
-    [aktifKategori]
-  );
+export default async function PodcastlarPage() {
+  const podcastlar: Podcast[] = await client.fetch(podcastlarQuery).catch(() => []);
+  const tumKategoriler = getKategoriler(podcastlar);
 
   return (
     <main className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -36,26 +45,21 @@ export default function PodcastlarPage() {
       <div className="sticky top-0 z-10 border-b border-gray-200 bg-white">
         <div className="flex gap-8 overflow-x-auto px-12 scrollbar-hide">
           {tumKategoriler.map((kategori) => (
-            <button
+            <span
               key={kategori}
-              onClick={() => setAktifKategori(kategori)}
-              className={`-mb-px whitespace-nowrap border-b-2 py-4 text-sm transition-colors ${
-                aktifKategori === kategori
-                  ? "border-black font-semibold text-black"
-                  : "border-transparent text-gray-400 hover:text-black"
-              }`}
+              className="border-b-2 border-transparent py-4 text-sm text-gray-400"
             >
               {kategori}
-            </button>
+            </span>
           ))}
         </div>
       </div>
 
       {/* PODCAST LİSTESİ */}
       <div className="max-w-5xl px-12 py-12">
-        {filtreliPodcastlar.map((podcast) => (
+        {podcastlar.map((podcast) => (
           <a
-            key={podcast.id}
+            key={podcast._id}
             href={podcast.spotifyUrl}
             target="_blank"
             rel="noopener noreferrer"
