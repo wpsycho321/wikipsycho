@@ -2,7 +2,9 @@ import { Playfair_Display } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/lib/sanity";
-import { ilanlarAllQuery } from "@/lib/queries";
+
+// DEBUG: Simple query, no date filter
+const ilanlarDebugQuery = `*[_type == "ilan"] { _id, baslik, slug }`;
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
@@ -38,18 +40,14 @@ function kategoriLabel(k: string | undefined) {
 export default async function IlanlarPage() {
   const ilanlar = await client
     .fetch<
-      {
-        _id: string;
-        baslik: string;
-        slug: { current: string };
-        aciklama?: string;
-        birim?: string;
-        kategori?: string;
-        sonTarih?: string;
-        afis?: string;
-      }[]
-    >(ilanlarAllQuery)
-    .catch(() => []);
+      { _id: string; baslik: string; slug: { current: string } }[]
+    >(ilanlarDebugQuery)
+    .catch((err) => {
+      console.error("[ilanlar] Fetch error:", err);
+      return [];
+    });
+
+  console.log("[ilanlar] Fetched:", ilanlar?.length ?? 0, "items", ilanlar);
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
