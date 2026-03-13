@@ -52,7 +52,11 @@ export async function POST(request: Request) {
       _type: "basvuru",
       ilan: { _type: "reference", _ref: ilanId },
       tarih: new Date().toISOString(),
-      cevaplar: cevaplar.map((c) => ({ soru: c.soru, cevap: c.cevap })),
+      cevaplar: cevaplar.map((c) => ({
+        _key: Math.random().toString(36).slice(2),
+        soru: c.soru,
+        cevap: c.cevap,
+      })),
     };
 
     await client.create(doc);
