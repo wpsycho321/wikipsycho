@@ -120,15 +120,23 @@ export default async function IlanDetayPage({
             </div>
           )}
 
-          {/* Başvur butonu */}
-          {!doldu && (
+          {/* Başvur butonu & Başvuruları Gör */}
+          <div className="mt-10 flex flex-wrap items-center gap-4">
+            {!doldu && (
+              <Link
+                href={`/ilanlar/${ilan.slug?.current ?? slug}/basvur`}
+                className="inline-block rounded bg-black px-6 py-3 font-sans text-sm font-medium text-white transition hover:bg-gray-800"
+              >
+                Başvur
+              </Link>
+            )}
             <Link
-              href={`/ilanlar/${ilan.slug?.current ?? slug}/basvur`}
-              className="mt-10 inline-block rounded bg-black px-6 py-3 font-sans text-sm font-medium text-white transition hover:bg-gray-800"
+              href={`/ilanlar/${ilan.slug?.current ?? slug}/basvurular`}
+              className="font-sans text-sm text-gray-500 underline hover:text-gray-700"
             >
-              Başvur
+              Başvuruları Gör
             </Link>
-          )}
+          </div>
         </div>
       </article>
     </div>

@@ -4,6 +4,20 @@ export default defineType({
   name: "basvuru",
   title: "Başvuru",
   type: "document",
+  preview: {
+    select: {
+      title: "ilan.baslik",
+      subtitle: "tarih",
+    },
+    prepare({ title, subtitle }) {
+      return {
+        title: title || "İlansız Başvuru",
+        subtitle: subtitle
+          ? new Date(subtitle).toLocaleString("tr-TR")
+          : "",
+      };
+    },
+  },
   fields: [
     defineField({
       name: "ilan",
@@ -30,6 +44,18 @@ export default defineType({
             { name: "soru", title: "Soru", type: "string" },
             { name: "cevap", title: "Cevap", type: "text" },
           ],
+          preview: {
+            select: { title: "soru", subtitle: "cevap" },
+            prepare({ title, subtitle }) {
+              return {
+                title: title || "Soru",
+                subtitle: subtitle
+                  ? String(subtitle).slice(0, 80) +
+                    (String(subtitle).length > 80 ? "…" : "")
+                  : "",
+              };
+            },
+          },
         },
       ],
     }),

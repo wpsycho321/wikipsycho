@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 type Soru = {
   soru?: string;
@@ -18,8 +19,8 @@ export default function BasvuruFormClient({
   ilanSlug: string;
   sorular: Soru[];
 }) {
+  const router = useRouter();
   const [cevaplar, setCevaplar] = useState<Record<string, string>>({});
-  const [gonderildi, setGonderildi] = useState(false);
   const [hata, setHata] = useState("");
 
   const handleChange = (soru: string, cevap: string) => {
@@ -48,21 +49,11 @@ export default function BasvuruFormClient({
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error ?? "Başvuru gönderilemedi");
-      setGonderildi(true);
+      router.replace("/ilanlar/" + ilanSlug);
     } catch (err) {
       setHata(err instanceof Error ? err.message : "Bir hata oluştu");
     }
   };
-
-  if (gonderildi) {
-    return (
-      <div className="rounded-lg border border-green-200 bg-green-50 p-8 text-center">
-        <p className="font-sans text-base font-medium text-green-800">
-          Başvurunuz başarıyla alındı.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-8">

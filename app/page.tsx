@@ -9,34 +9,12 @@ import {
   eyayinlarHomepageQuery,
   videolarQuery,
   podcastlarQuery,
+  projelerQuery,
+  etkinliklerQuery,
 } from "@/lib/queries";
 import HomeHeroSlider from "./components/HomeHeroSlider";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
-
-const featuredCards = [
-  {
-    tag: "ETKİNLİK",
-    title: "Oyun Terapisi Atölyesi — Nisan 2025",
-    description: "Çocuklarla çalışan profesyoneller için uygulamalı bir gün.",
-    meta: "Eğitim Birimi · 15 Nisan 2025",
-    image: "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800",
-  },
-  {
-    tag: "YENİ RAPOR",
-    title: "Dijital Bağımlılık Saha Araştırması Yayınlandı",
-    description: "Lise öğrencileriyle yürütülen 3 aylık alan çalışmasının bulguları.",
-    meta: "Akademi Birimi · Mart 2025",
-    image: "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800",
-  },
-  {
-    tag: "DUYURU",
-    title: "WikiPsycho Gönüllü Başvuruları Açıldı",
-    description: "2025 dönemi için 7 birimde gönüllü alımı başlıyor.",
-    meta: "WikiPsycho · Mart 2025",
-    image: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=800",
-  },
-];
 
 function formatTarih(tarih: string | undefined) {
   if (!tarih) return "";
@@ -67,6 +45,8 @@ export default async function Home() {
     oncuYazar,
     ayinTemasi,
     eyayinlarRes,
+    projelerRes,
+    etkinliklerRes,
   ] = await Promise.all([
     client.fetch<{ _id: string; metin: string; link?: string }[]>(duyurularQuery),
     client.fetch<
@@ -136,14 +116,50 @@ export default async function Home() {
         kapakGorseli?: string;
       }[]
     >(eyayinlarHomepageQuery),
+    client.fetch(projelerQuery),
+    client.fetch(etkinliklerQuery),
   ]);
 
   const yazilar = yazilarRes ?? [];
   const sonVideo = videolarRes?.[0];
   const sonPodcast = podcastlarRes?.[0];
-  const sonEyayin = eyayinlarRes?.[0];
+  const sonEyayin = Array.isArray(eyayinlarRes) ? eyayinlarRes[0] : eyayinlarRes;
   const guncelYazilar = yazilar.slice(0, 4);
   const haberYazilari = yazilar.slice(0, 3);
+
+  const sonEyayinCard = Array.isArray(eyayinlarRes) ? eyayinlarRes[0] : eyayinlarRes;
+  const sonProje = Array.isArray(projelerRes) ? projelerRes[0] : null;
+  const sonEtkinlik = Array.isArray(etkinliklerRes) ? etkinliklerRes[0] : null;
+
+  const featuredCards = [
+    sonEyayinCard && {
+      tag: "E-YAYIN",
+      title: sonEyayinCard.baslik,
+      description: sonEyayinCard.ozet ?? "",
+      meta: (sonEyayinCard.hazirlayanlar ?? []).join(", "),
+      image:
+        (sonEyayinCard as { kapakGorseli?: string }).kapakGorseli ??
+        "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800",
+    },
+    sonProje && {
+      tag: "PROJE",
+      title: sonProje.baslik,
+      description: sonProje.aciklama ?? "",
+      meta: sonProje.yil ?? "",
+      image:
+        sonProje.gorsel ??
+        "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800",
+    },
+    sonEtkinlik && {
+      tag: "ETKİNLİK",
+      title: sonEtkinlik.baslik,
+      description: sonEtkinlik.aciklama ?? "",
+      meta: (formatTarih(sonEtkinlik.tarih) || sonEtkinlik.konum) ?? "",
+      image:
+        sonEtkinlik.gorsel ??
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800",
+    },
+  ].filter(Boolean) as { tag: string; title: string; description: string; meta: string; image: string }[];
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -187,9 +203,11 @@ export default async function Home() {
             </p>
           </div>
         </div>
-        <div className="flex w-1/2">
-          <HomeHeroSlider cards={featuredCards} />
-        </div>
+        {featuredCards.length > 0 && (
+          <div className="flex w-1/2">
+            <HomeHeroSlider cards={featuredCards} />
+          </div>
+        )}
       </section>
 
       <main className="flex w-full flex-col gap-16 px-0 pb-12 pt-10">

@@ -19,7 +19,8 @@
     "react-pageflip": "^2.0.3",
     "resend": "^6.9.3",
     "sanity": "^4.22.0",
-    "styled-components": "^6.3.11"
+    "styled-components": "^6.3.11",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",

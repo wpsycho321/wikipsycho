@@ -85,7 +85,7 @@ export default function Navbar() {
                     />
                   </svg>
                 </button>
-                <div className="absolute left-0 top-full pt-2 opacity-0 transition-opacity group-hover:opacity-100">
+                <div className="absolute left-0 top-full invisible opacity-0 transition-[opacity,visibility] group-hover:visible group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto">
                   <div className="min-w-[180px] rounded-md border border-white/10 bg-black/95 py-2 shadow-lg backdrop-blur">
                     {item.dropdown.map((sub) => (
                       <Link

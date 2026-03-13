@@ -3,8 +3,19 @@ export const yazilarQuery = `*[_type == "yazi" && durum == "yayinda"] | order(ta
   "yazar": yazar->{ isim, unvan, fotograf }
 }`
 
+export const yazilarListQuery = `*[_type == "yazi" && durum == "yayinda"] | order(tarih desc) {
+  _id, baslik, slug, tarih, kategori, ozet,
+  "kapakGorseli": kapakGorseli.asset->url,
+  "yazar": yazar->{ isim, unvan }
+}`
+
 export const yazarlarQuery = `*[_type == "ekipUyesi" && aktif == true] | order(isim asc) {
   _id, isim, slug, unvan, biyografi, fotograf, birim, rol, sosyalMedya
+}`
+
+export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(birim asc, isim asc) {
+  _id, isim, slug, unvan, birim, rol,
+  "fotograf": fotograf.asset->url
 }`
 
 export const projelerQuery = `*[_type == "proje"] | order(yil desc) {
@@ -78,6 +89,7 @@ export const etkinliklerQuery = `*[_type == "etkinlik"] | order(tarih asc) {
   durum
 }`
 
+
 export const ilanlarQuery = `*[_type == "ilan" && aktif == true && sonTarih > now()] | order(sonTarih asc) {
   _id, baslik, slug, aciklama, birim, kategori, sonTarih,
   "afis": afis.asset->url
@@ -91,5 +103,9 @@ export const ilanlarAllQuery = `*[_type == "ilan" && aktif == true] | order(sonT
 export const ilanBySlugQuery = `*[_type == "ilan" && slug.current == $slug][0] {
   _id, baslik, slug, aciklama, birim, kategori, sonTarih, sorular,
   "afis": afis.asset->url
+}`
+
+export const basvurularByIlanQuery = `*[_type == "basvuru" && references($ilanId)] | order(tarih desc) {
+  _id, tarih, cevaplar
 }`
 
