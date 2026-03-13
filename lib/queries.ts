@@ -8,7 +8,17 @@ export const yazarlarQuery = `*[_type == "ekipUyesi" && aktif == true] | order(i
 }`
 
 export const projelerQuery = `*[_type == "proje"] | order(yil desc) {
-  _id, baslik, slug, altBaslik, aciklama, durum, yil, kategori, gorsel, istatistikler, ortaklar
+  _id,
+  baslik,
+  slug,
+  altBaslik,
+  aciklama,
+  durum,
+  yil,
+  kategori,
+  "gorsel": gorsel.asset->url,
+  istatistikler,
+  ortaklar
 }`
 
 export const raporlarQuery = `*[_type == "rapor"] | order(tarih desc) {
