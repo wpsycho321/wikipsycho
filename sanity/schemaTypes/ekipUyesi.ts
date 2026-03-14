@@ -56,23 +56,16 @@ export default defineType({
     }),
     defineField({
       name: 'rol',
-      title: 'Rol',
+      title: 'Rol (sistem)',
       type: 'string',
-      description: 'Serbest metin, örn: "Başkan", "Eğitim & Gelişim Birim Lideri", "Denetim Kurulu Üyesi"',
+      description: 'Sistem rolü — kartlarda gösterilmez',
     }),
     defineField({
-      name: 'kategori',
-      title: 'Kategori',
-      type: 'string',
-      options: {
-        list: [
-          {title: 'Yönetim', value: 'yonetim'},
-          {title: 'Denetim Kurulu', value: 'denetim'},
-          {title: 'Ekip', value: 'ekip'},
-        ],
-        layout: 'radio',
-      },
-      description: 'Sayfada gruplamak için',
+      name: 'grup',
+      title: 'Grup',
+      type: 'reference',
+      to: [{ type: 'ekipGrubu' }],
+      description: 'Bu üyenin ait olduğu grup (Yönetim Kurulu, Akademi Birimi vb.)',
     }),
     defineField({
       name: 'sira',

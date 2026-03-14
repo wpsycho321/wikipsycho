@@ -2,44 +2,34 @@ import { Playfair_Display } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
 import { client } from "@/lib/sanity";
-import { ekipQuery } from "@/lib/queries";
+import { ekipGruplariQuery, ekipGrupsuzUyelerQuery } from "@/lib/queries";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
-const KATEGORI_SIRA = ["yonetim", "denetim", "ekip"] as const;
-const KATEGORI_AD: Record<string, string> = {
-  yonetim: "Yönetim",
-  denetim: "Denetim Kurulu",
-  ekip: "Ekip",
-};
-
-const SISTEM_ROLLER = ["superadmin", "admin", "yonetici", "birimlideri", "uye"];
-
-type Uye = {
+type Grup = {
   _id: string;
-  isim?: string;
-  slug?: { current: string };
-  rol?: string;
-  kategori?: string;
-  unvan?: string;
-  foto?: string;
+  ad: string;
+  sira?: number;
+  uyeler: {
+    _id: string;
+    isim?: string;
+    slug?: { current: string };
+    unvan?: string;
+    foto?: string;
+  }[];
 };
-
-function rolGoster(rol: string | undefined): string | null {
-  if (!rol) return null;
-  const r = rol.toLowerCase().trim();
-  if (SISTEM_ROLLER.includes(r)) return null;
-  return rol;
-}
 
 export default async function EkibimizPage() {
-  const uyeler: Uye[] = await client.fetch(ekipQuery).catch(() => []);
+  const [gruplar, grupsuzUyeler] = await Promise.all([
+    client.fetch<Grup[]>(ekipGruplariQuery).catch(() => []),
+    client.fetch<Grup["uyeler"]>(ekipGrupsuzUyelerQuery).catch(() => []),
+  ]);
 
-  const gruplar = KATEGORI_SIRA.map((k) => ({
-    key: k,
-    ad: KATEGORI_AD[k],
-    uyeler: uyeler.filter((u) => u.kategori === k),
-  })).filter((g) => g.uyeler.length > 0);
+  const gruplarWithUyeler = gruplar.filter((g) => g.uyeler && g.uyeler.length > 0);
+  if (grupsuzUyeler.length > 0) {
+    gruplarWithUyeler.push({ _id: "grupsuz", ad: "Ekibimiz", uyeler: grupsuzUyeler });
+  }
+  const toplamUye = gruplarWithUyeler.reduce((acc, g) => acc + g.uyeler.length, 0);
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -49,21 +39,20 @@ export default async function EkibimizPage() {
       </header>
 
       <main className="px-6 pb-24 md:px-12">
-        {uyeler.length === 0 ? (
+        {toplamUye === 0 ? (
           <p className="py-16 text-center font-sans text-gray-500">
             Henüz ekip üyesi eklenmemiş.
           </p>
         ) : (
           <div className="mx-auto max-w-6xl space-y-16">
-            {gruplar.map((grup) => (
-              <section key={grup.key}>
+            {gruplarWithUyeler.map((grup) => (
+              <section key={grup._id}>
                 <h2 className="mb-8 font-sans text-xs font-semibold uppercase tracking-[0.25em] text-gray-600">
                   {grup.ad}
                 </h2>
                 <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
                   {grup.uyeler.map((uye) => {
                     const slug = uye.slug?.current ?? "";
-                    const rolMetin = rolGoster(uye.rol);
 
                     return (
                       <Link
@@ -88,9 +77,9 @@ export default async function EkibimizPage() {
                         </div>
                         <div className="px-4 py-4">
                           <p className="font-bold">{uye.isim}</p>
-                          {rolMetin && (
+                          {uye.unvan && (
                             <p className="mt-1 font-sans text-sm text-gray-600">
-                              {rolMetin}
+                              {uye.unvan}
                             </p>
                           )}
                         </div>

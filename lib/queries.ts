@@ -36,7 +36,20 @@ export const ekipUyesiBySlugQuery = `*[_type == "ekipUyesi" && slug.current == $
   }
 }`;
 
-export const ekipQuery = `*[_type == "ekipUyesi" && aktif == true] | order(sira asc) {
+export const ekipGruplariQuery = `*[_type == "ekipGrubu"] | order(coalesce(sira, 999) asc) {
+  _id, ad, sira, slug,
+  "uyeler": *[_type == "ekipUyesi" && references(^._id)] | order(coalesce(sira, 999) asc) {
+    _id, isim, slug, unvan,
+    "foto": fotograf.asset->url
+  }
+}`;
+
+export const ekipGrupsuzUyelerQuery = `*[_type == "ekipUyesi" && !defined(grup)] | order(coalesce(sira, 999) asc) {
+  _id, isim, slug, unvan,
+  "foto": fotograf.asset->url
+}`;
+
+export const ekipQuery = `*[_type == "ekipUyesi"] | order(coalesce(sira, 999) asc) {
   _id, isim, slug, rol, kategori, unvan,
   "foto": fotograf.asset->url
 }`;
