@@ -3,7 +3,7 @@
 import { Playfair_Display } from "next/font/google";
 import Link from "next/link";
 import { client } from "@/lib/sanity";
-import { raporlarQuery } from "@/lib/queries";
+import { projeRaporlariQuery } from "@/lib/queries";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -25,7 +25,7 @@ function getSlugValue(slug: Rapor["slug"]) {
 }
 
 export default async function ProjeRaporlariPage() {
-  const raporlar: Rapor[] = await client.fetch(raporlarQuery).catch(() => []);
+  const raporlar: Rapor[] = await client.fetch(projeRaporlariQuery).catch(() => []);
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
