@@ -25,6 +25,7 @@ export default async function EkipProfilePage({
       isim?: string;
       rol?: string;
       unvan?: string;
+      sifat?: string;
       biyografi?: string;
       foto?: string;
       sosyalMedya?: SosyalMedya;
@@ -55,7 +56,7 @@ export default async function EkipProfilePage({
           <div className="flex-1 lg:w-[70%]">
             <h1 className="text-5xl font-bold md:text-7xl">{uye.isim}</h1>
             <p className="mt-2 font-serif text-2xl italic text-gray-600">
-              {[uye.rol, uye.unvan].filter(Boolean).join(" · ")}
+              {[uye.sifat, uye.unvan].filter(Boolean).join(" · ")}
             </p>
             <div className="mt-4 flex gap-3">
               {hasTwitter && (

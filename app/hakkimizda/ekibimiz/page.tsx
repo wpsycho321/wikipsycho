@@ -1,7 +1,7 @@
 import { Playfair_Display } from "next/font/google";
 import Link from "next/link";
 import Image from "next/image";
-import { client } from "@/lib/sanity";
+import { clientNoCache } from "@/lib/sanity";
 import { ekipGruplariQuery, ekipGrupsuzUyelerQuery } from "@/lib/queries";
 
 const playfair = Playfair_Display({ subsets: ["latin"] });
@@ -15,14 +15,15 @@ type Grup = {
     isim?: string;
     slug?: { current: string };
     unvan?: string;
+    sifat?: string;
     foto?: string;
   }[];
 };
 
 export default async function EkibimizPage() {
   const [gruplar, grupsuzUyeler] = await Promise.all([
-    client.fetch<Grup[]>(ekipGruplariQuery).catch(() => []),
-    client.fetch<Grup["uyeler"]>(ekipGrupsuzUyelerQuery).catch(() => []),
+    clientNoCache.fetch<Grup[]>(ekipGruplariQuery).catch(() => []),
+    clientNoCache.fetch<Grup["uyeler"]>(ekipGrupsuzUyelerQuery).catch(() => []),
   ]);
 
   const gruplarWithUyeler = gruplar.filter((g) => g.uyeler && g.uyeler.length > 0);
@@ -77,9 +78,9 @@ export default async function EkibimizPage() {
                         </div>
                         <div className="px-4 py-4">
                           <p className="font-bold">{uye.isim}</p>
-                          {uye.unvan && (
+                          {(uye.sifat || uye.unvan) && (
                             <p className="mt-1 font-sans text-sm text-gray-600">
-                              {uye.unvan}
+                              {uye.sifat || uye.unvan}
                             </p>
                           )}
                         </div>

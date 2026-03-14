@@ -27,7 +27,9 @@ export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(b
 }`;
 
 export const ekipUyesiBySlugQuery = `*[_type == "ekipUyesi" && slug.current == $slug][0] {
-  isim, rol, unvan, biyografi,
+  isim, rol, unvan,
+  "sifat": sifat->ad,
+  biyografi,
   "foto": fotograf.asset->url,
   sosyalMedya,
   "yazilari": *[_type == "yazi" && references(^._id)] | order(tarih desc) {
@@ -40,13 +42,21 @@ export const ekipGruplariQuery = `*[_type == "ekipGrubu"] | order(coalesce(sira,
   _id, ad, sira, slug,
   "uyeler": *[_type == "ekipUyesi" && references(^._id)] | order(coalesce(sira, 999) asc) {
     _id, isim, slug, unvan,
+    "sifat": sifat->ad,
     "foto": fotograf.asset->url
   }
 }`;
 
-export const ekipGrupsuzUyelerQuery = `*[_type == "ekipUyesi" && !defined(grup)] | order(coalesce(sira, 999) asc) {
+export const ekipGrupsuzUyelerQuery = `*[_type == "ekipUyesi" && (grup == null || !defined(grup))] | order(coalesce(sira, 999) asc) {
   _id, isim, slug, unvan,
+  "sifat": sifat->ad,
   "foto": fotograf.asset->url
+}`;
+
+export const ekipTumUyelerQuery = `*[_type == "ekipUyesi"] | order(coalesce(sira, 999) asc) {
+  _id, isim, slug, unvan,
+  "foto": fotograf.asset->url,
+  "grupRef": grup._ref
 }`;
 
 export const ekipQuery = `*[_type == "ekipUyesi"] | order(coalesce(sira, 999) asc) {

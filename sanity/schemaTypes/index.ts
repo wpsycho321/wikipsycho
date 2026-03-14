@@ -5,6 +5,7 @@ import proje from "./proje";
 import eyayin from "./eyayin";
 import ekipGrubu from "./ekipGrubu";
 import ekipUyesi from "./ekipUyesi";
+import sifatTanim from "./sifatTanim";
 import birim from "./birim";
 import video from "./video";
 import podcast from "./podcast";
@@ -25,6 +26,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     eyayin,
     ekipGrubu,
     ekipUyesi,
+    sifatTanim,
     birim,
     video,
     podcast,

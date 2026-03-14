@@ -22,9 +22,17 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: 'sifat',
+      title: 'Sıfat',
+      type: 'reference',
+      to: [{ type: 'sifatTanim' }],
+      description: 'Başkan, Akademi Birimi Lideri vb. — Sanity\'de tanımlı sıfatlar',
+    }),
+    defineField({
       name: 'unvan',
-      title: 'Ünvan',
+      title: 'Ünvan (serbest metin)',
       type: 'string',
+      description: 'Psikolog, Uzman vb. — Sıfat seçilmemişse bu gösterilir',
     }),
     defineField({
       name: 'biyografi',
