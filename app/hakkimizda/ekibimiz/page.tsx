@@ -75,11 +75,18 @@ function MemberCard({ uye }: { uye: Uye }) {
 }
 
 export default async function EkibimizPage() {
-  const uyeler: Uye[] = await client.fetch(ekipUyesiQuery).catch(() => []);
+  const uyeler: Uye[] = await client
+    .fetch(ekipUyesiQuery)
+    .catch((err) => {
+      console.error("[ekibimiz] Sanity fetch error:", err);
+      return [];
+    });
+
+  console.log("[ekibimiz] Ekip verisi:", JSON.stringify(uyeler, null, 2));
 
   const yonetim = uyeler.filter((u) => u.kategori === "yonetim");
   const denetim = uyeler.filter((u) => u.kategori === "denetim").slice(0, 3);
-  const ekip = uyeler.filter((u) => u.kategori === "ekip");
+  const ekip = uyeler.filter((u) => u.kategori === "ekip" || !u.kategori);
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>

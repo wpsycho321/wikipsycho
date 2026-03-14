@@ -26,7 +26,7 @@ export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(b
   "fotograf": fotograf.asset->url
 }`;
 
-export const ekipUyesiQuery = `*[_type == "ekipUyesi" && aktif == true] | order(kategori asc, sira asc) {
+export const ekipUyesiQuery = `*[_type == "ekipUyesi" && (!defined(aktif) || aktif == true)] | order(kategori asc, sira asc) {
   _id, isim, slug, unvan, rol, kategori, sira, biyografi, birim,
   "fotograf": fotograf.asset->url,
   sosyalMedya
