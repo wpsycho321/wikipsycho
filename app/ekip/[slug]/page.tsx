@@ -5,6 +5,8 @@ import { ekipUyesiBySlugQuery } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import EkipTabs from "@/components/EkipTabs";
 
+export const dynamic = "force-dynamic";
+
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
 type SosyalMedya = {

@@ -4,6 +4,8 @@ import { notFound } from "next/navigation";
 import { client } from "@/lib/sanity";
 import { ilanBySlugQuery } from "@/lib/queries";
 
+export const dynamic = "force-dynamic";
+
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
 type Soru = { soru?: string };

@@ -3,15 +3,14 @@ import { projeRaporuBySlugQuery } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import RaporDetayClient from "./RaporDetayClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function RaporDetayPage({
   params,
 }: {
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-
-  // DEBUG: Log slug from params
-  console.log("[proje-raporlari/[slug]] params slug:", slug);
 
   const rapor = await client
     .fetch<{
@@ -28,13 +27,7 @@ export default async function RaporDetayPage({
       pdfUrl?: string;
       kapakGorseli?: string;
     } | null>(projeRaporuBySlugQuery, { slug })
-    .catch((err) => {
-      console.error("[proje-raporlari/[slug]] Sanity fetch error:", err);
-      return null;
-    });
-
-  // DEBUG: Log query result
-  console.log("[proje-raporlari/[slug]] query returned:", rapor ? { _id: rapor._id, baslik: rapor.baslik } : null);
+    .catch(() => null);
 
   if (!rapor) notFound();
 

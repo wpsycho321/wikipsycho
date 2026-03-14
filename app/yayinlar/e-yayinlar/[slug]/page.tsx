@@ -3,6 +3,8 @@ import { eyayinBySlugQuery } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import EYayinDetayClient from "./EYayinDetayClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function EYayinDetayPage({
   params,
 }: {

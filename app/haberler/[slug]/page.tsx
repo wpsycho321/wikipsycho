@@ -6,6 +6,8 @@ import { haberBySlugQuery } from "@/lib/queries";
 import { notFound } from "next/navigation";
 import { type PortableTextBlock, PortableText } from "@portabletext/react";
 
+export const dynamic = "force-dynamic";
+
 const playfair = Playfair_Display({ subsets: ["latin"] });
 
 const KATEGORI_DISPLAY: Record<string, string> = {
