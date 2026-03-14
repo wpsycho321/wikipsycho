@@ -58,15 +58,27 @@ export default defineType({
       name: 'rol',
       title: 'Rol',
       type: 'string',
+      description: 'Serbest metin, örn: "Başkan", "Eğitim & Gelişim Birim Lideri", "Denetim Kurulu Üyesi"',
+    }),
+    defineField({
+      name: 'kategori',
+      title: 'Kategori',
+      type: 'string',
       options: {
         list: [
-          {title: 'Süper Admin', value: 'superadmin'},
-          {title: 'Yönetici', value: 'yonetici'},
-          {title: 'Birim Lideri', value: 'birimlideri'},
-          {title: 'Üye', value: 'uye'},
+          {title: 'Yönetim', value: 'yonetim'},
+          {title: 'Denetim Kurulu', value: 'denetim'},
+          {title: 'Ekip', value: 'ekip'},
         ],
         layout: 'radio',
       },
+      description: 'Sayfada gruplamak için',
+    }),
+    defineField({
+      name: 'sira',
+      title: 'Sıra',
+      type: 'number',
+      description: 'Aynı grupta sıralama için',
     }),
     defineField({
       name: 'eposta',

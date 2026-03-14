@@ -24,7 +24,13 @@ export const yazarlarQuery = `*[_type == "ekipUyesi" && aktif == true] | order(i
 export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(birim asc, isim asc) {
   _id, isim, slug, unvan, birim, rol,
   "fotograf": fotograf.asset->url
-}`
+}`;
+
+export const ekipUyesiQuery = `*[_type == "ekipUyesi" && aktif == true] | order(kategori asc, sira asc) {
+  _id, isim, slug, unvan, rol, kategori, sira, biyografi, birim,
+  "fotograf": fotograf.asset->url,
+  sosyalMedya
+}`;
 
 export const projelerQuery = `*[_type == "proje"] | order(yil desc) {
   _id,
