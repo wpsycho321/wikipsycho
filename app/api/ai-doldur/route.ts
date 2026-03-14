@@ -59,33 +59,28 @@ export async function POST(request: Request) {
   const prompt = PROMPT(hamIcerik, tur);
 
   try {
-    const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${apiKey}`,
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
       {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }],
-          generationConfig: {
-            temperature: 0.3,
-            maxOutputTokens: 1024,
-            responseMimeType: "application/json",
-          },
-        }),
+          contents: [{ parts: [{ text: prompt }] }]
+        })
       }
     );
 
-    if (!res.ok) {
-      const err = await res.text();
-      console.error("Gemini API error:", res.status);
+    if (!response.ok) {
+      const err = await response.text();
+      console.error("Gemini API error:", response.status);
       console.error("Gemini API full response:", err);
       return NextResponse.json(
-        { error: `Gemini API hatası: ${res.status}` },
+        { error: `Gemini API hatası: ${response.status}` },
         { status: 502 }
       );
     }
 
-    const data = (await res.json()) as {
+    const data = (await response.json()) as {
       candidates?: Array<{
         content?: { parts?: Array<{ text?: string }> };
       }>;
