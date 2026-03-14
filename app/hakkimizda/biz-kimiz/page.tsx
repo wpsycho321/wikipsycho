@@ -1,15 +1,25 @@
 "use client";
 
+import Image from "next/image";
 import { Playfair_Display } from "next/font/google";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
-const SECTIONS = [
+const SECTIONS: {
+  number: string;
+  title: string;
+  body: string[];
+  bullets: string[] | null;
+  closing: string | null;
+  closingQuote?: string;
+  image?: string;
+}[] = [
   {
     number: "01",
     title: "Bir soru ile başladı",
+    image: "/images/biz-kimiz-01.png",
     body: [
       "Psikoloji öğrencileri çok şey öğreniyor. Ama gerçekten üretiyorlar mı?",
       "Üniversitelerde çoğu topluluk etkinlik düzenler. Konferanslar yapılır, konuşmalar dinlenir ve herkes evine döner.",
@@ -23,6 +33,7 @@ const SECTIONS = [
   {
     number: "02",
     title: "Küçük bir ekip",
+    image: "/images/biz-kimiz-02.png",
     body: [
       "Başlangıçta yalnızca birkaç kişiydik.",
       "Bir markamız yoktu. Bir sistemimiz yoktu. Ama ortak bir fikrimiz vardı.",
@@ -137,7 +148,28 @@ function SectionContent({
   );
 }
 
-function IllustrationPlaceholder({ number }: { number: string }) {
+function IllustrationBlock({
+  number,
+  image,
+}: {
+  number: string;
+  image?: string;
+}) {
+  if (image) {
+    return (
+      <div className="flex h-full w-full min-h-[50vh] items-center justify-center bg-gray-100 p-8 md:min-h-screen">
+        <div className="relative aspect-square w-full max-w-md">
+          <Image
+            src={image}
+            alt=""
+            fill
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="flex h-full w-full min-h-[50vh] items-center justify-center md:min-h-screen">
       <div className="text-center">
@@ -179,7 +211,7 @@ export default function BizKimizPage() {
             {isOdd ? (
               <>
                 <div className="flex min-h-[50vh] items-center bg-gray-100 md:min-h-screen">
-                  <IllustrationPlaceholder number={section.number} />
+                  <IllustrationBlock number={section.number} image={section.image} />
                 </div>
                 <div className="flex min-h-[50vh] items-center justify-center bg-white md:min-h-screen">
                   <SectionContent
@@ -208,7 +240,7 @@ export default function BizKimizPage() {
                   />
                 </div>
                 <div className="flex min-h-[50vh] items-center bg-gray-100 md:min-h-screen">
-                  <IllustrationPlaceholder number={section.number} />
+                  <IllustrationBlock number={section.number} image={section.image} />
                 </div>
               </>
             )}

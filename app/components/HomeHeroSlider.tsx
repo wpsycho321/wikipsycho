@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
 
 type FeaturedCard = {
   tag: string;
@@ -8,6 +9,7 @@ type FeaturedCard = {
   description: string;
   meta: string;
   image: string;
+  href: string;
 };
 
 export default function HomeHeroSlider({
@@ -30,10 +32,11 @@ export default function HomeHeroSlider({
   return (
     <div className="relative flex w-full flex-1 items-stretch overflow-hidden bg-[#111111] text-white">
       {cards.map((card, index) => (
-        <div
+        <Link
           key={`${card.title}-${index}`}
-          className={`absolute inset-0 transition-opacity duration-700 ${
-            index === activeIndex ? "opacity-100" : "opacity-0"
+          href={card.href}
+          className={`absolute inset-0 z-0 block cursor-pointer transition-opacity duration-700 ${
+            index === activeIndex ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >
           <div className="relative flex h-full w-full flex-col justify-between">
@@ -59,7 +62,7 @@ export default function HomeHeroSlider({
               </div>
             </div>
           </div>
-        </div>
+        </Link>
       ))}
       <button
         type="button"

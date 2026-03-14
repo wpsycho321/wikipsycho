@@ -6,6 +6,7 @@ import {
   ayinTemasiQuery,
   oncuYazarQuery,
   yazilarHomepageQuery,
+  haberlerHomepageQuery,
   eyayinlarHomepageQuery,
   videolarQuery,
   podcastlarQuery,
@@ -40,6 +41,7 @@ export default async function Home() {
   const [
     duyurular,
     yazilarRes,
+    haberlerRes,
     videolarRes,
     podcastlarRes,
     oncuYazar,
@@ -61,6 +63,17 @@ export default async function Home() {
         yazar?: { isim?: string };
       }[]
     >(yazilarHomepageQuery),
+    client.fetch<
+      {
+        _id: string;
+        baslik: string;
+        slug: { current: string };
+        ozet?: string;
+        tarih?: string;
+        kategori?: string;
+        kaynak?: string;
+      }[]
+    >(haberlerHomepageQuery),
     client.fetch<
       {
         _id: string;
@@ -121,15 +134,19 @@ export default async function Home() {
   ]);
 
   const yazilar = yazilarRes ?? [];
+  const haberler = haberlerRes ?? [];
   const sonVideo = videolarRes?.[0];
   const sonPodcast = podcastlarRes?.[0];
   const sonEyayin = Array.isArray(eyayinlarRes) ? eyayinlarRes[0] : eyayinlarRes;
   const guncelYazilar = yazilar.slice(0, 4);
-  const haberYazilari = yazilar.slice(0, 3);
 
   const sonEyayinCard = Array.isArray(eyayinlarRes) ? eyayinlarRes[0] : eyayinlarRes;
   const sonProje = Array.isArray(projelerRes) ? projelerRes[0] : null;
   const sonEtkinlik = Array.isArray(etkinliklerRes) ? etkinliklerRes[0] : null;
+
+  function getSlug(slug: { current: string } | string | undefined) {
+    return typeof slug === "string" ? slug : slug?.current ?? "";
+  }
 
   const featuredCards = [
     sonEyayinCard && {
@@ -140,6 +157,7 @@ export default async function Home() {
       image:
         (sonEyayinCard as { kapakGorseli?: string }).kapakGorseli ??
         "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=800",
+      href: `/yayinlar/e-yayinlar/${getSlug(sonEyayinCard.slug)}`,
     },
     sonProje && {
       tag: "PROJE",
@@ -149,6 +167,7 @@ export default async function Home() {
       image:
         sonProje.gorsel ??
         "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=800",
+      href: `/projeler/${getSlug(sonProje.slug)}`,
     },
     sonEtkinlik && {
       tag: "ETKİNLİK",
@@ -158,8 +177,9 @@ export default async function Home() {
       image:
         sonEtkinlik.gorsel ??
         "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800",
+      href: `/hakkimizda/etkinlikler/${getSlug(sonEtkinlik.slug)}`,
     },
-  ].filter(Boolean) as { tag: string; title: string; description: string; meta: string; image: string }[];
+  ].filter(Boolean) as { tag: string; title: string; description: string; meta: string; image: string; href: string }[];
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -337,41 +357,59 @@ export default async function Home() {
               </div>
             </div>
 
-            {/* Psikoloji Haberleri */}
-            <div className="w-full px-6 py-10 md:w-1/4">
-              <p className="text-xs uppercase tracking-[0.25em] text-gray-500">
-                PSİKOLOJİ HABERLERİ
-              </p>
-              <div className="mt-3 h-px w-full bg-black/10" />
-              <div className="mt-6 space-y-6">
-                {haberYazilari.map((yazi, i) => (
-                  <article key={yazi._id} className="space-y-2">
-                    <Link href={`/yazilar/${yazi.slug?.current ?? ""}`}>
-                      <p className="text-sm italic text-gray-500">
-                        {kategoriLabel(yazi.kategori)}
-                      </p>
-                      <h3 className="text-lg font-bold leading-snug">
-                        {yazi.baslik}
-                      </h3>
-                      <p className="font-sans text-sm leading-relaxed text-gray-600">
-                        {yazi.ozet ?? ""}
-                      </p>
-                      <p className="font-sans text-xs uppercase tracking-wide text-gray-800">
-                        {formatTarih(yazi.tarih)}
-                      </p>
-                    </Link>
-                    {i < haberYazilari.length - 1 && (
-                      <div className="h-px w-full bg-black/10" />
-                    )}
-                  </article>
-                ))}
-                {haberYazilari.length === 0 && (
-                  <p className="font-sans text-sm text-gray-500">
-                    Henüz haber eklenmemiş.
-                  </p>
-                )}
+            {/* Psikoloji Haberleri — only show when haberler exist */}
+            {haberler.length > 0 && (
+              <div className="w-full px-6 py-10 md:w-1/4">
+                <p className="text-xs uppercase tracking-[0.25em] text-gray-500">
+                  PSİKOLOJİ HABERLERİ
+                </p>
+                <div className="mt-3 h-px w-full bg-black/10" />
+                <div className="mt-6 space-y-6">
+                  {haberler.map((haber, i) => {
+                    const slug = haber.slug?.current ?? "";
+                    const content = (
+                      <>
+                        {haber.kategori && (
+                          <span className="inline-block border border-gray-200 px-2 py-0.5 font-sans text-[10px] uppercase tracking-wide text-gray-500">
+                            {kategoriLabel(haber.kategori)}
+                          </span>
+                        )}
+                        <h3 className="mt-2 text-lg font-bold leading-snug">
+                          {haber.baslik}
+                        </h3>
+                        <p className="mt-1 font-sans text-xs text-gray-400">
+                          {formatTarih(haber.tarih)}
+                        </p>
+                        {haber.ozet && (
+                          <p className="mt-2 line-clamp-1 font-sans text-sm text-gray-600">
+                            {haber.ozet}
+                          </p>
+                        )}
+                      </>
+                    );
+                    return (
+                      <article key={haber._id} className="space-y-2">
+                        {haber.kaynak ? (
+                          <a
+                            href={haber.kaynak}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="block"
+                          >
+                            {content}
+                          </a>
+                        ) : (
+                          <Link href={`/haberler/${slug}`}>{content}</Link>
+                        )}
+                        {i < haberler.length - 1 && (
+                          <div className="h-px w-full bg-black/10" />
+                        )}
+                      </article>
+                    );
+                  })}
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </section>
 
