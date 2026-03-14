@@ -46,6 +46,7 @@ const SECTIONS: {
   {
     number: "03",
     title: "İlk topluluk",
+    image: "/images/biz-kimiz-03.png",
     body: [
       "Bir noktadan sonra küçük bir arkadaş grubundan daha fazlası haline geldik.",
       "Yeni insanlar katıldı. Fikirler çoğaldı. Topluluk büyümeye başladı.",
@@ -58,6 +59,7 @@ const SECTIONS: {
   {
     number: "04",
     title: "Deneme ve gelişme dönemi",
+    image: "/images/biz-kimiz-04.png",
     body: [
       "Bu dönem bizim öğrenme ve deneme aşamamızdı. Farklı üretim biçimleri denedik.",
     ],
@@ -74,6 +76,7 @@ const SECTIONS: {
   {
     number: "05",
     title: "Genişleme",
+    image: "/images/biz-kimiz-05.png",
     body: [
       "Bu aşamada işler ciddi şekilde büyüdü. Üniversitelerde araştırma masaları kuruldu.",
     ],
@@ -90,6 +93,7 @@ const SECTIONS: {
   {
     number: "06",
     title: "Kurumsallaşma",
+    image: "/images/biz-kimiz-06.png",
     body: ["Bugün geldiğimiz noktada hedefimiz daha büyük."],
     bullets: [
       "Kurumlarla uzun vadeli iş birlikleri geliştiriyoruz",
@@ -157,7 +161,7 @@ function IllustrationBlock({
 }) {
   if (image) {
     return (
-      <div className="flex h-full w-full min-h-[50vh] items-center justify-center bg-gray-100 p-8 md:min-h-screen">
+      <div className="flex h-full w-full min-h-[50vh] items-center justify-center bg-white p-8 md:min-h-screen">
         <div className="relative aspect-square w-full max-w-md">
           <Image
             src={image}
@@ -210,7 +214,7 @@ export default function BizKimizPage() {
           >
             {isOdd ? (
               <>
-                <div className="flex min-h-[50vh] items-center bg-gray-100 md:min-h-screen">
+                <div className={`flex min-h-[50vh] items-center md:min-h-screen ${section.image ? "bg-white" : "bg-gray-100"}`}>
                   <IllustrationBlock number={section.number} image={section.image} />
                 </div>
                 <div className="flex min-h-[50vh] items-center justify-center bg-white md:min-h-screen">
@@ -239,7 +243,7 @@ export default function BizKimizPage() {
                     closing={section.closing}
                   />
                 </div>
-                <div className="flex min-h-[50vh] items-center bg-gray-100 md:min-h-screen">
+                <div className={`flex min-h-[50vh] items-center md:min-h-screen ${section.image ? "bg-white" : "bg-gray-100"}`}>
                   <IllustrationBlock number={section.number} image={section.image} />
                 </div>
               </>
