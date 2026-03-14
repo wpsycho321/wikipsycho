@@ -19,89 +19,74 @@ Döndür:
   "anahtarKelimeler": ["kelime1", "kelime2", "kelime3", "kelime4", "kelime5"]
 }`;
 
-export async function POST(request: Request) {
-  console.log("ALL ENV KEYS:", Object.keys(process.env).filter((k) => k.includes("GEMINI")));
-  console.log("GEMINI KEY VALUE:", process.env.GEMINI_API_KEY);
-  const apiKey = process.env.GEMINI_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json(
-      { error: "GEMINI_API_KEY tanımlı değil" },
-      { status: 500 }
-    );
-  }
-
-  let body: { hamIcerik?: string; tur?: Tur };
+export async function POST(req: Request) {
   try {
-    body = await request.json();
-  } catch {
-    return NextResponse.json(
-      { error: "Geçersiz JSON gövdesi" },
-      { status: 400 }
-    );
-  }
+    const body = await req.json();
+    const { hamIcerik, tur } = body;
 
-  const { hamIcerik, tur } = body;
-  if (!hamIcerik || typeof hamIcerik !== "string") {
-    return NextResponse.json(
-      { error: "hamIcerik gerekli (string)" },
-      { status: 400 }
-    );
-  }
+    if (!hamIcerik || typeof hamIcerik !== "string") {
+      return NextResponse.json({ error: "hamIcerik gerekli (string)" }, { status: 400 });
+    }
 
-  const validTur: Tur[] = ["yazi", "proje", "eyayin", "etkinlik"];
-  if (!tur || !validTur.includes(tur)) {
-    return NextResponse.json(
-      { error: "tur gerekli: yazi | proje | eyayin | etkinlik" },
-      { status: 400 }
-    );
-  }
-
-  const prompt = PROMPT(hamIcerik, tur);
-
-  try {
-    const response = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          contents: [{ parts: [{ text: prompt }] }]
-        })
-      }
-    );
-
-    if (!response.ok) {
-      const err = await response.text();
-      console.error("Gemini API error:", response.status);
-      console.error("Gemini API full response:", err);
+    const validTur: Tur[] = ["yazi", "proje", "eyayin", "etkinlik"];
+    if (!tur || !validTur.includes(tur)) {
       return NextResponse.json(
-        { error: `Gemini API hatası: ${response.status}` },
-        { status: 502 }
+        { error: "tur gerekli: yazi | proje | eyayin | etkinlik" },
+        { status: 400 }
       );
     }
 
-    const data = (await response.json()) as {
-      candidates?: Array<{
-        content?: { parts?: Array<{ text?: string }> };
-      }>;
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.error("HATA: GEMINI_API_KEY bulunamadı. .env dosyanızı kontrol edin.");
+      return NextResponse.json({ error: "API Anahtarı yapılandırılmamış" }, { status: 500 });
+    }
+
+    const prompt = PROMPT(hamIcerik, tur);
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const geminiResponse = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }],
+      }),
+    });
+
+    const geminiData = (await geminiResponse.json()) as {
+      candidates?: Array<{ content?: { parts?: Array<{ text?: string }> } }>;
+      error?: { message?: string };
     };
 
-    const text =
-      data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
-    if (!text) {
-      console.error("Gemini API full response (empty text):", JSON.stringify(data));
+    if (!geminiResponse.ok) {
+      console.error("Gemini API Hatası Detayı:", JSON.stringify(geminiData, null, 2));
       return NextResponse.json(
-        { error: "Gemini boş yanıt döndü" },
+        {
+          error: "Gemini API hatası verdi",
+          detay: geminiData.error?.message || "Bilinmeyen hata",
+        },
+        { status: geminiResponse.status }
+      );
+    }
+
+    const text = geminiData.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
+    if (!text) {
+      console.error("Gemini boş yanıt:", JSON.stringify(geminiData, null, 2));
+      return NextResponse.json(
+        { error: "Gemini yanıt üretemedi", detay: "Boş yanıt" },
         { status: 502 }
       );
     }
 
     const parsed = JSON.parse(text) as Record<string, unknown>;
     return NextResponse.json(parsed);
-  } catch (e) {
-    console.error("ai-doldur error:", e);
+  } catch (error: unknown) {
+    console.error("Sistem Hatası:", error);
     return NextResponse.json(
-      { error: e instanceof Error ? e.message : "İşlem başarısız" },
+      {
+        error: "Sunucu hatası oluştu",
+        detay: error instanceof Error ? error.message : "Bilinmeyen hata",
+      },
       { status: 500 }
     );
   }
