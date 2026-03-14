@@ -68,6 +68,20 @@ export default defineType({
       },
     }),
     defineField({
+      name: 'ses',
+      title: 'Ses Dosyası',
+      type: 'file',
+      options: {
+        accept: 'audio/*',
+      },
+    }),
+    defineField({
+      name: 'sesDosyasiUrl',
+      title: 'Harici Ses Linki',
+      type: 'url',
+      description: 'Yüklenen dosya yerine harici URL kullanılacaksa',
+    }),
+    defineField({
       name: 'durum',
       title: 'Durum',
       type: 'string',

@@ -3,7 +3,15 @@ export const yazilarQuery = `*[_type == "yazi"] | order(tarih desc) {
   "yazar": yazar->{ isim, unvan, fotograf }
 }`
 
-export const yazilarListQuery = `*[_type == "yazi" && durum == "yayinda"] | order(tarih desc) {
+export const yaziBySlugQuery = `*[_type == "yazi" && slug.current == $slug][0] {
+  _id, baslik, slug, tarih, kategori, ozet, icerik, birim,
+  "kapakGorseli": kapakGorseli.asset->url,
+  "sesUrl": ses.asset->url,
+  sesDosyasiUrl,
+  "yazar": yazar->{ isim, unvan, biyografi, slug, "fotograf": fotograf.asset->url, sosyalMedya }
+}`;
+
+export const yazilarListQuery = `*[_type == "yazi"] | order(tarih desc) {
   _id, baslik, slug, tarih, kategori, ozet,
   "kapakGorseli": kapakGorseli.asset->url,
   "yazar": yazar->{ isim, unvan }
