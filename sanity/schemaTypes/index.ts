@@ -13,6 +13,7 @@ import duyuru from "./duyuru";
 import ayinTemasi from "./ayinTemasi";
 import ilan from "./ilan";
 import basvuru from "./basvuru";
+import projeRaporu from "./projeRaporu";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -30,6 +31,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     ayinTemasi,
     ilan,
     basvuru,
+    projeRaporu,
   ],
 };
 

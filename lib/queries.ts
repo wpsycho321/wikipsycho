@@ -40,6 +40,11 @@ export const projelerQuery = `*[_type == "proje"] | order(yil desc) {
   ortaklar
 }`
 
+export const projeRaporlariQuery = `*[_type == "projeRaporu"] | order(yil desc) {
+  _id, baslik, slug, altBaslik, yil, tarih, ozet, hazirlayanlar, sayfaSayisi,
+  "kapakGorseli": kapakGorseli.asset->url
+}`;
+
 export const raporlarQuery = `*[_type == "rapor"] | order(tarih desc) {
   _id, id, baslik, slug, altBaslik, yil, tarih, ozet, hazirlayanlar, sayfaSayisi,
   "kapakGorseli": kapakGorseli.asset->url
