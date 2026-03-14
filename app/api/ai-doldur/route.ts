@@ -20,8 +20,9 @@ Döndür:
 }`;
 
 export async function POST(request: Request) {
+  console.log("ALL ENV KEYS:", Object.keys(process.env).filter((k) => k.includes("GEMINI")));
+  console.log("GEMINI KEY VALUE:", process.env.GEMINI_API_KEY);
   const apiKey = process.env.GEMINI_API_KEY;
-  console.log("GEMINI_API_KEY exists:", !!apiKey);
   if (!apiKey) {
     return NextResponse.json(
       { error: "GEMINI_API_KEY tanımlı değil" },
@@ -59,7 +60,7 @@ export async function POST(request: Request) {
 
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
