@@ -30,9 +30,8 @@ export default async function YazilarPage() {
 
   try {
     yazilar = await client.fetch(yazilarListQuery);
-    console.log("[yazilar/page] Sanity'den dönen veri:", JSON.stringify({ count: yazilar?.length ?? 0, yazilar: yazilar ?? [] }, null, 2));
-  } catch (err) {
-    console.error("[yazilar/page] Sanity fetch hatası:", err);
+  } catch {
+    yazilar = [];
   }
 
   return (

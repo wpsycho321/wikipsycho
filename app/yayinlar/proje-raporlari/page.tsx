@@ -44,7 +44,12 @@ export default async function ProjeRaporlariPage() {
       {/* Report carousel */}
       <div className="relative overflow-hidden px-12 py-16">
         <div className="flex flex-row gap-8 overflow-x-auto pb-8 scrollbar-hide">
-          {raporlar.map((rapor) => {
+          {raporlar.length === 0 ? (
+            <p className="py-16 text-center font-sans text-gray-500">
+              Henüz rapor eklenmemiş.
+            </p>
+          ) : (
+          raporlar.map((rapor) => {
             const slug = getSlugValue(rapor.slug);
             const hazirlayanIlk =
               Array.isArray(rapor.hazirlayanlar) && rapor.hazirlayanlar[0]
@@ -68,7 +73,7 @@ export default async function ProjeRaporlariPage() {
                   className="aspect-[3/4] w-full overflow-hidden rounded-sm bg-gray-200 bg-cover bg-center shadow-md transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:grayscale-0 grayscale"
                   style={{
                     backgroundImage: rapor.kapakGorseli
-                      ? `url(${rapor.kapakGorseli.url ?? ""})`
+                      ? `url(${typeof rapor.kapakGorseli === "string" ? rapor.kapakGorseli : ""})`
                       : "none",
                   }}
                 />
@@ -91,7 +96,8 @@ export default async function ProjeRaporlariPage() {
                 </span>
               </Link>
             );
-          })}
+          })
+          )}
         </div>
         <div
           className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"

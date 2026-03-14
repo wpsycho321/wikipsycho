@@ -28,7 +28,12 @@ export default function ProjelerClient({ projeler }: Props) {
 
       {/* 3'LÜ GRID */}
       <div className="grid grid-cols-1 gap-8 px-12 py-12 md:grid-cols-2 lg:grid-cols-3">
-        {projeler.map((proje) => {
+        {projeler.length === 0 ? (
+          <p className="col-span-full py-16 text-center font-sans text-gray-500">
+            Henüz proje eklenmemiş.
+          </p>
+        ) : (
+        projeler.map((proje) => {
           const slug = getSlugValue(proje.slug);
           if (!slug) return null;
 
@@ -88,7 +93,8 @@ export default function ProjelerClient({ projeler }: Props) {
               </div>
             </div>
           );
-        })}
+        })
+        )}
       </div>
 
       {/* OVERLAY */}

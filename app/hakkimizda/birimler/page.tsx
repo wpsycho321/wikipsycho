@@ -38,11 +38,16 @@ export default async function BirimlerPage() {
       </header>
 
       {/* Sections from Sanity */}
-      {cmsBirimler.map((birim, index) => {
+      {cmsBirimler.length === 0 ? (
+        <p className="px-12 py-16 text-center font-sans text-gray-500">
+          Henüz birim eklenmemiş.
+        </p>
+      ) : (
+      cmsBirimler.map((birim, index) => {
         const isOdd = index % 2 === 0;
         const slug = getSlugValue(birim.slug);
         const aciklama = birim.hakkinda || "";
-        const gorselUrl = birim.gorsel?.url ?? "";
+        const gorselUrl = typeof birim.gorsel === "string" ? birim.gorsel : birim.gorsel?.url ?? "";
         const numara = `${index + 1}`.padStart(2, "0");
 
         return (
@@ -125,7 +130,8 @@ export default async function BirimlerPage() {
             )}
           </section>
         );
-      })}
+      })
+      )}
 
       {/* Join CTA block */}
       <section className="w-full bg-black py-24 text-center text-white">

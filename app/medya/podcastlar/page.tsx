@@ -57,7 +57,12 @@ export default async function PodcastlarPage() {
 
       {/* PODCAST LİSTESİ */}
       <div className="max-w-5xl px-12 py-12">
-        {podcastlar.map((podcast) => (
+        {podcastlar.length === 0 ? (
+          <p className="py-16 text-center font-sans text-gray-500">
+            Henüz podcast eklenmemiş.
+          </p>
+        ) : (
+        podcastlar.map((podcast) => (
           <a
             key={podcast._id}
             href={podcast.spotifyUrl}
@@ -94,15 +99,15 @@ export default async function PodcastlarPage() {
             </div>
 
             {/* Sağ: görsel */}
-            <div className="h-36 w-36 flex-shrink-0 overflow-hidden">
+            <div className="h-36 w-36 flex-shrink-0 overflow-hidden bg-gray-200">
               <img
-                src={podcast.gorselUrl}
+                src={podcast.gorselUrl ?? ""}
                 alt={podcast.baslik}
                 className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
               />
             </div>
           </a>
-        ))}
+        )))}
       </div>
     </main>
   );

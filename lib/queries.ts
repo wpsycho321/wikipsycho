@@ -41,13 +41,26 @@ export const projelerQuery = `*[_type == "proje"] | order(yil desc) {
 }`
 
 export const raporlarQuery = `*[_type == "rapor"] | order(tarih desc) {
-  _id, id, baslik, slug, altBaslik, yil, tarih, ozet, kapakGorseli,
-  hazirlayanlar, sayfaSayisi
-}`
+  _id, id, baslik, slug, altBaslik, yil, tarih, ozet, hazirlayanlar, sayfaSayisi,
+  "kapakGorseli": kapakGorseli.asset->url
+}`;
+
+export const raporBySlugQuery = `*[_type == "rapor" && slug.current == $slug][0] {
+  _id, id, baslik, slug, altBaslik, yil, tarih, ozet, hazirlayanlar, sayfaSayisi,
+  pdfUrl,
+  "kapakGorseli": kapakGorseli.asset->url
+}`;
 
 export const eyayinlarQuery = `*[_type == "eyayin"] | order(tarih desc) {
-  _id, baslik, slug, altBaslik, seriNo, tur, yil, kategori, ozet, kapakGorseli, sayfaSayisi, hazirlayanlar
-}`
+  _id, baslik, slug, altBaslik, seriNo, tur, yil, kategori, ozet, sayfaSayisi, hazirlayanlar,
+  "kapakGorseli": kapakGorseli.asset->url
+}`;
+
+export const eyayinBySlugQuery = `*[_type == "eyayin" && slug.current == $slug][0] {
+  _id, baslik, slug, altBaslik, seriNo, tur, yil, tarih, kategori, ozet, hedef, bulgular, sayfaSayisi, hazirlayanlar,
+  pdfUrl, editor, danismanlar, yayin,
+  "kapakGorseli": kapakGorseli.asset->url
+}`;
 
 export const videolarQuery = `*[_type == "video"] | order(tarih desc) {
   _id, baslik, altBaslik, youtubeUrl, thumbnailUrl, tarih, sure, kategori, aciklama
@@ -58,7 +71,8 @@ export const podcastlarQuery = `*[_type == "podcast"] | order(tarih desc) {
 }`
 
 export const birimlerQuery = `*[_type == "birim"] {
-  _id, ad, slug, slogan, hakkinda, gorsel,
+  _id, ad, slug, slogan, hakkinda,
+  "gorsel": gorsel.asset->url,
   "lider": lider->{ _id, slug, isim, unvan, fotograf }
 }`
 

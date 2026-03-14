@@ -45,7 +45,12 @@ export default async function EYayinlarPage() {
 
       {/* Grid */}
       <section className="grid grid-cols-1 gap-x-12 gap-y-20 px-12 py-16 md:grid-cols-2 md:px-24 lg:grid-cols-3">
-        {eyayinlar.map((yayin) => {
+        {eyayinlar.length === 0 ? (
+          <p className="col-span-full py-16 text-center font-sans text-gray-500">
+            Henüz e-yayın eklenmemiş.
+          </p>
+        ) : (
+        eyayinlar.map((yayin) => {
           const slug = getSlugValue(yayin.slug);
           const hazirlayanIlk =
             Array.isArray(yayin.hazirlayanlar) && yayin.hazirlayanlar[0]
@@ -77,7 +82,7 @@ export default async function EYayinlarPage() {
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg shadow-[4px_8px_24px_rgba(0,0,0,0.15)] transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[6px_12px_32px_rgba(0,0,0,0.25)]">
                 {yayin.kapakGorseli && (
                   <Image
-                    src={yayin.kapakGorseli.url ?? ""}
+                    src={typeof yayin.kapakGorseli === "string" ? yayin.kapakGorseli : ""}
                     alt={yayin.baslik}
                     fill
                     className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
@@ -111,7 +116,8 @@ export default async function EYayinlarPage() {
             </div>
           </Link>
           );
-        })}
+        })
+        )}
       </section>
     </div>
   );

@@ -57,7 +57,12 @@ export default async function VideolarPage() {
 
       {/* VİDEO LİSTESİ */}
       <div className="max-w-5xl px-12 py-12">
-        {videolar.map((video) => (
+        {videolar.length === 0 ? (
+          <p className="py-16 text-center font-sans text-gray-500">
+            Henüz video eklenmemiş.
+          </p>
+        ) : (
+        videolar.map((video) => (
           <a
             key={video._id}
             href={video.youtubeUrl}
@@ -92,15 +97,15 @@ export default async function VideolarPage() {
             </div>
 
             {/* Sağ: thumbnail */}
-            <div className="h-36 w-48 flex-shrink-0 overflow-hidden">
+            <div className="h-36 w-48 flex-shrink-0 overflow-hidden bg-gray-200">
               <img
-                src={video.thumbnailUrl}
+                src={video.thumbnailUrl ?? ""}
                 alt={video.baslik}
                 className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
               />
             </div>
           </a>
-        ))}
+        )))}
       </div>
     </main>
   );
