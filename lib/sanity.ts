@@ -1,20 +1,16 @@
 import {createClient} from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 
+/** Tüm sayfalar: useCdn false — Sanity'de yayınlanan içerik hemen görünsün */
 export const client = createClient({
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
-  apiVersion: '2024-01-01',
-  useCdn: true,
-})
-
-/** CDN bypass — yeni eklenen içerik hemen görünsün */
-export const clientNoCache = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
   apiVersion: '2024-01-01',
   useCdn: false,
 })
+
+/** Eski kullanım için alias */
+export const clientNoCache = client
 
 const builder = imageUrlBuilder(client)
 
