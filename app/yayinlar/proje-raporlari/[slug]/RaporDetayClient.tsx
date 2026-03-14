@@ -9,24 +9,26 @@ const playfair = Playfair_Display({ subsets: ["latin"] });
 const Page = forwardRef<
   HTMLDivElement,
   { number: number; isCover?: boolean; kapakGorseli?: string }
->(({ number, isCover, kapakGorseli }, ref) => (
-  <div
-    ref={ref}
-    className="flex h-full w-full flex-col items-center justify-center bg-white"
-  >
-    {isCover && kapakGorseli ? (
-      <div
-        className="h-full w-full bg-cover bg-center"
-        style={{ backgroundImage: `url('${kapakGorseli}')` }}
-      />
-    ) : (
-      <>
-        <span className="text-6xl text-gray-200">{number}</span>
-        <span className="mt-2 text-xs text-gray-300">Sayfa {number}</span>
-      </>
-    )
-  </div>
-));
+>(function PageInner({ number, isCover, kapakGorseli }, ref) {
+  return (
+    <div
+      ref={ref}
+      className="flex h-full w-full flex-col items-center justify-center bg-white"
+    >
+      {isCover && kapakGorseli ? (
+        <div
+          className="h-full w-full bg-cover bg-center"
+          style={{ backgroundImage: `url('${kapakGorseli}')` }}
+        />
+      ) : (
+        <>
+          <span className="text-6xl text-gray-200">{number}</span>
+          <span className="mt-2 text-xs text-gray-300">Sayfa {number}</span>
+        </>
+      )}
+    </div>
+  );
+});
 
 Page.displayName = "Page";
 

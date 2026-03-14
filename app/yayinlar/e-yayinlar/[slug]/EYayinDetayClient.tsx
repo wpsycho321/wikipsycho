@@ -15,23 +15,25 @@ const playfair = Playfair_Display({ subsets: ["latin"] });
 const Page = forwardRef<
   HTMLDivElement,
   { number: number; isCover?: boolean; kapakGorseli?: string }
->(({ number, isCover, kapakGorseli }, ref) => (
-  <div
-    ref={ref}
-    className="flex h-full w-full flex-col items-center justify-center bg-white"
-  >
-    {isCover && kapakGorseli ? (
-      <div className="relative h-full w-full">
-        <Image src={kapakGorseli} alt="Kapak" fill className="object-cover" />
-      </div>
-    ) : (
-      <>
-        <span className="font-serif text-6xl text-gray-300">{number}</span>
-        <span className="mt-2 text-xs text-gray-400">Sayfa {number}</span>
-      </>
-    )
-  </div>
-));
+>(function PageInner({ number, isCover, kapakGorseli }, ref) {
+  return (
+    <div
+      ref={ref}
+      className="flex h-full w-full flex-col items-center justify-center bg-white"
+    >
+      {isCover && kapakGorseli ? (
+        <div className="relative h-full w-full">
+          <Image src={kapakGorseli} alt="Kapak" fill className="object-cover" />
+        </div>
+      ) : (
+        <>
+          <span className="font-serif text-6xl text-gray-300">{number}</span>
+          <span className="mt-2 text-xs text-gray-400">Sayfa {number}</span>
+        </>
+      )}
+    </div>
+  );
+});
 
 Page.displayName = "Page";
 
@@ -241,6 +243,11 @@ export default function EYayinDetayClient({ yayin }: { yayin: Yayin }) {
               autoSize
               maxShadowOpacity={0.5}
               showPageCorners
+              startPage={0}
+              clickEventForward
+              useMouseEvents
+              swipeDistance={30}
+              disableFlipByClick={false}
               className="shadow-2xl"
               style={{}}
             >
