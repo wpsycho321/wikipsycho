@@ -34,6 +34,7 @@ export type Haber = {
   kategori?: string;
   kapakGorseli?: string;
   kaynak?: string;
+  yazar?: { isim?: string; foto?: string };
 };
 
 type Props = {
@@ -114,7 +115,7 @@ export default function YazilarClient({ yazilar, haberler }: Props) {
       {/* Main content */}
       <main
         className={`px-6 py-12 md:px-12 ${
-          haberlerVar ? "lg:grid lg:grid-cols-[7fr_3fr] lg:gap-16" : ""
+          haberlerVar ? "lg:grid lg:grid-cols-[7fr_1px_3fr] lg:gap-12" : ""
         }`}
       >
         {/* Left column - Articles */}
@@ -173,9 +174,14 @@ export default function YazilarClient({ yazilar, haberler }: Props) {
           )}
         </div>
 
+        {/* Vertical divider between yazılar and haberler */}
+        {haberlerVar && (
+          <div className="hidden bg-gray-300 lg:block" aria-hidden />
+        )}
+
         {/* Right column - Haberler */}
         {haberlerVar && (
-          <aside className="flex-shrink-0 lg:min-w-[320px]">
+          <aside className="flex-shrink-0 lg:min-w-[280px]">
             <h2 className="font-sans text-xs font-medium uppercase tracking-[0.2em] text-gray-500">
               PSİKOLOJİ HABERLERİ
             </h2>
@@ -183,47 +189,50 @@ export default function YazilarClient({ yazilar, haberler }: Props) {
             <div className="mt-6 space-y-6">
               {sonHaberler.map((haber) => {
                 const slug = haber.slug?.current ?? "";
-                const content = (
-                  <>
-                    <p className="font-sans text-xs text-gray-400">
-                      {formatTarih(haber.tarih)}
-                    </p>
-                    {haber.kategori && (
-                      <span className="mt-1 inline-block border border-gray-200 px-2 py-0.5 font-sans text-[10px] uppercase tracking-wide text-gray-500">
-                        {kategoriLabel(haber.kategori)}
-                      </span>
-                    )}
-                    <h3 className="mt-2 font-playfair text-base font-bold leading-snug transition group-hover:text-gray-500">
-                      {haber.baslik}
-                    </h3>
-                    {haber.ozet && (
-                      <p className="mt-1 line-clamp-1 font-sans text-sm text-gray-600">
-                        {haber.ozet}
-                      </p>
-                    )}
-                  </>
-                );
-
-                if (haber.kaynak) {
-                  return (
-                    <a
-                      key={haber._id}
-                      href={haber.kaynak}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group block"
-                    >
-                      {content}
-                    </a>
-                  );
-                }
                 return (
                   <Link
                     key={haber._id}
                     href={`/haberler/${slug}`}
-                    className="group block"
+                    className="group flex gap-4"
                   >
-                    {content}
+                    <div className="min-w-0 flex-1">
+                      <p className="font-sans text-xs text-gray-400">
+                        {formatTarih(haber.tarih)}
+                      </p>
+                      {haber.kategori && (
+                        <span className="mt-1 inline-block border border-gray-200 px-2 py-0.5 font-sans text-[10px] uppercase tracking-wide text-gray-500">
+                          {kategoriLabel(haber.kategori)}
+                        </span>
+                      )}
+                      <h3 className="mt-2 font-playfair text-base font-bold leading-snug transition group-hover:text-gray-500">
+                        {haber.baslik}
+                      </h3>
+                      {haber.ozet && (
+                        <p className="mt-1 line-clamp-1 font-sans text-sm text-gray-600">
+                          {haber.ozet}
+                        </p>
+                      )}
+                      {haber.yazar?.isim && (
+                        <p className="mt-2 font-sans text-xs text-gray-500">
+                          {haber.yazar.isim}
+                        </p>
+                      )}
+                    </div>
+                    <div className="w-28 flex-shrink-0 sm:w-36 lg:w-40">
+                      {(haber.yazar?.foto || haber.kapakGorseli) ? (
+                        <div className="relative aspect-[4/3] w-full overflow-hidden rounded bg-gray-200">
+                          <Image
+                            src={haber.yazar?.foto || haber.kapakGorseli || ""}
+                            alt={haber.yazar?.isim || haber.baslik}
+                            fill
+                            className="object-cover transition group-hover:scale-105"
+                            sizes="(max-width: 640px) 112px, (max-width: 1024px) 144px, 160px"
+                          />
+                        </div>
+                      ) : (
+                        <div className="aspect-[4/3] w-full bg-gray-100" />
+                      )}
+                    </div>
                   </Link>
                 );
               })}

@@ -5,8 +5,6 @@ import { notFound } from "next/navigation";
 import { Playfair_Display } from "next/font/google";
 import { client } from "@/lib/sanity";
 
-export const dynamic = "force-dynamic";
-
 const playfair = Playfair_Display({
   subsets: ["latin"],
 });

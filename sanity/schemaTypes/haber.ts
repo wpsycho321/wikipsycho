@@ -61,6 +61,13 @@ export default defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "yazar",
+      title: "Yazar / Kaynak Kişi",
+      type: "reference",
+      to: [{ type: "ekipUyesi" }],
+      description: "Haberin yazarı veya kaynak kişisi (isteğe bağlı)",
+    }),
+    defineField({
       name: "kaynak",
       title: "Kaynak URL",
       type: "url",

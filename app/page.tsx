@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { Playfair_Display } from "next/font/google";
 import { client } from "@/lib/sanity";
 import {
@@ -72,6 +73,8 @@ export default async function Home() {
         tarih?: string;
         kategori?: string;
         kaynak?: string;
+        kapakGorseli?: string;
+        yazar?: { isim?: string; foto?: string };
       }[]
     >(haberlerHomepageQuery),
     client.fetch<
@@ -367,42 +370,50 @@ export default async function Home() {
                 <div className="mt-6 space-y-6">
                   {haberler.map((haber, i) => {
                     const slug = haber.slug?.current ?? "";
-                    const content = (
-                      <>
-                        {haber.kategori && (
-                          <span className="inline-block border border-gray-200 px-2 py-0.5 font-sans text-[10px] uppercase tracking-wide text-gray-500">
-                            {kategoriLabel(haber.kategori)}
-                          </span>
-                        )}
-                        <h3 className="mt-2 text-lg font-bold leading-snug">
-                          {haber.baslik}
-                        </h3>
-                        <p className="mt-1 font-sans text-xs text-gray-400">
-                          {formatTarih(haber.tarih)}
-                        </p>
-                        {haber.ozet && (
-                          <p className="mt-2 line-clamp-1 font-sans text-sm text-gray-600">
-                            {haber.ozet}
-                          </p>
-                        )}
-                      </>
-                    );
+                    const haberyazar = haber.yazar as { isim?: string; foto?: string } | undefined;
+                    const haberImg = haberyazar?.foto || haber.kapakGorseli;
                     return (
-                      <article key={haber._id} className="space-y-2">
-                        {haber.kaynak ? (
-                          <a
-                            href={haber.kaynak}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="block"
-                          >
-                            {content}
-                          </a>
-                        ) : (
-                          <Link href={`/haberler/${slug}`}>{content}</Link>
-                        )}
+                      <article key={haber._id}>
+                        <Link href={`/haberler/${slug}`} className="flex gap-4">
+                          <div className="min-w-0 flex-1">
+                            {haber.kategori && (
+                              <span className="inline-block border border-gray-200 px-2 py-0.5 font-sans text-[10px] uppercase tracking-wide text-gray-500">
+                                {kategoriLabel(haber.kategori)}
+                              </span>
+                            )}
+                            <h3 className="mt-2 text-lg font-bold leading-snug">
+                              {haber.baslik}
+                            </h3>
+                            <p className="mt-1 font-sans text-xs text-gray-400">
+                              {formatTarih(haber.tarih)}
+                            </p>
+                            {haber.ozet && (
+                              <p className="mt-2 line-clamp-1 font-sans text-sm text-gray-600">
+                                {haber.ozet}
+                              </p>
+                            )}
+                            {haberyazar?.isim && (
+                              <p className="mt-2 font-sans text-xs text-gray-500">
+                                {haberyazar.isim}
+                              </p>
+                            )}
+                          </div>
+                          {haberImg && (
+                            <div className="w-20 flex-shrink-0 sm:w-24">
+                              <div className="relative aspect-[4/3] w-full overflow-hidden rounded bg-gray-200">
+                                <Image
+                                  src={haberImg}
+                                  alt={haberyazar?.isim || haber.baslik}
+                                  fill
+                                  className="object-cover"
+                                  sizes="96px"
+                                />
+                              </div>
+                            </div>
+                          )}
+                        </Link>
                         {i < haberler.length - 1 && (
-                          <div className="h-px w-full bg-black/10" />
+                          <div className="mt-6 h-px w-full bg-black/10" />
                         )}
                       </article>
                     );

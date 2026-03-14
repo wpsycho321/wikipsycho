@@ -185,13 +185,15 @@ export const ilanBySlugQuery = `*[_type == "ilan" && slug.current == $slug][0] {
 export const haberlerHomepageQuery = `*[_type == "haber"] | order(tarih desc) [0..2] {
   _id, baslik, slug, ozet, tarih, kategori,
   "kapakGorseli": kapakGorseli.asset->url,
-  kaynak
+  kaynak,
+  "yazar": yazar->{ isim, "foto": fotograf.asset->url }
 }`;
 
 export const haberlerQuery = `*[_type == "haber"] | order(tarih desc) {
   _id, baslik, slug, ozet, tarih, kategori,
   "kapakGorseli": kapakGorseli.asset->url,
-  kaynak
+  kaynak,
+  "yazar": yazar->{ isim, "foto": fotograf.asset->url }
 }`;
 
 export const haberBySlugQuery = `*[_type == "haber" && slug.current == $slug][0] {
