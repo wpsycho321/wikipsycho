@@ -26,6 +26,21 @@ export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(b
   "fotograf": fotograf.asset->url
 }`;
 
+export const ekipUyesiBySlugQuery = `*[_type == "ekipUyesi" && slug.current == $slug][0] {
+  isim, rol, unvan, biyografi,
+  "foto": fotograf.asset->url,
+  sosyalMedya,
+  "yazilari": *[_type == "yazi" && references(^._id)] | order(tarih desc) {
+    baslik, slug, kategori, ozet, tarih,
+    "kapak": kapakGorseli.asset->url
+  }
+}`;
+
+export const ekipQuery = `*[_type == "ekipUyesi" && aktif == true] | order(sira asc) {
+  _id, isim, slug, rol, kategori, unvan,
+  "foto": fotograf.asset->url
+}`;
+
 export const ekipUyesiQuery = `*[_type == "ekipUyesi" && (!defined(aktif) || aktif == true)] | order(kategori asc, sira asc) {
   _id, isim, slug, unvan, rol, kategori, sira, biyografi, birim,
   "fotograf": fotograf.asset->url,
