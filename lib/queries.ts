@@ -45,6 +45,12 @@ export const projeRaporlariQuery = `*[_type == "projeRaporu"] | order(yil desc) 
   "kapakGorseli": kapakGorseli.asset->url
 }`;
 
+export const projeRaporuBySlugQuery = `*[_type == "projeRaporu" && slug.current == $slug][0] {
+  _id, baslik, slug, altBaslik, yil, tarih, ozet, bulgular, sayfaSayisi, hazirlayanlar,
+  pdfUrl,
+  "kapakGorseli": kapakGorseli.asset->url
+}`;
+
 export const raporlarQuery = `*[_type == "rapor"] | order(tarih desc) {
   _id, id, baslik, slug, altBaslik, yil, tarih, ozet, hazirlayanlar, sayfaSayisi,
   "kapakGorseli": kapakGorseli.asset->url
