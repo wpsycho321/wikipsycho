@@ -1,113 +1,21 @@
-"use server";
-
 import { Playfair_Display } from "next/font/google";
-import Link from "next/link";
 import { client } from "@/lib/sanity";
 import { projeRaporlariQuery } from "@/lib/queries";
+import ProjeRaporlariClient from "./ProjeRaporlariClient";
+import type { Rapor } from "./ProjeRaporlariClient";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
 });
 
-type Rapor = {
-  _id: string;
-  id?: string;
-  slug: { current: string } | string;
-  baslik: string;
-  altBaslik?: string;
-  yil?: string;
-  kapakGorseli?: any;
-  hazirlayanlar?: { isim?: string }[] | string[];
-};
-
-function getSlugValue(slug: Rapor["slug"]) {
-  return typeof slug === "string" ? slug : slug?.current;
-}
-
 export default async function ProjeRaporlariPage() {
-  const raporlar: Rapor[] = await client.fetch(projeRaporlariQuery).catch(() => []);
+  const raporlar: Rapor[] = await client
+    .fetch(projeRaporlariQuery)
+    .catch(() => []);
 
   return (
-    <div className={`${playfair.className} min-h-screen bg-white text-black`}>
-      {/* Page header */}
-      <header className="px-12 py-20">
-        <h1 className="text-5xl font-normal md:text-6xl">
-          Proje <span className="italic">Raporlarımız</span>
-        </h1>
-        <p className="mt-4 max-w-2xl font-serif text-lg text-gray-500">
-          WikiPsycho&apos;nun yürüttüğü projelerin bulgularını ve süreç
-          değerlendirmelerini içeren akademik raporlar.
-        </p>
-        <div className="mt-8 h-1 w-full bg-black" />
-      </header>
-
-      {/* Report carousel */}
-      <div className="relative overflow-hidden px-12 py-16">
-        <div className="flex flex-row gap-8 overflow-x-auto pb-8 scrollbar-hide">
-          {raporlar.length === 0 ? (
-            <p className="py-16 text-center font-sans text-gray-500">
-              Henüz rapor eklenmemiş.
-            </p>
-          ) : (
-          raporlar.map((rapor) => {
-            const slug = getSlugValue(rapor.slug);
-            const hazirlayanIlk =
-              Array.isArray(rapor.hazirlayanlar) && rapor.hazirlayanlar[0]
-                ? typeof rapor.hazirlayanlar[0] === "string"
-                  ? rapor.hazirlayanlar[0]
-                  : rapor.hazirlayanlar[0]?.isim
-                : undefined;
-            const hazirlayanSayisi = Array.isArray(rapor.hazirlayanlar)
-              ? rapor.hazirlayanlar.length
-              : 0;
-
-            if (!slug) return null;
-
-            return (
-              <Link
-                key={rapor._id || rapor.id}
-                href={`/yayinlar/proje-raporlari/${slug}`}
-                className="group flex w-72 flex-shrink-0 flex-col"
-              >
-                <div
-                  className="aspect-[3/4] w-full overflow-hidden rounded-sm bg-gray-200 bg-cover bg-center shadow-md transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:grayscale-0 grayscale"
-                  style={{
-                    backgroundImage: rapor.kapakGorseli
-                      ? `url(${typeof rapor.kapakGorseli === "string" ? rapor.kapakGorseli : ""})`
-                      : "none",
-                  }}
-                />
-                <p className="mt-4 font-sans text-xs uppercase tracking-[0.2em] text-gray-400">
-                  {rapor.yil}
-                </p>
-                <h2 className="mt-1 text-xl font-bold">{rapor.baslik}</h2>
-                <p className="mt-1 font-serif text-sm italic text-gray-500">
-                  {rapor.altBaslik}
-                </p>
-                <div className="my-4 h-px bg-gray-200" />
-                {hazirlayanIlk && (
-                  <p className="font-sans text-xs text-gray-400">
-                    {hazirlayanIlk}
-                    {hazirlayanSayisi > 1 ? " ve diğerleri" : ""}
-                  </p>
-                )}
-                <span className="mt-2 inline-block font-sans text-xs uppercase tracking-[0.2em] text-gray-500 transition group-hover:text-black">
-                  Raporu İncele →
-                </span>
-              </Link>
-            );
-          })
-          )}
-        </div>
-        <div
-          className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent"
-          aria-hidden
-        />
-      </div>
-    </div>
+    <main className={`${playfair.className} min-h-screen bg-white`}>
+      <ProjeRaporlariClient raporlar={raporlar} />
+    </main>
   );
 }
