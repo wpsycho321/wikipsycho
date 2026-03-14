@@ -18,19 +18,22 @@ function kategoriLabel(k: string | undefined) {
 }
 
 export default async function YazilarPage() {
-  const yazilar = await client
-    .fetch<
-      {
-        _id: string;
-        baslik: string;
-        slug: { current: string };
-        kategori?: string;
-        ozet?: string;
-        kapakGorseli?: string;
-        yazar?: { isim?: string };
-      }[]
-    >(yazilarListQuery)
-    .catch(() => []);
+  let yazilar: {
+    _id: string;
+    baslik: string;
+    slug: { current: string };
+    kategori?: string;
+    ozet?: string;
+    kapakGorseli?: string;
+    yazar?: { isim?: string };
+  }[] = [];
+
+  try {
+    yazilar = await client.fetch(yazilarListQuery);
+    console.log("[yazilar/page] Sanity'den dönen veri:", JSON.stringify({ count: yazilar?.length ?? 0, yazilar: yazilar ?? [] }, null, 2));
+  } catch (err) {
+    console.error("[yazilar/page] Sanity fetch hatası:", err);
+  }
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>

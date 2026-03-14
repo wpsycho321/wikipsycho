@@ -1,4 +1,4 @@
-export const yazilarQuery = `*[_type == "yazi" && durum == "yayinda"] | order(tarih desc) {
+export const yazilarQuery = `*[_type == "yazi"] | order(tarih desc) {
   _id, baslik, slug, tarih, kategori, ozet, kapakGorseli, birim,
   "yazar": yazar->{ isim, unvan, fotograf }
 }`
