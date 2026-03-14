@@ -60,7 +60,7 @@ export async function POST(request: Request) {
 
   try {
     const res = await fetch(
-      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${apiKey}`,
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-8b:generateContent?key=${apiKey}`,
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -77,7 +77,8 @@ export async function POST(request: Request) {
 
     if (!res.ok) {
       const err = await res.text();
-      console.error("Gemini API error:", res.status, err);
+      console.error("Gemini API error:", res.status);
+      console.error("Gemini API full response:", err);
       return NextResponse.json(
         { error: `Gemini API hatası: ${res.status}` },
         { status: 502 }
@@ -93,6 +94,7 @@ export async function POST(request: Request) {
     const text =
       data.candidates?.[0]?.content?.parts?.[0]?.text?.trim();
     if (!text) {
+      console.error("Gemini API full response (empty text):", JSON.stringify(data));
       return NextResponse.json(
         { error: "Gemini boş yanıt döndü" },
         { status: 502 }
