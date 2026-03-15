@@ -143,7 +143,7 @@ export const ayinTemasiQuery = `*[_type == "ayinTemasi"] | order(_createdAt desc
 export const oncuYazarQuery = `*[_type == "ekipUyesi" && onecikar == true && aktif == true] [0] {
   _id, isim, slug, unvan, biyografi,
   "fotograf": fotograf.asset->url,
-  "yazilari": *[_type == "yazi" && references(^._id) && durum == "yayinda"] | order(tarih desc) [0..2] {
+  "yazilari": *[_type == "yazi" && references(^._id) && durum == "yayinda"] | order(tarih desc) [0..3] {
     baslik, slug, ozet,
     "kapakGorseli": kapakGorseli.asset->url
   }

@@ -455,64 +455,94 @@ export default async function Home() {
           </section>
         )}
 
-        {/* Yazarlarımız - Öne çıkan yazar */}
-        {oncuYazar && (
-          <section className="w-full bg-white">
-            <div className="mx-auto max-w-4xl px-6 py-12 text-center">
-              <h2 className="text-3xl tracking-wide">
-                <span className="font-bold">KÖŞE</span>
-                <span className="font-normal"> YAZISI</span>
-              </h2>
-              <p className="mt-3 italic">
-                Psikoloji üzerine düşünen, sorgulayan ve yazan bir ses.
-              </p>
-              <p className="mt-2 text-sm">with {oncuYazar.isim ?? ""}</p>
-              <div className="mt-6 h-px w-full bg-black/10" />
-            </div>
-            <div className="flex flex-col border-t border-black/5 md:flex-row">
-              <div
-                className="h-72 w-full bg-cover bg-center md:h-auto md:w-1/2"
-                style={{
-                  backgroundImage: oncuYazar.fotograf
-                    ? `url(${oncuYazar.fotograf})`
-                    : "url('https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=800')",
-                }}
-              />
-              <div className="w-full md:w-1/2">
-                <div className="divide-y divide-black/10">
-                  {(oncuYazar.yazilari ?? []).map((yazi) => (
-                    <article key={yazi.baslik} className="flex gap-4 px-6 py-6">
+        {/* Köşe Yazısı — Big Think: solda 1 büyük öne çıkan, sağda 3 küçük alt alta */}
+        {oncuYazar && (() => {
+          const yazilar = oncuYazar.yazilari ?? [];
+          const buyukYazi = yazilar[0];
+          const kucukYazilar = yazilar.slice(1, 4);
+          return (
+            <section className="w-full bg-white">
+              <div className="mx-auto max-w-6xl px-6 py-16">
+                <div className="text-center">
+                  <h2 className="text-3xl tracking-wide">
+                    <span className="font-bold">KÖŞE</span>
+                    <span className="font-normal"> YAZARI</span>
+                  </h2>
+                  <p className="mt-2 font-serif italic text-gray-600">
+                    Psikoloji üzerine düşünen, sorgulayan ve yazan bir ses.
+                  </p>
+                  <p className="mt-1 font-sans text-sm text-gray-500">
+                    with {oncuYazar.isim ?? ""}
+                  </p>
+                </div>
+                <div className="mt-10 flex flex-col gap-6 border-t border-black/10 pt-10 lg:flex-row">
+                  {/* Sol: tek büyük öne çıkan yazı */}
+                  {buyukYazi && (
+                    <div className="min-w-0 flex-1 lg:max-w-[58%]">
                       <Link
-                        href={`/yazilar/${yazi.slug?.current ?? ""}`}
-                        className="flex flex-1 gap-4"
+                        href={`/yazilar/${buyukYazi.slug?.current ?? ""}`}
+                        className="block"
                       >
-                        <div className="flex-1 space-y-1">
-                          <h3 className="text-xl font-bold leading-snug">
-                            {yazi.baslik}
-                          </h3>
-                          <p className="font-sans text-sm text-gray-500">
-                            {yazi.ozet ?? ""}
+                        <div
+                          className="w-full overflow-hidden rounded-sm bg-gray-200 bg-cover bg-center pb-[56%]"
+                          style={{
+                            backgroundImage: buyukYazi.kapakGorseli
+                              ? `url(${buyukYazi.kapakGorseli})`
+                              : "none",
+                          }}
+                        />
+                        <h3 className="mt-4 text-2xl font-bold leading-snug lg:text-3xl">
+                          {buyukYazi.baslik}
+                        </h3>
+                        {buyukYazi.ozet && (
+                          <p className="mt-2 line-clamp-2 font-sans text-sm text-gray-500">
+                            {buyukYazi.ozet}
                           </p>
-                          <p className="font-sans text-xs uppercase tracking-wide">
-                            by {oncuYazar.isim ?? ""}
-                          </p>
-                        </div>
-                        {yazi.kapakGorseli && (
-                          <div
-                            className="h-24 w-24 flex-shrink-0 bg-gray-200 bg-cover bg-center"
-                            style={{
-                              backgroundImage: `url(${yazi.kapakGorseli})`,
-                            }}
-                          />
                         )}
+                        <p className="mt-2 font-sans text-xs uppercase tracking-wide text-gray-600">
+                          by {oncuYazar.isim ?? ""}
+                        </p>
                       </Link>
-                    </article>
-                  ))}
+                    </div>
+                  )}
+                  {/* Sağ: 3 küçük yazı alt alta */}
+                  <div className="flex w-full flex-col gap-6 lg:w-[42%] lg:min-w-0">
+                    {kucukYazilar.map((yazi) => (
+                      <article key={yazi.baslik} className="flex gap-4">
+                        <Link
+                          href={`/yazilar/${yazi.slug?.current ?? ""}`}
+                          className="flex min-w-0 flex-1 gap-4"
+                        >
+                          <div className="min-w-0 flex-1 space-y-1">
+                            <h3 className="font-bold leading-snug text-gray-900">
+                              {yazi.baslik}
+                            </h3>
+                            {yazi.ozet && (
+                              <p className="line-clamp-2 font-sans text-sm italic text-gray-500">
+                                {yazi.ozet}
+                              </p>
+                            )}
+                            <p className="font-sans text-xs uppercase tracking-wide text-gray-600">
+                              by {oncuYazar.isim ?? ""}
+                            </p>
+                          </div>
+                          {yazi.kapakGorseli && (
+                            <div
+                              className="h-20 w-20 flex-shrink-0 overflow-hidden rounded bg-gray-200 bg-cover bg-center"
+                              style={{
+                                backgroundImage: `url(${yazi.kapakGorseli})`,
+                              }}
+                            />
+                          )}
+                        </Link>
+                      </article>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          </section>
-        )}
+            </section>
+          );
+        })()}
 
         {/* Ayın Teması */}
         {ayinTemasi && (
