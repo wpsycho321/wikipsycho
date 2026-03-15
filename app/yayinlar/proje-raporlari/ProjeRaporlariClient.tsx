@@ -44,15 +44,15 @@ export default function ProjeRaporlariClient({ raporlar }: Props) {
           <div className="mt-8 h-1 w-full bg-black" />
         </header>
 
-        {/* Report carousel */}
-        <div className="relative overflow-hidden px-12 py-16">
-          <div className="flex flex-row gap-8 overflow-x-auto pb-8 scrollbar-hide">
-            {raporlar.length === 0 ? (
-              <p className="py-16 text-center font-sans text-gray-500">
-                Henüz rapor eklenmemiş.
-              </p>
-            ) : (
-              raporlar.map((rapor) => {
+        {/* Report grid */}
+        <section className="mx-auto max-w-6xl px-12 py-20 md:px-16">
+          {raporlar.length === 0 ? (
+            <p className="py-16 text-center font-sans text-gray-500">
+              Henüz rapor eklenmemiş.
+            </p>
+          ) : (
+            <div className="grid grid-cols-1 gap-x-16 gap-y-20 sm:grid-cols-2 lg:grid-cols-3">
+              {raporlar.map((rapor) => {
                 const slug = getSlugValue(rapor.slug);
                 const hazirlayanIlk =
                   Array.isArray(rapor.hazirlayanlar) && rapor.hazirlayanlar[0];
@@ -66,51 +66,49 @@ export default function ProjeRaporlariClient({ raporlar }: Props) {
                   <div
                     key={rapor._id}
                     onClick={() => setAktifRapor(rapor)}
-                    className="group flex w-72 flex-shrink-0 cursor-pointer flex-col"
+                    className="group flex cursor-pointer flex-col"
                   >
                     <div
-                      className="aspect-[3/4] w-full overflow-hidden rounded-sm bg-gray-200 bg-cover bg-center shadow-md transition-all duration-500 group-hover:-translate-y-1 group-hover:shadow-xl group-hover:grayscale-0 grayscale"
+                      className="aspect-[3/4] w-full overflow-hidden rounded-lg bg-gray-200 bg-cover bg-center shadow-md transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-xl group-hover:grayscale-0 grayscale"
                       style={{
                         backgroundImage: rapor.kapakGorseli
                           ? `url(${rapor.kapakGorseli})`
                           : "none",
                       }}
                     />
-                    <p className="mt-4 font-sans text-xs uppercase tracking-[0.2em] text-gray-400">
-                      {rapor.yil}
-                    </p>
-                    <h2 className="mt-1 text-xl font-bold">{rapor.baslik}</h2>
-                    <p className="mt-1 font-serif text-sm italic text-gray-500">
-                      {rapor.altBaslik}
-                    </p>
-                    <div className="my-4 h-px bg-gray-200" />
-                    {hazirlayanIlk && (
-                      <p className="font-sans text-xs text-gray-400">
-                        {hazirlayanIlk}
-                        {hazirlayanSayisi > 1 ? " ve diğerleri" : ""}
+                    <div className="mt-6 space-y-2">
+                      <p className="font-sans text-xs uppercase tracking-[0.2em] text-gray-400">
+                        {rapor.yil}
                       </p>
-                    )}
-                    <Link
-                      href={`/yayinlar/proje-raporlari/${slug}`}
-                      onClick={(e) => e.stopPropagation()}
-                      className="mt-2 inline-block font-sans text-xs uppercase tracking-[0.2em] text-gray-500 transition group-hover:text-black"
-                    >
-                      Detayları Gör →
-                    </Link>
+                      <h2 className="text-xl font-bold leading-snug">
+                        {rapor.baslik}
+                      </h2>
+                      {rapor.altBaslik && (
+                        <p className="font-serif text-sm italic text-gray-500">
+                          {rapor.altBaslik}
+                        </p>
+                      )}
+                      <div className="h-px w-12 bg-gray-200" />
+                      {hazirlayanIlk && (
+                        <p className="font-sans text-xs text-gray-400">
+                          {hazirlayanIlk}
+                          {hazirlayanSayisi > 1 ? " ve diğerleri" : ""}
+                        </p>
+                      )}
+                      <Link
+                        href={`/yayinlar/proje-raporlari/${slug}`}
+                        onClick={(e) => e.stopPropagation()}
+                        className="mt-4 inline-block font-sans text-xs uppercase tracking-[0.2em] text-gray-500 transition group-hover:text-black"
+                      >
+                        Detayları Gör →
+                      </Link>
+                    </div>
                   </div>
                 );
-              })
-            )}
-          </div>
-          <div
-            className="pointer-events-none absolute left-0 top-0 z-10 h-full w-16 bg-gradient-to-r from-white to-transparent"
-            aria-hidden
-          />
-          <div
-            className="pointer-events-none absolute right-0 top-0 z-10 h-full w-16 bg-gradient-to-l from-white to-transparent"
-            aria-hidden
-          />
-        </div>
+              })}
+            </div>
+          )}
+        </section>
       </div>
 
       {/* Overlay — click outside to close */}

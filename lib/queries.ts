@@ -111,7 +111,7 @@ export const eyayinlarQuery = `*[_type == "eyayin"] | order(tarih desc) {
   "kapakGorseli": kapakGorseli.asset->url
 }`;
 
-export const eyayinBySlugQuery = `*[_type == "eyayin" && slug.current == $slug][0] {
+export const eyayinBySlugQuery = `*[_type == "eyayin" && (slug.current == $slug || slug.current == $slugTrimmed)][0] {
   _id, baslik, slug, altBaslik, seriNo, tur, yil, tarih, kategori, ozet, hedef, bulgular, sayfaSayisi, hazirlayanlar,
   pdfUrl, editor, danismanlar, yayin,
   "kapakGorseli": kapakGorseli.asset->url
@@ -198,7 +198,8 @@ export const haberlerQuery = `*[_type == "haber"] | order(tarih desc) {
 
 export const haberBySlugQuery = `*[_type == "haber" && slug.current == $slug][0] {
   _id, baslik, slug, ozet, icerik, tarih, kategori, kaynak,
-  "kapakGorseli": kapakGorseli.asset->url
+  "kapakGorseli": kapakGorseli.asset->url,
+  "yazar": yazar->{ isim, unvan, biyografi, slug, "fotograf": fotograf.asset->url }
 }`;
 
 export const basvurularByIlanQuery = `*[_type == "basvuru" && references($ilanId)] | order(tarih desc) {

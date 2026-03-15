@@ -21,7 +21,8 @@ type EYayin = {
 };
 
 function getSlugValue(slug: EYayin["slug"]) {
-  return typeof slug === "string" ? slug : slug?.current;
+  const raw = typeof slug === "string" ? slug : slug?.current;
+  return raw ? String(raw).trim() : "";
 }
 
 export default async function EYayinlarPage() {
