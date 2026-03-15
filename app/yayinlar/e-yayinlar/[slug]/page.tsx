@@ -11,6 +11,8 @@ export default async function EYayinDetayPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
+  const slugTrimmed = slug.trim();
+  const slugWithSpace = slugTrimmed + " ";
   const yayin = await client
     .fetch<{
       _id: string;
@@ -32,7 +34,7 @@ export default async function EYayinDetayPage({
       danismanlar?: string[];
       yayin?: string;
       kapakGorseli?: string;
-    } | null>(eyayinBySlugQuery, { slug })
+    } | null>(eyayinBySlugQuery, { slugTrimmed, slugWithSpace })
     .catch(() => null);
 
   if (!yayin) notFound();

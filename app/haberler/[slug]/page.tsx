@@ -175,11 +175,6 @@ export default async function HaberDetayPage({
                 {haber.yazar.unvan && (
                   <p className="text-sm text-gray-600">{haber.yazar.unvan}</p>
                 )}
-                {haber.yazar.biyografi && (
-                  <p className="mt-2 font-sans text-sm leading-relaxed text-gray-500">
-                    {haber.yazar.biyografi}
-                  </p>
-                )}
                 {yazarSlug && (
                   <Link
                     href={`/ekip/${yazarSlug}`}

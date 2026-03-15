@@ -203,11 +203,6 @@ export default async function YazıDetayPage({
                 {yazi.yazar.unvan && (
                   <p className="text-sm text-gray-600">{yazi.yazar.unvan}</p>
                 )}
-                {yazi.yazar.biyografi && (
-                  <p className="mt-2 text-sm leading-relaxed text-gray-500">
-                    {yazi.yazar.biyografi}
-                  </p>
-                )}
                 {yazarSlug && (
                   <Link
                     href={`/ekip/${yazarSlug}`}

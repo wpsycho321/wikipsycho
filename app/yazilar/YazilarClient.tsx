@@ -219,11 +219,11 @@ export default function YazilarClient({ yazilar, haberler }: Props) {
                       )}
                     </div>
                     <div className="w-28 flex-shrink-0 sm:w-36 lg:w-40">
-                      {(haber.yazar?.foto || haber.kapakGorseli) ? (
+                      {(haber.kapakGorseli || haber.yazar?.foto) ? (
                         <div className="relative aspect-[4/3] w-full overflow-hidden rounded bg-gray-200">
                           <Image
-                            src={haber.yazar?.foto || haber.kapakGorseli || ""}
-                            alt={haber.yazar?.isim || haber.baslik}
+                            src={haber.kapakGorseli || haber.yazar?.foto || ""}
+                            alt={haber.baslik}
                             fill
                             className="object-cover transition group-hover:scale-105"
                             sizes="(max-width: 640px) 112px, (max-width: 1024px) 144px, 160px"

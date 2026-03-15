@@ -371,7 +371,7 @@ export default async function Home() {
                   {haberler.map((haber, i) => {
                     const slug = haber.slug?.current ?? "";
                     const haberyazar = haber.yazar as { isim?: string; foto?: string } | undefined;
-                    const haberImg = haberyazar?.foto || haber.kapakGorseli;
+                    const haberImg = haber.kapakGorseli || haberyazar?.foto;
                     return (
                       <article key={haber._id}>
                         <Link href={`/haberler/${slug}`} className="flex gap-4">
@@ -403,7 +403,7 @@ export default async function Home() {
                               <div className="relative aspect-[4/3] w-full overflow-hidden rounded bg-gray-200">
                                 <Image
                                   src={haberImg}
-                                  alt={haberyazar?.isim || haber.baslik}
+                                  alt={haber.baslik}
                                   fill
                                   className="object-cover"
                                   sizes="96px"

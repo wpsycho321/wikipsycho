@@ -111,7 +111,7 @@ export const eyayinlarQuery = `*[_type == "eyayin"] | order(tarih desc) {
   "kapakGorseli": kapakGorseli.asset->url
 }`;
 
-export const eyayinBySlugQuery = `*[_type == "eyayin" && (slug.current == $slug || slug.current == $slugTrimmed)][0] {
+export const eyayinBySlugQuery = `*[_type == "eyayin" && (slug.current == $slugTrimmed || slug.current == $slugWithSpace)][0] {
   _id, baslik, slug, altBaslik, seriNo, tur, yil, tarih, kategori, ozet, hedef, bulgular, sayfaSayisi, hazirlayanlar,
   pdfUrl, editor, danismanlar, yayin,
   "kapakGorseli": kapakGorseli.asset->url
