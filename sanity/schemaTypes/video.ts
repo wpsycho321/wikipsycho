@@ -23,9 +23,10 @@ export default defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
-      name: 'thumbnailUrl',
-      title: 'Küçük Görsel URL',
-      type: 'string',
+      name: 'thumbnail',
+      title: 'Küçük Görsel',
+      type: 'image',
+      options: {hotspot: true},
     }),
     defineField({
       name: 'tarih',

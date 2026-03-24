@@ -17,8 +17,10 @@ export const yazilarListQuery = `*[_type == "yazi"] | order(tarih desc) {
   "yazar": yazar->{ isim, unvan }
 }`
 
-export const yazarlarQuery = `*[_type == "ekipUyesi" && aktif == true] | order(isim asc) {
-  _id, isim, slug, unvan, biyografi, fotograf, birim, rol, sosyalMedya
+export const yazarlarQuery = `*[_type == "ekipUyesi" && onecikar == true && aktif == true] | order(sira asc) {
+  _id, isim, slug, rol, unvan, biyografi,
+  "foto": fotograf.asset->url,
+  sosyalMedya
 }`
 
 export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(birim asc, isim asc) {
