@@ -17,8 +17,20 @@ export const yazilarListQuery = `*[_type == "yazi"] | order(tarih desc) {
   "yazar": yazar->{ isim, unvan }
 }`
 
-export const yazarlarQuery = `*[_type == "ekipUyesi" && onecikar == true && aktif == true] | order(sira asc) {
+export const yazarlarQuery = `*[_type == "ekipUyesi" && yazarGoster == true && aktif == true] | order(sira asc) {
   _id, isim, slug, rol, unvan, biyografi,
+  "foto": fotograf.asset->url,
+  sosyalMedya
+}`
+
+export const bagimsizYazarlarQuery = `*[_type == "bagimsizYazar" && aktif == true] {
+  _id, isim, slug, unvan,
+  "foto": fotograf.asset->url,
+  sosyalMedya
+}`
+
+export const bagimsizYazarBySlugQuery = `*[_type == "bagimsizYazar" && slug.current == $slug][0] {
+  isim, unvan, biyografi,
   "foto": fotograf.asset->url,
   sosyalMedya
 }`
@@ -142,7 +154,7 @@ export const ayinTemasiQuery = `*[_type == "ayinTemasi"] | order(_createdAt desc
   "gorsel": gorsel.asset->url
 }`
 
-export const oncuYazarQuery = `*[_type == "ekipUyesi" && onecikar == true && aktif == true] [0] {
+export const oncuYazarQuery = `*[_type == "ekipUyesi" && yazarGoster == true && aktif == true] | order(sira asc) [0] {
   _id, isim, slug, unvan, biyografi,
   "fotograf": fotograf.asset->url,
   "yazilari": *[_type == "yazi" && references(^._id) && durum == "yayinda"] | order(tarih desc) [0..3] {

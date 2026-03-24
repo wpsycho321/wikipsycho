@@ -53,10 +53,24 @@ export type Yazar = {
   };
 };
 
+export type BagimsizYazar = {
+  _id: string;
+  isim?: string;
+  slug?: { current?: string } | string;
+  unvan?: string;
+  foto?: string;
+  sosyalMedya?: {
+    twitter?: string;
+    instagram?: string;
+    linkedin?: string;
+  };
+};
+
 type Props = {
   yazilar: Yazi[];
   haberler: Haber[];
   yazarlar: Yazar[];
+  bagimsizYazarlar: BagimsizYazar[];
 };
 
 function kategoriLabel(k: string | undefined) {
@@ -80,13 +94,18 @@ function getUniqueKategoriler(yazilar: Yazi[]): string[] {
   return KATEGORI_ORDER.filter((k) => set.has(k));
 }
 
-function getSlugValue(slug: Yazar["slug"]) {
+function getSlugValue(slug: Yazar["slug"] | BagimsizYazar["slug"]) {
   if (!slug) return "";
   if (typeof slug === "string") return slug;
   return slug.current ?? "";
 }
 
-export default function YazilarClient({ yazilar, haberler, yazarlar }: Props) {
+export default function YazilarClient({
+  yazilar,
+  haberler,
+  yazarlar,
+  bagimsizYazarlar,
+}: Props) {
   const kategoriler = useMemo(() => getUniqueKategoriler(yazilar), [yazilar]);
   const tabs = ["Tümü", ...kategoriler.map((k) => KATEGORI_DISPLAY[k] ?? k)];
 
@@ -105,11 +124,6 @@ export default function YazilarClient({ yazilar, haberler, yazarlar }: Props) {
 
   const sonHaberler = haberler.slice(0, 5);
   const haberlerVar = sonHaberler.length > 0;
-  const wikiYazarlari = yazarlar.filter((yazar) => {
-    if (!yazar.kategori) return true;
-    return yazar.kategori === "yonetim" || yazar.kategori === "ekip";
-  });
-  const misafirYazarlar = yazarlar.filter((yazar) => yazar.kategori === "misafir");
 
   return (
     <div className="min-h-screen bg-white text-black">
@@ -299,7 +313,7 @@ export default function YazilarClient({ yazilar, haberler, yazarlar }: Props) {
               WIKIPSYCHO YAZARLARI
             </h2>
             <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
-              {wikiYazarlari.map((yazar) => {
+              {yazarlar.map((yazar) => {
                 const slug = getSlugValue(yazar.slug);
                 if (!slug) return null;
                 return (
@@ -338,15 +352,15 @@ export default function YazilarClient({ yazilar, haberler, yazarlar }: Props) {
             <h2 className="font-sans text-xs uppercase tracking-[0.2em] text-gray-500">
               BAĞIMSIZ YAZARLAR
             </h2>
-            {misafirYazarlar.length > 0 ? (
+            {bagimsizYazarlar.length > 0 ? (
               <div className="mt-6 grid grid-cols-2 gap-8 md:grid-cols-3 lg:grid-cols-4">
-                {misafirYazarlar.map((yazar) => {
+                {bagimsizYazarlar.map((yazar) => {
                   const slug = getSlugValue(yazar.slug);
                   if (!slug) return null;
                   return (
                     <Link
                       key={yazar._id}
-                      href={`/ekip/${slug}`}
+                      href={`/bagimsiz-yazar/${slug}`}
                       className="group block transition-transform duration-300 hover:-translate-y-1"
                     >
                       <div className="mx-auto h-[120px] w-[120px] overflow-hidden rounded-sm bg-gray-200">

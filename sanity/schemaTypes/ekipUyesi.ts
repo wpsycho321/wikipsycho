@@ -103,12 +103,12 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
-      name: 'onecikar',
-      title: 'Öne Çıkar',
+      name: 'yazarGoster',
+      title: 'Yazarlar Sayfasında Göster',
       type: 'boolean',
       initialValue: false,
       description:
-        'Bu true ise yazar "Yazarlarımız" bölümünde öne çıkar',
+        'true ise bu ekip üyesi Yazarlar sekmesinde WikiPsycho Yazarları altında görünür',
     }),
   ],
 })

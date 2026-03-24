@@ -56,7 +56,7 @@ export default async function VideolarPage() {
       </div>
 
       {/* VİDEO LİSTESİ */}
-      <div className="max-w-5xl px-12 py-12">
+      <div className="max-w-6xl px-12 py-12">
         {videolar.length === 0 ? (
           <p className="py-16 text-center font-sans text-gray-500">
             Henüz video eklenmemiş.
@@ -68,10 +68,10 @@ export default async function VideolarPage() {
             href={video.youtubeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="-mx-12 flex gap-8 border-b border-gray-100 px-12 py-10 transition-colors hover:bg-gray-50 group"
+            className="group -mx-12 flex flex-col-reverse gap-8 border-b border-gray-100 px-12 py-10 transition-colors hover:bg-gray-50 md:flex-row md:items-start md:gap-10 lg:gap-12"
           >
             {/* Sol: metin */}
-            <div className="flex-1">
+            <div className="min-w-0 flex-1">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400 italic">
                 {video.kategori}
               </p>
@@ -96,12 +96,12 @@ export default async function VideolarPage() {
               </div>
             </div>
 
-            {/* Sağ: thumbnail */}
-            <div className="h-36 w-48 flex-shrink-0 overflow-hidden bg-gray-200">
+            {/* Sağ: thumbnail — geniş 16:9 alan, kırpma yok (object-contain) */}
+            <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-sm bg-gray-200 md:w-[min(100%,28rem)] lg:w-[min(100%,34rem)]">
               <img
                 src={video.thumbnail ?? ""}
                 alt={video.baslik}
-                className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                className="h-full w-full object-contain object-center grayscale transition-all duration-500 group-hover:grayscale-0"
               />
             </div>
           </a>
