@@ -11,7 +11,7 @@ type Video = {
   baslik: string;
   altBaslik?: string;
   youtubeUrl: string;
-  thumbnailUrl?: string;
+  thumbnail?: { asset?: { url?: string } };
   tarih?: string;
   sure?: string;
   kategori?: string;
@@ -99,7 +99,7 @@ export default async function VideolarPage() {
             {/* Sağ: thumbnail */}
             <div className="h-36 w-48 flex-shrink-0 overflow-hidden bg-gray-200">
               <img
-                src={video.thumbnailUrl ?? ""}
+                src={video.thumbnail?.asset?.url ?? ""}
                 alt={video.baslik}
                 className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
               />

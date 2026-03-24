@@ -120,7 +120,7 @@ export const eyayinBySlugQuery = `*[_type == "eyayin" && (slug.current == $slugT
 }`;
 
 export const videolarQuery = `*[_type == "video"] | order(tarih desc) {
-  _id, baslik, altBaslik, youtubeUrl, thumbnailUrl, tarih, sure, kategori, aciklama
+  _id, baslik, altBaslik, youtubeUrl, "thumbnail": thumbnail.asset->url, tarih, sure, kategori, aciklama
 }`
 
 export const podcastlarQuery = `*[_type == "podcast"] | order(tarih desc) {
