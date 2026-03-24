@@ -380,7 +380,7 @@ export default function YazilarClient({
                         {yazar.isim ?? ""}
                       </p>
                       <p className="mt-1 text-center font-serif text-[13px] italic text-gray-500">
-                        {yazar.rol || yazar.unvan || ""}
+                        {yazar.unvan || ""}
                       </p>
                       <div className="mx-auto mt-4 h-px w-full bg-gray-200" />
                     </Link>
