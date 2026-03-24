@@ -55,8 +55,8 @@ export default async function PodcastlarPage() {
         </div>
       </div>
 
-      {/* PODCAST LİSTESİ */}
-      <div className="max-w-5xl px-12 py-12">
+      {/* PODCAST LİSTESİ — satırda ~%60 metin / ~%40 görsel */}
+      <div className="max-w-7xl px-12 py-12">
         {podcastlar.length === 0 ? (
           <p className="py-16 text-center font-sans text-gray-500">
             Henüz podcast eklenmemiş.
@@ -68,10 +68,10 @@ export default async function PodcastlarPage() {
             href={podcast.spotifyUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="-mx-12 flex gap-8 border-b border-gray-100 px-12 py-10 transition-colors hover:bg-gray-50 group"
+            className="group -mx-12 grid grid-cols-1 gap-8 border-b border-gray-100 px-12 py-10 transition-colors hover:bg-gray-50 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:items-start md:gap-10 lg:gap-12"
           >
-            {/* Sol: metin */}
-            <div className="flex-1">
+            {/* Sol: metin (~60%) */}
+            <div className="order-2 min-w-0 md:order-1">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400 italic">
                 {podcast.kategori}
               </p>
@@ -83,7 +83,7 @@ export default async function PodcastlarPage() {
                   {podcast.altBaslik}
                 </p>
               )}
-              <p className="mb-4 max-w-xl text-sm leading-relaxed text-gray-600">
+              <p className="mb-4 max-w-none text-sm leading-relaxed text-gray-600">
                 {podcast.aciklama}
               </p>
               <div className="flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.2em] text-gray-400">
@@ -98,12 +98,12 @@ export default async function PodcastlarPage() {
               </div>
             </div>
 
-            {/* Sağ: görsel */}
-            <div className="h-36 w-36 flex-shrink-0 overflow-hidden bg-gray-200">
+            {/* Sağ: kapak (~40%) — podcast görselleri için kare oran, kırpma yok */}
+            <div className="relative order-1 aspect-square w-full min-w-0 overflow-hidden rounded-sm bg-gray-200 md:order-2">
               <img
                 src={podcast.gorselUrl ?? ""}
                 alt={podcast.baslik}
-                className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                className="h-full w-full object-contain object-center grayscale transition-all duration-500 group-hover:grayscale-0"
               />
             </div>
           </a>

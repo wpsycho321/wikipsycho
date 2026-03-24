@@ -55,8 +55,8 @@ export default async function VideolarPage() {
         </div>
       </div>
 
-      {/* VİDEO LİSTESİ */}
-      <div className="max-w-6xl px-12 py-12">
+      {/* VİDEO LİSTESİ — satırda ~%60 metin / ~%40 görsel */}
+      <div className="max-w-7xl px-12 py-12">
         {videolar.length === 0 ? (
           <p className="py-16 text-center font-sans text-gray-500">
             Henüz video eklenmemiş.
@@ -68,10 +68,10 @@ export default async function VideolarPage() {
             href={video.youtubeUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="group -mx-12 flex flex-col-reverse gap-8 border-b border-gray-100 px-12 py-10 transition-colors hover:bg-gray-50 md:flex-row md:items-start md:gap-10 lg:gap-12"
+            className="group -mx-12 grid grid-cols-1 gap-8 border-b border-gray-100 px-12 py-10 transition-colors hover:bg-gray-50 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] md:items-start md:gap-10 lg:gap-12"
           >
-            {/* Sol: metin */}
-            <div className="min-w-0 flex-1">
+            {/* Sol: metin (~60%) */}
+            <div className="order-2 min-w-0 md:order-1">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-gray-400 italic">
                 {video.kategori}
               </p>
@@ -83,7 +83,7 @@ export default async function VideolarPage() {
                   {video.altBaslik}
                 </p>
               )}
-              <p className="mb-4 max-w-xl text-sm leading-relaxed text-gray-600">
+              <p className="mb-4 max-w-none text-sm leading-relaxed text-gray-600">
                 {video.aciklama}
               </p>
               <div className="flex flex-wrap items-center gap-4 text-xs uppercase tracking-[0.2em] text-gray-400">
@@ -96,8 +96,8 @@ export default async function VideolarPage() {
               </div>
             </div>
 
-            {/* Sağ: thumbnail — geniş 16:9 alan, kırpma yok (object-contain) */}
-            <div className="relative aspect-video w-full shrink-0 overflow-hidden rounded-sm bg-gray-200 md:w-[min(100%,28rem)] lg:w-[min(100%,34rem)]">
+            {/* Sağ: thumbnail (~40%) — 16:9, kırpma yok (object-contain) */}
+            <div className="relative order-1 aspect-video w-full min-w-0 overflow-hidden rounded-sm bg-gray-200 md:order-2">
               <img
                 src={video.thumbnail ?? ""}
                 alt={video.baslik}
