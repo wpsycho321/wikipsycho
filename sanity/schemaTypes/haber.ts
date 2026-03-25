@@ -30,8 +30,7 @@ export default defineType({
     defineField({
       name: "icerik",
       title: "İçerik",
-      type: "array",
-      of: [{ type: "block" }],
+      type: "text",
     }),
     defineField({
       name: "tarih",
