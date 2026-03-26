@@ -60,6 +60,12 @@ export default defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "kapakGorseliUrl",
+      title: "Kapak Görseli URL",
+      type: "url",
+      description: "Otomatik çekilen görsel URL'si",
+    }),
+    defineField({
       name: "yazar",
       title: "Yazar / Kaynak Kişi",
       type: "reference",

@@ -213,6 +213,7 @@ export const haberlerQuery = `*[_type == "haber"] | order(tarih desc) {
 export const haberBySlugQuery = `*[_type == "haber" && slug.current == $slug][0] {
   _id, baslik, slug, ozet, icerik, tarih, kategori, kaynak,
   "kapakGorseli": kapakGorseli.asset->url,
+  kapakGorseliUrl,
   "yazar": yazar->{ isim, unvan, biyografi, slug, "fotograf": fotograf.asset->url }
 }`;
 

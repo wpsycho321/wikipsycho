@@ -48,6 +48,7 @@ export default async function HaberDetayPage({
       kategori?: string;
       kaynak?: string;
       kapakGorseli?: string;
+      kapakGorseliUrl?: string;
       yazar?: {
         isim?: string;
         unvan?: string;
@@ -65,6 +66,8 @@ export default async function HaberDetayPage({
       ? haber.yazar.slug.current
       : String(haber.yazar.slug)
     : null;
+
+  const kapakSrc = haber.kapakGorseli || haber.kapakGorseliUrl;
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -91,10 +94,10 @@ export default async function HaberDetayPage({
             </p>
           )}
 
-          {haber.kapakGorseli && (
+          {kapakSrc && (
             <div className="relative mt-10 aspect-video w-full overflow-hidden bg-gray-200">
               <Image
-                src={haber.kapakGorseli}
+                src={kapakSrc}
                 alt={haber.baslik}
                 fill
                 className="object-cover"
