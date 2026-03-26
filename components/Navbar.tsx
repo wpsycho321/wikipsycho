@@ -36,6 +36,7 @@ const navItems = [
     ],
   },
   { label: "Yazılar", href: "/yazilar" },
+  { label: "Haberler", href: "/haberler" },
   { label: "Projeler", href: "/projeler" },
   { label: "İlanlar", href: "/ilanlar" },
   { label: "İletişim", href: "/iletisim" },
