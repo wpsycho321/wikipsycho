@@ -196,7 +196,7 @@ export const ilanBySlugQuery = `*[_type == "ilan" && slug.current == $slug][0] {
   "afis": afis.asset->url
 }`
 
-export const haberlerHomepageQuery = `*[_type == "haber"] | order(tarih desc) [0..2] {
+export const haberlerHomepageQuery = `*[_type == "haber"] | order(tarih desc, _createdAt desc) [0..2] {
   _id, baslik, slug, ozet, tarih, kategori,
   "kapakGorseli": kapakGorseli.asset->url,
   kaynak,
