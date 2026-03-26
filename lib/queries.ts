@@ -206,6 +206,7 @@ export const haberlerHomepageQuery = `*[_type == "haber"] | order(tarih desc) [0
 export const haberlerQuery = `*[_type == "haber"] | order(tarih desc) {
   _id, baslik, slug, ozet, tarih, kategori,
   "kapakGorseli": kapakGorseli.asset->url,
+  kapakGorseliUrl,
   kaynak,
   "yazar": yazar->{ isim, "foto": fotograf.asset->url }
 }`;

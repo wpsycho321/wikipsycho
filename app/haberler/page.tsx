@@ -17,6 +17,7 @@ type Haber = {
   tarih?: string;
   kategori?: string;
   kapakGorseli?: string;
+  kapakGorseliUrl?: string;
 };
 
 const KATEGORI_DISPLAY: Record<string, string> = {
@@ -84,9 +85,9 @@ export default async function HaberlerPage() {
               <HaberLink haber={ana}>
                 <article className="rounded-sm">
                   <div className="relative aspect-video w-full overflow-hidden rounded-sm bg-black/5">
-                    {ana.kapakGorseli ? (
+                    {ana.kapakGorseli || ana.kapakGorseliUrl ? (
                       <Image
-                        src={ana.kapakGorseli}
+                        src={ana.kapakGorseli || ana.kapakGorseliUrl || ""}
                         alt={ana.baslik}
                         fill
                         className="object-cover transition duration-300 group-hover:scale-[1.02]"
@@ -131,9 +132,9 @@ export default async function HaberlerPage() {
               <HaberLink key={haber._id} haber={haber}>
                 <article className="flex gap-4 border-b border-black/10 pb-6 last:border-b-0 last:pb-0">
                   <div className="relative h-20 w-28 flex-shrink-0 overflow-hidden rounded-sm bg-black/5">
-                    {haber.kapakGorseli ? (
+                    {haber.kapakGorseli || haber.kapakGorseliUrl ? (
                       <Image
-                        src={haber.kapakGorseli}
+                        src={haber.kapakGorseli || haber.kapakGorseliUrl || ""}
                         alt={haber.baslik}
                         fill
                         className="object-cover transition duration-300 group-hover:scale-[1.03]"
