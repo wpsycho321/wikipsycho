@@ -4,7 +4,6 @@ import Image from "next/image";
 import { client } from "@/lib/sanity";
 import { haberBySlugQuery } from "@/lib/queries";
 import { notFound } from "next/navigation";
-import { type PortableTextBlock, PortableText } from "@portabletext/react";
 
 export const dynamic = "force-dynamic";
 
@@ -44,7 +43,7 @@ export default async function HaberDetayPage({
       baslik: string;
       slug: { current: string };
       ozet?: string;
-      icerik?: PortableTextBlock[];
+      icerik?: string;
       tarih?: string;
       kategori?: string;
       kaynak?: string;
@@ -128,9 +127,13 @@ export default async function HaberDetayPage({
 
           <div className="w-full flex-1 py-16 lg:w-3/5">
             <div className="mx-auto max-w-2xl px-6">
-              {haber.icerik && haber.icerik.length > 0 ? (
-                <article className="font-serif [&_p]:mb-6 [&_p]:text-lg [&_p]:leading-relaxed [&_blockquote]:mb-6 [&_blockquote]:border-l-4 [&_blockquote]:border-black [&_blockquote]:bg-gray-50 [&_blockquote]:py-4 [&_blockquote]:pl-6 [&_blockquote]:pr-6 [&_blockquote]:font-serif [&_blockquote]:text-xl [&_blockquote]:italic">
-                  <PortableText value={haber.icerik} />
+              {haber.icerik ? (
+                <article className="font-serif">
+                  {haber.icerik.split("\n\n").map((paragraph, i) => (
+                    <p key={i} className="mb-6 text-lg leading-relaxed">
+                      {paragraph}
+                    </p>
+                  ))}
                 </article>
               ) : (
                 haber.ozet && (
