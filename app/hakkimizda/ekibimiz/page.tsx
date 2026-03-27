@@ -50,11 +50,11 @@ export default async function EkibimizPage() {
               <section key={grup._id} className="border-b border-gray-200 pb-12 pt-6 first:pt-0">
                 <h2
                   lang="tr"
-                  className="mb-10 font-sans text-base font-bold uppercase tracking-[0.2em] text-gray-800"
+                  className="mb-10 text-center font-sans text-base font-bold uppercase tracking-[0.2em] text-gray-800"
                 >
                   {grup.ad}
                 </h2>
-                <div className="flex flex-wrap justify-center gap-8 sm:justify-start">
+                <div className="flex flex-wrap justify-center gap-8">
                   {grup.uyeler.map((uye) => {
                     const slug = uye.slug?.current ?? "";
 
