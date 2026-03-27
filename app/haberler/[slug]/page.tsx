@@ -43,7 +43,7 @@ export default async function HaberDetayPage({
       baslik: string;
       slug: { current: string };
       ozet?: string;
-      icerik?: string;
+      icerik?: string | unknown[];
       tarih?: string;
       kategori?: string;
       kaynak?: string;
@@ -130,7 +130,8 @@ export default async function HaberDetayPage({
 
           <div className="w-full flex-1 py-16 lg:w-3/5">
             <div className="mx-auto max-w-2xl px-6">
-              {haber.icerik ? (
+              {haber.icerik &&
+              (typeof haber.icerik === "string" ? (
                 <article className="font-serif">
                   {haber.icerik.split("\n\n").map((paragraph, i) => (
                     <p key={i} className="mb-6 text-lg leading-relaxed">
@@ -138,12 +139,11 @@ export default async function HaberDetayPage({
                     </p>
                   ))}
                 </article>
-              ) : (
-                haber.ozet && (
-                  <p className="text-lg leading-relaxed text-gray-700">
-                    {haber.ozet}
-                  </p>
-                )
+              ) : null)}
+              {!haber.icerik && haber.ozet && (
+                <p className="text-lg leading-relaxed text-gray-700">
+                  {haber.ozet}
+                </p>
               )}
 
               {haber.kaynak && (
