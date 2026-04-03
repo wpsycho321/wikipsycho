@@ -87,8 +87,8 @@ export default async function YazıDetayPage({
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
       {/* Hero */}
-      <section className="flex min-h-screen w-full">
-        <div className="flex w-1/2 items-center bg-[#e8e4dc] px-16">
+      <section className="flex min-h-screen w-full flex-col md:flex-row">
+        <div className="flex w-full items-center bg-[#e8e4dc] px-8 py-16 md:w-1/2 md:px-16 md:py-0">
           <div className="max-w-xl space-y-6">
             <p className="text-xs italic uppercase tracking-wide text-gray-600">
               {kategoriLabel(yazi.kategori)}
@@ -108,7 +108,7 @@ export default async function YazıDetayPage({
           </div>
         </div>
         <div
-          className="h-screen w-1/2 bg-cover bg-center"
+          className="min-h-[50vw] w-full bg-cover bg-center md:h-screen md:w-1/2"
           style={{
             backgroundImage: yazi.kapakGorseli
               ? `url('${yazi.kapakGorseli}')`
@@ -139,7 +139,7 @@ export default async function YazıDetayPage({
             )}
           </aside>
 
-          <div className="w-full flex-1 py-16 lg:w-3/5">
+          <div className="w-full flex-1 py-10 lg:w-3/5 lg:py-16">
             <div className="mx-auto max-w-2xl px-6">
               {(yazi.sesUrl || yazi.sesDosyasiUrl) && (
                 <div className="mb-10 bg-black px-6 py-4 text-white">
