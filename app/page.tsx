@@ -211,8 +211,8 @@ export default async function Home() {
       )}
 
       {/* Hero */}
-      <section className="flex min-h-[80vh] w-full">
-        <div className="flex w-1/2 items-center bg-white">
+      <section className="flex min-h-[80vh] w-full flex-col md:flex-row">
+        <div className="flex w-full items-center bg-white md:w-1/2">
           <div className="px-8 md:px-16">
             <p className="mb-4 text-xs tracking-[0.25em]">PSİKOLOJİ TOPLULUĞU</p>
             <h1 className="mb-6 text-5xl leading-tight md:text-6xl">
@@ -227,7 +227,7 @@ export default async function Home() {
           </div>
         </div>
         {featuredCards.length > 0 && (
-          <div className="flex w-1/2">
+          <div className="flex w-full md:w-1/2">
             <HomeHeroSlider cards={featuredCards} />
           </div>
         )}
@@ -426,7 +426,7 @@ export default async function Home() {
 
         {/* E-Yayın banner */}
         {sonEyayin && (
-          <section className="flex min-h-[70vh] w-full">
+          <section className="flex min-h-[70vh] w-full flex-col md:flex-row">
             <Link
               href={`/yayinlar/e-yayinlar/${sonEyayin.slug?.current ?? ""}`}
               className="flex w-full md:w-[30%]"
@@ -445,7 +445,7 @@ export default async function Home() {
               </div>
             </Link>
             <div
-              className="hidden bg-cover bg-center md:block md:w-[70%]"
+              className="hidden w-full bg-cover bg-center md:block md:w-[70%]"
               style={{
                 backgroundImage: sonEyayin.kapakGorseli
                   ? `url(${sonEyayin.kapakGorseli})`
