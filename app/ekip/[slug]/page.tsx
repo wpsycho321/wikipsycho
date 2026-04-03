@@ -54,7 +54,7 @@ export default async function EkipProfilePage({
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
       {/* Hero */}
       <section className="w-full bg-[#f5f0eb] px-8 py-20 md:px-16">
-        <div className="flex flex-col gap-12 lg:flex-row lg:gap-8">
+        <div className="flex flex-col gap-8 lg:flex-row lg:gap-8">
           <div className="flex-1 lg:w-[70%]">
             <h1 className="text-5xl font-bold md:text-7xl">{uye.isim}</h1>
             <p className="mt-2 font-serif text-2xl italic text-gray-600">
@@ -113,6 +113,25 @@ export default async function EkipProfilePage({
                 </a>
               )}
             </div>
+
+            <div className="mt-6 flex justify-start lg:hidden">
+              {uye.foto ? (
+                <div className="relative h-48 w-48 flex-shrink-0 overflow-hidden border-4 border-black">
+                  <Image
+                    src={uye.foto}
+                    alt={uye.isim ?? ""}
+                    fill
+                    className="object-cover grayscale"
+                    sizes="192px"
+                  />
+                </div>
+              ) : (
+                <div className="flex h-48 w-48 items-center justify-center border-4 border-gray-300 bg-gray-200 font-sans text-6xl text-gray-400">
+                  {uye.isim?.charAt(0) ?? "?"}
+                </div>
+              )}
+            </div>
+
             {uye.biyografi && (
               <>
                 <div className="my-6 h-px w-full bg-black/20" />
@@ -124,19 +143,20 @@ export default async function EkipProfilePage({
               </>
             )}
           </div>
-          <div className="flex flex-shrink-0 items-start justify-end lg:w-[30%]">
+
+          <div className="hidden flex-shrink-0 items-start justify-end lg:flex lg:w-[30%]">
             {uye.foto ? (
-              <div className="group/photo relative h-72 w-72 flex-shrink-0 overflow-hidden rounded-none border-4 border-black">
+              <div className="group/photo relative h-72 w-72 flex-shrink-0 overflow-hidden border-4 border-black">
                 <Image
                   src={uye.foto}
                   alt={uye.isim ?? ""}
                   fill
-                  className="object-cover transition-all duration-300 group-hover/photo:grayscale-0 grayscale"
+                  className="object-cover grayscale transition-all duration-300 group-hover/photo:grayscale-0"
                   sizes="288px"
                 />
               </div>
             ) : (
-              <div className="flex h-72 w-72 flex-shrink-0 items-center justify-center rounded-none border-4 border-gray-300 bg-gray-200 font-sans text-6xl text-gray-400">
+              <div className="flex h-72 w-72 flex-shrink-0 items-center justify-center border-4 border-gray-300 bg-gray-200 font-sans text-6xl text-gray-400">
                 {uye.isim?.charAt(0) ?? "?"}
               </div>
             )}
