@@ -45,12 +45,13 @@ const navItems = [
 export default function Navbar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
 
   return (
     <nav
       className={`${playfair.className} sticky top-0 z-50 bg-black text-white`}
     >
-      <div className="mx-auto flex max-w-7xl items-center justify-between px-4 py-4 sm:px-6 lg:px-8">
+      <div className="relative z-[55] mx-auto flex max-w-7xl items-center justify-between bg-black px-4 py-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link
           href="/"
@@ -240,7 +241,7 @@ export default function Navbar() {
 
       {/* Mobile Search Bar */}
       {isSearchOpen && (
-        <div className="border-t border-white/10 px-4 py-3 md:hidden">
+        <div className="relative z-[55] border-t border-white/10 bg-black px-4 py-3 md:hidden">
           <input
             type="search"
             placeholder="Ara..."
@@ -250,41 +251,114 @@ export default function Navbar() {
         </div>
       )}
 
-      {/* Mobile Menu */}
+      {/* Backdrop */}
       {isMobileMenuOpen && (
-        <div className="border-t border-white/10 md:hidden">
-          <div className="space-y-1 px-4 py-4">
-            {navItems.map((item) =>
-              "dropdown" in item && item.dropdown ? (
-                <div key={item.label} className="space-y-1">
-                  <p className="px-3 py-2 text-sm font-medium text-white/70">
-                    {item.label}
-                  </p>
-                  {item.dropdown.map((sub) => (
-                    <Link
-                      key={sub.label}
-                      href={sub.href}
-                      className="block rounded px-4 py-2 text-sm hover:bg-white/10"
-                      onClick={() => setIsMobileMenuOpen(false)}
-                    >
-                      {sub.label}
-                    </Link>
-                  ))}
-                </div>
-              ) : (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="block rounded px-4 py-2 text-sm hover:bg-white/10"
-                  onClick={() => setIsMobileMenuOpen(false)}
+        <div
+          className="fixed inset-0 z-40 bg-black/60 md:hidden"
+          onClick={() => {
+            setIsMobileMenuOpen(false);
+            setOpenDropdown(null);
+          }}
+          aria-hidden
+        />
+      )}
+
+      {/* Drawer */}
+      <div
+        className={`fixed right-0 top-0 z-[60] h-full w-4/5 max-w-xs bg-black text-white shadow-xl transition-transform duration-300 md:hidden ${
+          isMobileMenuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
+        }`}
+      >
+        <div className="flex items-center justify-between border-b border-white/10 px-4 py-4">
+          <span className="text-lg font-semibold">Menü</span>
+          <button
+            type="button"
+            onClick={() => {
+              setIsMobileMenuOpen(false);
+              setOpenDropdown(null);
+            }}
+            className="p-1"
+            aria-label="Menüyü kapat"
+          >
+            <svg
+              className="h-6 w-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M6 18L18 6M6 6l12 12"
+              />
+            </svg>
+          </button>
+        </div>
+        <div className="space-y-1 overflow-y-auto px-4 py-4">
+          {navItems.map((item) =>
+            "dropdown" in item && item.dropdown ? (
+              <div key={item.label}>
+                <button
+                  type="button"
+                  className="flex w-full items-center justify-between rounded px-3 py-2 text-sm font-medium text-white/80 hover:bg-white/10"
+                  onClick={() =>
+                    setOpenDropdown(
+                      openDropdown === item.label ? null : item.label,
+                    )
+                  }
                 >
                   {item.label}
-                </Link>
-              )
-            )}
-          </div>
+                  <svg
+                    className={`h-4 w-4 transition-transform ${
+                      openDropdown === item.label ? "rotate-180" : ""
+                    }`}
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+                {openDropdown === item.label && (
+                  <div className="ml-3 mt-1 space-y-1 border-l border-white/10 pl-3">
+                    {item.dropdown.map((sub) => (
+                      <Link
+                        key={sub.label}
+                        href={sub.href}
+                        className="block rounded px-3 py-2 text-sm hover:bg-white/10"
+                        onClick={() => {
+                          setIsMobileMenuOpen(false);
+                          setOpenDropdown(null);
+                        }}
+                      >
+                        {sub.label}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+            ) : (
+              <Link
+                key={item.label}
+                href={item.href}
+                className="block rounded px-3 py-2 text-sm hover:bg-white/10"
+                onClick={() => {
+                  setIsMobileMenuOpen(false);
+                  setOpenDropdown(null);
+                }}
+              >
+                {item.label}
+              </Link>
+            ),
+          )}
         </div>
-      )}
+      </div>
     </nav>
   );
 }

@@ -212,8 +212,8 @@ export default async function Home() {
 
       {/* Hero */}
       <section className="flex min-h-[80vh] w-full flex-col md:flex-row">
-        <div className="flex w-full items-center bg-white md:w-1/2">
-          <div className="px-8 md:px-16">
+        <div className="flex w-full items-center bg-white py-10 md:w-1/2 md:py-0">
+          <div className="px-6 md:px-16">
             <p className="mb-4 text-xs tracking-[0.25em]">PSİKOLOJİ TOPLULUĞU</p>
             <h1 className="mb-6 text-5xl leading-tight md:text-6xl">
               Psikolojiyi Anlat, Paylaş, Dönüştür!
@@ -227,7 +227,7 @@ export default async function Home() {
           </div>
         </div>
         {featuredCards.length > 0 && (
-          <div className="flex w-full md:w-1/2">
+          <div className="flex min-h-[50vw] w-full md:min-h-0 md:w-1/2">
             <HomeHeroSlider cards={featuredCards} />
           </div>
         )}
