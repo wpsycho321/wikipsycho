@@ -139,10 +139,12 @@ export const podcastlarQuery = `*[_type == "podcast"] | order(tarih desc) {
   _id, baslik, altBaslik, spotifyUrl, gorselUrl, tarih, sure, kategori, aciklama
 }`
 
-export const birimlerQuery = `*[_type == "birim"] {
+export const birimlerQuery = `*[_type == "birim"] | order(_createdAt asc) {
   _id, ad, slug, slogan, hakkinda,
+  kimleriBuyoruz, calismaAlanlari, gecmisCalismalari,
   "gorsel": gorsel.asset->url,
-  "lider": lider->{ _id, slug, isim, unvan, fotograf }
+  "galeri": galeri[].asset->url,
+  "lider": lider->{ _id, isim, unvan, "slug": slug.current, "fotograf": fotograf.asset->url }
 }`
 
 export const duyurularQuery = `*[_type == "duyuru" && aktif == true] | order(sira asc) {

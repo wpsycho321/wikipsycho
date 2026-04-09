@@ -13,7 +13,12 @@ type CmsBirim = {
   slug: { current: string } | string;
   slogan?: string;
   hakkinda?: string;
+  kimleriBuyoruz?: string;
+  calismaAlanlari?: string[];
+  gecmisCalismalari?: string[];
   gorsel?: unknown;
+  galeri?: string[];
+  lider?: { _id: string; slug?: string; isim?: string; unvan?: string; fotograf?: string };
 };
 
 function getSlugValue(slug: CmsBirim['slug']) {
@@ -30,10 +35,7 @@ export default function BirimlerPage() {
 
   const gorselUrl = (gorsel: unknown) => {
     if (typeof gorsel === 'string') return gorsel;
-    if (gorsel && typeof gorsel === 'object' && 'url' in gorsel) {
-      const maybeUrl = (gorsel as { url?: unknown }).url;
-      return typeof maybeUrl === 'string' ? maybeUrl : '';
-    }
+    if (gorsel && typeof gorsel === 'object' && 'url' in gorsel) return (gorsel as { url?: string }).url ?? '';
     return '';
   };
 
@@ -104,41 +106,90 @@ export default function BirimlerPage() {
         })
       )}
 
-      {/* Drawer backdrop */}
-      {selected && (
-        <div className="fixed inset-0 z-40 bg-black/50" onClick={() => setSelected(null)} />
-      )}
+      {/* Backdrop */}
+      {selected && <div className="fixed inset-0 z-40 bg-black/50" onClick={() => setSelected(null)} />}
 
       {/* Drawer */}
       <div
-        className={`fixed right-0 top-0 z-50 h-full w-full max-w-lg overflow-y-auto bg-white shadow-2xl transition-transform duration-300 ${
+        className={`fixed right-0 top-0 z-50 h-full w-full max-w-lg bg-white shadow-2xl transition-transform duration-300 overflow-y-auto ${
           selected ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
         {selected && (
-          <div className="flex h-full flex-col">
+          <div className="flex flex-col h-full">
             {gorselUrl(selected.gorsel) && (
               <div
-                className="h-64 w-full flex-shrink-0 bg-cover bg-center"
+                className="h-64 w-full bg-cover bg-center flex-shrink-0"
                 style={{ backgroundImage: `url('${gorselUrl(selected.gorsel)}')` }}
               />
             )}
-            <div className="flex-1 p-10">
+            <div className="p-10 flex-1">
               <div className="flex items-start justify-between">
                 <h2 className="text-4xl font-normal">{selected.ad}</h2>
-                <button
-                  onClick={() => setSelected(null)}
-                  className="ml-4 mt-1 flex-shrink-0 text-gray-400 hover:text-black"
-                  aria-label="Kapat"
-                >
+                <button onClick={() => setSelected(null)} className="ml-4 mt-1 flex-shrink-0 text-gray-400 hover:text-black">
                   <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
               </div>
+
               {selected.slogan && <p className="mt-3 font-serif text-xl italic text-gray-500">{selected.slogan}</p>}
+
               <div className="mt-6 h-px w-full bg-black/10" />
+
               <p className="mt-6 font-serif text-lg leading-relaxed text-gray-700">{selected.hakkinda ?? ''}</p>
+
+              {selected.kimleriBuyoruz && (
+                <div className="mt-8">
+                  <h3 className="font-sans text-xs uppercase tracking-[0.2em] text-gray-400">Kimlerle Büyüyoruz</h3>
+                  <p className="mt-2 font-serif text-base leading-relaxed text-gray-700">{selected.kimleriBuyoruz}</p>
+                </div>
+              )}
+
+              {selected.calismaAlanlari && selected.calismaAlanlari.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="font-sans text-xs uppercase tracking-[0.2em] text-gray-400">Çalışma Alanları</h3>
+                  <ul className="mt-3 space-y-2">
+                    {selected.calismaAlanlari.map((alan, i) => (
+                      <li key={i} className="flex items-start gap-2 font-serif text-base text-gray-700">
+                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-black" />
+                        {alan}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {selected.gecmisCalismalari && selected.gecmisCalismalari.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="font-sans text-xs uppercase tracking-[0.2em] text-gray-400">Geçmiş Çalışmaları</h3>
+                  <ul className="mt-3 space-y-2">
+                    {selected.gecmisCalismalari.map((calisma, i) => (
+                      <li key={i} className="flex items-start gap-2 font-serif text-base text-gray-700">
+                        <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-black" />
+                        {calisma}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {selected.lider && (
+                <div className="mt-8">
+                  <h3 className="font-sans text-xs uppercase tracking-[0.2em] text-gray-400">Birim Lideri</h3>
+
+                  <a href={`/ekip/${selected.lider.slug ?? ''}`} className="mt-3 flex items-center gap-3 group">
+                    {selected.lider.fotograf && (
+                      <img src={selected.lider.fotograf} alt={selected.lider.isim} className="h-10 w-10 rounded-full object-cover" />
+                    )}
+                    <div>
+                      <p className="font-bold group-hover:underline">{selected.lider.isim}</p>
+                      {selected.lider.unvan && <p className="font-sans text-sm text-gray-500">{selected.lider.unvan}</p>}
+                    </div>
+                    <span className="ml-auto font-sans text-xs text-gray-400 group-hover:text-black">Profil →</span>
+                  </a>
+                </div>
+              )}
             </div>
           </div>
         )}
@@ -147,9 +198,9 @@ export default function BirimlerPage() {
       <section className="w-full bg-black py-24 text-center text-white">
         <h2 className="text-4xl font-normal md:text-5xl">Sen de Üret</h2>
         <p className="mx-auto mt-4 max-w-xl font-serif text-xl italic text-gray-300">
-          WikiPsycho&apos;da her birim yeni sesler arıyor. Psikoloji üzerine düşünen, üreten ve paylaşmak isteyen herkese
-          açığız.
+          WikiPsycho&apos;da her birim yeni sesler arıyor. Psikoloji üzerine düşünen, üreten ve paylaşmak isteyen herkese açığız.
         </p>
+
         <a
           href="/iletisim"
           className="mt-8 inline-block border border-white px-8 py-3 font-sans text-sm uppercase tracking-[0.25em] transition hover:bg-white hover:text-black"
