@@ -16,7 +16,7 @@ type EYayin = {
   baslik: string;
   altBaslik?: string;
   seriNo?: string;
-  kapakGorseli?: any;
+  kapakGorseli?: unknown;
   hazirlayanlar?: string[];
 };
 
@@ -27,6 +27,14 @@ function getSlugValue(slug: EYayin["slug"]) {
 
 export default async function EYayinlarPage() {
   const eyayinlar: EYayin[] = await client.fetch(eyayinlarQuery).catch(() => []);
+  const gorselUrl = (gorsel: unknown) => {
+    if (typeof gorsel === "string") return gorsel;
+    if (gorsel && typeof gorsel === "object" && "url" in gorsel) {
+      const maybeUrl = (gorsel as { url?: unknown }).url;
+      return typeof maybeUrl === "string" ? maybeUrl : "";
+    }
+    return "";
+  };
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -83,7 +91,7 @@ export default async function EYayinlarPage() {
               <div className="relative aspect-[3/4] w-full overflow-hidden rounded-lg shadow-[4px_8px_24px_rgba(0,0,0,0.15)] transition-all duration-500 group-hover:-translate-y-2 group-hover:shadow-[6px_12px_32px_rgba(0,0,0,0.25)]">
                 {yayin.kapakGorseli && (
                   <Image
-                    src={typeof yayin.kapakGorseli === "string" ? yayin.kapakGorseli : ""}
+                    src={gorselUrl(yayin.kapakGorseli)}
                     alt={yayin.baslik}
                     fill
                     className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
