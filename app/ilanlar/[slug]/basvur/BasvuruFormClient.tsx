@@ -21,6 +21,7 @@ export default function BasvuruFormClient({
 }) {
   const router = useRouter();
   const [cevaplar, setCevaplar] = useState<Record<string, string>>({});
+  const [dosyaUrl, setDosyaUrl] = useState<Record<string, string>>({});
   const [hata, setHata] = useState("");
 
   const handleChange = (soru: string, cevap: string) => {
@@ -40,6 +41,7 @@ export default function BasvuruFormClient({
     const arr = Object.entries(cevaplar).map(([soru, cevap]) => ({
       soru,
       cevap,
+      dosyaUrl: dosyaUrl[soru] ?? "",
     }));
     try {
       const res = await fetch("/api/basvuru", {
@@ -106,6 +108,41 @@ export default function BasvuruFormClient({
                   </button>
                 );
               })}
+            </div>
+          )}
+          {s.tip === "dosya" && (
+            <div className="space-y-2">
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx"
+                required={s.zorunlu}
+                className="w-full rounded-lg border border-gray-200 px-4 py-3 font-sans text-sm text-gray-700 file:mr-4 file:rounded file:border-0 file:bg-gray-100 file:px-4 file:py-2 file:text-sm file:font-medium hover:file:bg-gray-200"
+                onChange={async (e) => {
+                  const file = e.target.files?.[0];
+                  if (!file) return;
+                  const formData = new FormData();
+                  formData.append("file", file);
+                  formData.append("ilanSlug", ilanSlug);
+                  try {
+                    const res = await fetch("/api/dosya-yukle", {
+                      method: "POST",
+                      body: formData,
+                    });
+                    const data = await res.json();
+                    if (data.url) {
+                      setDosyaUrl((p) => ({ ...p, [s.soru ?? ""]: data.url }));
+                      handleChange(s.soru ?? "", data.url);
+                    }
+                  } catch {
+                    setHata("Dosya yüklenemedi.");
+                  }
+                }}
+              />
+              {dosyaUrl[s.soru ?? ""] && (
+                <p className="font-sans text-xs text-green-600">
+                  ✓ Dosya yüklendi
+                </p>
+              )}
             </div>
           )}
         </div>
