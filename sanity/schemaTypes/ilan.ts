@@ -74,6 +74,12 @@ export default defineType({
       initialValue: true,
     }),
     defineField({
+      name: "basvuruListesiLinki",
+      title: "Başvuru Listesi Linki",
+      type: "url",
+      description: "Başvuruları görüntülemek için admin linki",
+    }),
+    defineField({
       name: "sorular",
       title: "Başvuru soruları",
       type: "array",

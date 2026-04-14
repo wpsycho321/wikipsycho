@@ -13,10 +13,18 @@ type Cevap = { soru?: string; cevap?: string };
 
 export default async function BasvurularPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams: Promise<{ token?: string }>;
 }) {
   const { slug } = await params;
+  const { token } = await searchParams;
+
+  if (token !== "wpadmin2024") {
+    notFound();
+  }
+
   const ilan = await client
     .fetch<
       | {

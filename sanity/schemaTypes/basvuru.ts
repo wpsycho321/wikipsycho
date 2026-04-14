@@ -43,6 +43,7 @@ export default defineType({
           fields: [
             { name: "soru", title: "Soru", type: "string" },
             { name: "cevap", title: "Cevap", type: "text" },
+            { name: "dosyaUrl", title: "Dosya URL", type: "url" },
           ],
           preview: {
             select: { title: "soru", subtitle: "cevap" },
@@ -58,6 +59,12 @@ export default defineType({
           },
         },
       ],
+    }),
+    defineField({
+      name: "dosyalar",
+      title: "Yüklenen Dosyalar",
+      type: "array",
+      of: [{ type: "file" }],
     }),
   ],
 });
