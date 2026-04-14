@@ -132,12 +132,6 @@ export default async function IlanDetayPage({
                 Başvur
               </Link>
             )}
-            <Link
-              href={`/ilanlar/${ilan.slug?.current ?? slug}/basvurular?token=wpadmin2024`}
-              className="font-sans text-sm text-gray-500 underline hover:text-gray-700"
-            >
-              Başvuruları Gör
-            </Link>
           </div>
         </div>
       </article>
