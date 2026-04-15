@@ -1,0 +1,2811 @@
+[
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              },
+              {
+                "flag": "min",
+                "constraint": 5
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "options": {
+          "source": "baslik",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "to": [
+          {
+            "type": "yazar"
+          },
+          {
+            "type": "ekipUyesi"
+          }
+        ],
+        "name": "yazar",
+        "type": "reference"
+      },
+      {
+        "name": "tarih",
+        "type": "date"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Araştırma",
+              "value": "Arastirma"
+            },
+            {
+              "title": "Klinik",
+              "value": "Klinik"
+            },
+            {
+              "title": "Gelişim",
+              "value": "Gelisim"
+            },
+            {
+              "title": "Sosyal",
+              "value": "Sosyal"
+            },
+            {
+              "title": "Güncel",
+              "value": "Guncel"
+            }
+          ],
+          "layout": "radio"
+        },
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "ozet",
+        "type": "text",
+        "title": "Özet"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "icerik",
+        "type": "array",
+        "title": "İçerik"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "kapakGorseli",
+        "type": "image",
+        "title": "Kapak Görseli"
+      },
+      {
+        "options": {
+          "accept": "audio/*"
+        },
+        "name": "ses",
+        "type": "file",
+        "title": "Ses Dosyası"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Yüklenen dosya yerine harici URL kullanılacaksa",
+        "name": "sesDosyasiUrl",
+        "type": "url",
+        "title": "Harici Ses Linki"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Taslak",
+              "value": "taslak"
+            },
+            {
+              "title": "Onayda",
+              "value": "onayda"
+            },
+            {
+              "title": "Yayında",
+              "value": "yayinda"
+            },
+            {
+              "title": "Reddedildi",
+              "value": "reddedildi"
+            }
+          ],
+          "layout": "radio"
+        },
+        "initialValue": "taslak",
+        "name": "durum",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Akademi",
+              "value": "Akademi"
+            },
+            {
+              "title": "İçerik",
+              "value": "Icerik"
+            },
+            {
+              "title": "Proje",
+              "value": "Proje"
+            },
+            {
+              "title": "Eğitim & Gelişim",
+              "value": "EgitimGelisim"
+            },
+            {
+              "title": "Yayın",
+              "value": "Yayin"
+            },
+            {
+              "title": "Prodüksiyon",
+              "value": "Produksiyon"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "birim",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaBaslik",
+        "type": "string",
+        "title": "SEO Meta Başlık"
+      },
+      {
+        "rows": 2,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaAciklama",
+        "type": "text",
+        "title": "SEO Meta Açıklama"
+      },
+      {
+        "options": {
+          "layout": "tags"
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "anahtarKelimeler",
+        "type": "array"
+      }
+    ],
+    "name": "yazi",
+    "type": "document",
+    "title": "Yazı"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "isim",
+        "type": "string",
+        "title": "İsim"
+      },
+      {
+        "options": {
+          "source": "isim",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "unvan",
+        "type": "string",
+        "title": "Ünvan"
+      },
+      {
+        "rows": 4,
+        "name": "biyografi",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "fotograf",
+        "type": "image",
+        "title": "Fotoğraf"
+      },
+      {
+        "name": "eposta",
+        "type": "string",
+        "title": "E-posta"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Akademi",
+              "value": "Akademi"
+            },
+            {
+              "title": "İçerik",
+              "value": "Icerik"
+            },
+            {
+              "title": "Proje",
+              "value": "Proje"
+            },
+            {
+              "title": "Eğitim & Gelişim",
+              "value": "EgitimGelisim"
+            },
+            {
+              "title": "Yayın",
+              "value": "Yayin"
+            },
+            {
+              "title": "Prodüksiyon",
+              "value": "Produksiyon"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "birim",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Süper Admin",
+              "value": "superadmin"
+            },
+            {
+              "title": "Yönetici",
+              "value": "yonetici"
+            },
+            {
+              "title": "Birim Lideri",
+              "value": "birimlideri"
+            },
+            {
+              "title": "Üye",
+              "value": "uye"
+            }
+          ],
+          "layout": "radio"
+        },
+        "name": "rol",
+        "type": "string"
+      },
+      {
+        "fields": [
+          {
+            "name": "instagram",
+            "type": "string"
+          },
+          {
+            "name": "twitter",
+            "type": "string",
+            "title": "X / Twitter"
+          },
+          {
+            "name": "linkedin",
+            "type": "string",
+            "title": "LinkedIn"
+          },
+          {
+            "name": "youtube",
+            "type": "string",
+            "title": "YouTube"
+          }
+        ],
+        "name": "sosyalMedya",
+        "type": "object"
+      }
+    ],
+    "name": "yazar",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "options": {
+          "source": "baslik",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "altBaslik",
+        "type": "string",
+        "title": "Alt Başlık"
+      },
+      {
+        "rows": 3,
+        "name": "aciklama",
+        "type": "text",
+        "title": "Açıklama"
+      },
+      {
+        "of": [
+          {
+            "marks": {
+              "annotations": [
+                {
+                  "i18nTitleKey": "inputs.portable-text.annotation.link",
+                  "options": {
+                    "modal": {
+                      "type": "popover"
+                    }
+                  },
+                  "fields": [
+                    {
+                      "validation": [
+                        {
+                          "rules": [
+                            {
+                              "flag": "uri",
+                              "constraint": {
+                                "options": {
+                                  "scheme": [
+                                    "/^http$/",
+                                    "/^https$/",
+                                    "/^tel$/",
+                                    "/^mailto$/"
+                                  ],
+                                  "allowRelative": true,
+                                  "relativeOnly": false,
+                                  "allowCredentials": false
+                                }
+                              }
+                            }
+                          ],
+                          "level": "error"
+                        }
+                      ],
+                      "description": "A valid web, email, phone, or relative link.",
+                      "name": "href",
+                      "type": "url",
+                      "title": "Link"
+                    }
+                  ],
+                  "name": "link",
+                  "type": "object"
+                }
+              ],
+              "decorators": [
+                {
+                  "value": "strong",
+                  "title": "Strong"
+                },
+                {
+                  "value": "em",
+                  "title": "Italic"
+                },
+                {
+                  "value": "code",
+                  "title": "Code"
+                },
+                {
+                  "value": "underline",
+                  "title": "Underline"
+                },
+                {
+                  "value": "strike-through",
+                  "title": "Strike"
+                }
+              ]
+            },
+            "lists": [
+              {
+                "value": "bullet",
+                "title": "Bulleted list"
+              },
+              {
+                "value": "number",
+                "title": "Numbered list"
+              }
+            ],
+            "styles": [
+              {
+                "value": "normal",
+                "title": "Normal"
+              },
+              {
+                "value": "h1",
+                "title": "Heading 1"
+              },
+              {
+                "value": "h2",
+                "title": "Heading 2"
+              },
+              {
+                "value": "h3",
+                "title": "Heading 3"
+              },
+              {
+                "value": "h4",
+                "title": "Heading 4"
+              },
+              {
+                "value": "h5",
+                "title": "Heading 5"
+              },
+              {
+                "value": "h6",
+                "title": "Heading 6"
+              },
+              {
+                "value": "blockquote",
+                "title": "Quote"
+              }
+            ],
+            "of": [],
+            "type": "block"
+          }
+        ],
+        "name": "detay",
+        "type": "array"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Tamamlandı",
+              "value": "Tamamlandı"
+            },
+            {
+              "title": "Devam Ediyor",
+              "value": "Devam Ediyor"
+            },
+            {
+              "title": "Planlama",
+              "value": "Planlama"
+            }
+          ],
+          "layout": "radio"
+        },
+        "name": "durum",
+        "type": "string"
+      },
+      {
+        "name": "yil",
+        "type": "string",
+        "title": "Yıl"
+      },
+      {
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "gorsel",
+        "type": "image",
+        "title": "Görsel"
+      },
+      {
+        "of": [
+          {
+            "type": "image"
+          }
+        ],
+        "name": "galeri",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "ortaklar",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "sayi",
+                "type": "string",
+                "title": "Sayı"
+              },
+              {
+                "name": "aciklama",
+                "type": "string",
+                "title": "Açıklama"
+              }
+            ],
+            "type": "object",
+            "name": "istatistik",
+            "title": "İstatistik"
+          }
+        ],
+        "name": "istatistikler",
+        "type": "array",
+        "title": "İstatistikler"
+      },
+      {
+        "name": "raporSlug",
+        "type": "string",
+        "title": "İlgili Rapor Slug"
+      },
+      {
+        "name": "kitapcikUrl",
+        "type": "string",
+        "title": "Kitapçık URL"
+      },
+      {
+        "name": "fon",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaBaslik",
+        "type": "string",
+        "title": "SEO Meta Başlık"
+      },
+      {
+        "rows": 2,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaAciklama",
+        "type": "text",
+        "title": "SEO Meta Açıklama"
+      },
+      {
+        "options": {
+          "layout": "tags"
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "anahtarKelimeler",
+        "type": "array"
+      }
+    ],
+    "name": "proje",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "options": {
+          "source": "baslik",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "altBaslik",
+        "type": "string",
+        "title": "Alt Başlık"
+      },
+      {
+        "name": "seriNo",
+        "type": "string"
+      },
+      {
+        "name": "tur",
+        "type": "string",
+        "title": "Tür"
+      },
+      {
+        "name": "yil",
+        "type": "string",
+        "title": "Yıl"
+      },
+      {
+        "name": "tarih",
+        "type": "date"
+      },
+      {
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "ozet",
+        "type": "text",
+        "title": "Özet"
+      },
+      {
+        "rows": 3,
+        "name": "hedef",
+        "type": "text"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "bulgular",
+        "type": "array"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "kapakGorseli",
+        "type": "image",
+        "title": "Kapak Görseli"
+      },
+      {
+        "name": "pdfUrl",
+        "type": "string",
+        "title": "PDF URL"
+      },
+      {
+        "name": "sayfaSayisi",
+        "type": "number",
+        "title": "Sayfa Sayısı"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "hazirlayanlar",
+        "type": "array",
+        "title": "Hazırlayanlar"
+      },
+      {
+        "name": "editor",
+        "type": "string",
+        "title": "Editör"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "danismanlar",
+        "type": "array",
+        "title": "Danışmanlar"
+      },
+      {
+        "name": "yayin",
+        "type": "string",
+        "title": "Yayın"
+      },
+      {
+        "name": "ilgiliProjeSlug",
+        "type": "string",
+        "title": "İlgili Proje Slug"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaBaslik",
+        "type": "string",
+        "title": "SEO Meta Başlık"
+      },
+      {
+        "rows": 2,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaAciklama",
+        "type": "text",
+        "title": "SEO Meta Açıklama"
+      },
+      {
+        "options": {
+          "layout": "tags"
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "anahtarKelimeler",
+        "type": "array"
+      }
+    ],
+    "name": "eyayin",
+    "type": "document",
+    "title": "E-Yayın"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Örn: \"Yönetim Kurulu\", \"Akademi Birimi\"",
+        "name": "ad",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "ad",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "description": "Sayfada grupların gösterim sırası",
+        "name": "sira",
+        "type": "number",
+        "title": "Sıra"
+      }
+    ],
+    "name": "ekipGrubu",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "isim",
+        "type": "string",
+        "title": "İsim"
+      },
+      {
+        "options": {
+          "source": "isim",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "description": "Başkan, Akademi Birimi Lideri vb. — Sanity'de tanımlı sıfatlar",
+        "to": [
+          {
+            "type": "sifatTanim"
+          }
+        ],
+        "name": "sifat",
+        "type": "reference",
+        "title": "Sıfat"
+      },
+      {
+        "description": "Psikolog, Uzman vb. — Sıfat seçilmemişse bu gösterilir",
+        "name": "unvan",
+        "type": "string",
+        "title": "Ünvan (serbest metin)"
+      },
+      {
+        "rows": 4,
+        "name": "biyografi",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "fotograf",
+        "type": "image",
+        "title": "Fotoğraf"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Akademi",
+              "value": "Akademi"
+            },
+            {
+              "title": "İçerik",
+              "value": "Icerik"
+            },
+            {
+              "title": "Proje",
+              "value": "Proje"
+            },
+            {
+              "title": "Eğitim & Gelişim",
+              "value": "EgitimGelisim"
+            },
+            {
+              "title": "Yayın",
+              "value": "Yayin"
+            },
+            {
+              "title": "Prodüksiyon",
+              "value": "Produksiyon"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "birim",
+        "type": "string"
+      },
+      {
+        "description": "Sistem rolü — kartlarda gösterilmez",
+        "name": "rol",
+        "type": "string",
+        "title": "Rol (sistem)"
+      },
+      {
+        "description": "Bu üyenin ait olduğu grup (Yönetim Kurulu, Akademi Birimi vb.)",
+        "to": [
+          {
+            "type": "ekipGrubu"
+          }
+        ],
+        "name": "grup",
+        "type": "reference"
+      },
+      {
+        "description": "Aynı grupta sıralama için",
+        "name": "sira",
+        "type": "number",
+        "title": "Sıra"
+      },
+      {
+        "name": "eposta",
+        "type": "string",
+        "title": "E-posta"
+      },
+      {
+        "fields": [
+          {
+            "name": "instagram",
+            "type": "string"
+          },
+          {
+            "name": "twitter",
+            "type": "string",
+            "title": "X / Twitter"
+          },
+          {
+            "name": "linkedin",
+            "type": "string",
+            "title": "LinkedIn"
+          }
+        ],
+        "name": "sosyalMedya",
+        "type": "object"
+      },
+      {
+        "initialValue": true,
+        "name": "aktif",
+        "type": "boolean"
+      },
+      {
+        "initialValue": false,
+        "description": "true ise bu ekip üyesi Yazarlar sekmesinde WikiPsycho Yazarları altında görünür",
+        "name": "yazarGoster",
+        "type": "boolean",
+        "title": "Yazarlar Sayfasında Göster"
+      }
+    ],
+    "name": "ekipUyesi",
+    "type": "document",
+    "title": "Ekip Üyesi"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "isim",
+        "type": "string",
+        "title": "İsim"
+      },
+      {
+        "options": {
+          "source": "isim",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "description": "Psikolog, Araştırmacı vb.",
+        "name": "unvan",
+        "type": "string",
+        "title": "Ünvan"
+      },
+      {
+        "rows": 5,
+        "name": "biyografi",
+        "type": "text"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "fotograf",
+        "type": "image",
+        "title": "Fotoğraf"
+      },
+      {
+        "fields": [
+          {
+            "name": "instagram",
+            "type": "string"
+          },
+          {
+            "name": "twitter",
+            "type": "string",
+            "title": "X / Twitter"
+          },
+          {
+            "name": "linkedin",
+            "type": "string",
+            "title": "LinkedIn"
+          }
+        ],
+        "name": "sosyalMedya",
+        "type": "object"
+      },
+      {
+        "initialValue": true,
+        "name": "aktif",
+        "type": "boolean"
+      }
+    ],
+    "name": "bagimsizYazar",
+    "type": "document",
+    "title": "Bağımsız Yazar"
+  },
+  {
+    "description": "Ekip üyelerine atanacak sıfatlar: Başkan, Başkan Yardımcısı, Akademi Birimi Lideri, Akademi Birimi Üyesi vb.",
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Kartlarda görünecek sıfat (örn: Başkan, Akademi Birimi Lideri)",
+        "name": "ad",
+        "type": "string",
+        "title": "Sıfat"
+      },
+      {
+        "description": "Seçim listesindeki sıralama",
+        "name": "sira",
+        "type": "number",
+        "title": "Sıra"
+      }
+    ],
+    "name": "sifatTanim",
+    "type": "document",
+    "title": "Sıfat Tanımı"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "ad",
+        "type": "string"
+      },
+      {
+        "options": {
+          "source": "ad",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "slogan",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "name": "hakkinda",
+        "type": "text",
+        "title": "Hakkında"
+      },
+      {
+        "rows": 3,
+        "name": "kimleriBuyoruz",
+        "type": "text",
+        "title": "Kimleri Büyüyoruz"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "calismaAlanlari",
+        "type": "array",
+        "title": "Çalışma Alanları"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "gecmisCalismalari",
+        "type": "array",
+        "title": "Geçmiş Çalışmaları"
+      },
+      {
+        "to": [
+          {
+            "type": "ekipUyesi"
+          }
+        ],
+        "name": "lider",
+        "type": "reference"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "gorsel",
+        "type": "image",
+        "title": "Görsel"
+      },
+      {
+        "of": [
+          {
+            "type": "image"
+          }
+        ],
+        "name": "galeri",
+        "type": "array"
+      }
+    ],
+    "name": "birim",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "name": "altBaslik",
+        "type": "string",
+        "title": "Alt Başlık"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "youtubeUrl",
+        "type": "string",
+        "title": "YouTube URL"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "thumbnail",
+        "type": "image",
+        "title": "Küçük Görsel"
+      },
+      {
+        "name": "tarih",
+        "type": "date"
+      },
+      {
+        "name": "sure",
+        "type": "string",
+        "title": "Süre"
+      },
+      {
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "aciklama",
+        "type": "text",
+        "title": "Açıklama"
+      },
+      {
+        "name": "yazar",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Akademi",
+              "value": "Akademi"
+            },
+            {
+              "title": "İçerik",
+              "value": "Icerik"
+            },
+            {
+              "title": "Proje",
+              "value": "Proje"
+            },
+            {
+              "title": "Eğitim & Gelişim",
+              "value": "EgitimGelisim"
+            },
+            {
+              "title": "Yayın",
+              "value": "Yayin"
+            },
+            {
+              "title": "Prodüksiyon",
+              "value": "Produksiyon"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "birim",
+        "type": "string"
+      }
+    ],
+    "name": "video",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "name": "altBaslik",
+        "type": "string",
+        "title": "Alt Başlık"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "spotifyUrl",
+        "type": "string",
+        "title": "Spotify URL"
+      },
+      {
+        "name": "gorselUrl",
+        "type": "string",
+        "title": "Görsel URL"
+      },
+      {
+        "name": "tarih",
+        "type": "date"
+      },
+      {
+        "name": "sure",
+        "type": "string",
+        "title": "Süre"
+      },
+      {
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "rows": 3,
+        "name": "aciklama",
+        "type": "text",
+        "title": "Açıklama"
+      },
+      {
+        "name": "konuk",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Akademi",
+              "value": "Akademi"
+            },
+            {
+              "title": "İçerik",
+              "value": "Icerik"
+            },
+            {
+              "title": "Proje",
+              "value": "Proje"
+            },
+            {
+              "title": "Eğitim & Gelişim",
+              "value": "EgitimGelisim"
+            },
+            {
+              "title": "Yayın",
+              "value": "Yayin"
+            },
+            {
+              "title": "Prodüksiyon",
+              "value": "Produksiyon"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "birim",
+        "type": "string"
+      }
+    ],
+    "name": "podcast",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "options": {
+          "source": "baslik",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "tarih",
+        "type": "date"
+      },
+      {
+        "description": "\"Online\" veya fiziksel adres",
+        "name": "konum",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Atölye",
+              "value": "Atolye"
+            },
+            {
+              "title": "Konferans",
+              "value": "Konferans"
+            },
+            {
+              "title": "Webinar",
+              "value": "Webinar"
+            },
+            {
+              "title": "Diğer",
+              "value": "Diger"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "name": "aciklama",
+        "type": "text",
+        "title": "Açıklama"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "gorsel",
+        "type": "image",
+        "title": "Görsel"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Yaklaşan",
+              "value": "yaklasan"
+            },
+            {
+              "title": "Devam ediyor",
+              "value": "devam-ediyor"
+            },
+            {
+              "title": "Tamamlandı",
+              "value": "tamamlandi"
+            }
+          ],
+          "layout": "radio"
+        },
+        "description": "Tarihe göre otomatik hesaplanabilir, manuel override mümkün",
+        "name": "durum",
+        "type": "string"
+      }
+    ],
+    "name": "etkinlik",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "rows": 3,
+        "name": "aciklama",
+        "type": "text",
+        "title": "Açıklama"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "ad",
+                "type": "string"
+              },
+              {
+                "name": "url",
+                "type": "string",
+                "title": "URL"
+              },
+              {
+                "name": "ikon",
+                "type": "string",
+                "title": "İkon"
+              },
+              {
+                "description": "Tailwind veya HEX renk kodu (ör. #000000 veya bg-black)",
+                "name": "renk",
+                "type": "string"
+              }
+            ],
+            "type": "object",
+            "name": "link"
+          }
+        ],
+        "name": "linkler",
+        "type": "array"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Anasayfa",
+              "value": "anasayfa"
+            },
+            {
+              "title": "Sidebar",
+              "value": "sidebar"
+            },
+            {
+              "title": "Footer",
+              "value": "footer"
+            },
+            {
+              "title": "Etkinlikler",
+              "value": "etkinlikler"
+            }
+          ],
+          "layout": "radio"
+        },
+        "name": "konum",
+        "type": "string"
+      },
+      {
+        "initialValue": true,
+        "name": "aktif",
+        "type": "boolean"
+      }
+    ],
+    "name": "linkKutusu",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Örn: \"Yeni videomuz yayında →\"",
+        "name": "metin",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Tıklanınca gidilecek sayfa",
+        "name": "link",
+        "type": "url"
+      },
+      {
+        "initialValue": true,
+        "description": "Göster / Gizle",
+        "name": "aktif",
+        "type": "boolean"
+      },
+      {
+        "description": "Sıralama (küçükten büyüğe)",
+        "name": "sira",
+        "type": "number",
+        "title": "Sıra"
+      }
+    ],
+    "name": "duyuru",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Örn: \"Nisan 2025\"",
+        "name": "ay",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Örn: \"Savaş Psikolojisi\"",
+        "name": "tema",
+        "type": "string"
+      },
+      {
+        "description": "Kısa açıklama",
+        "name": "aciklama",
+        "type": "string",
+        "title": "Açıklama"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "gorsel",
+        "type": "image",
+        "title": "Görsel"
+      }
+    ],
+    "name": "ayinTemasi",
+    "type": "document",
+    "title": "Ayın Teması"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "options": {
+          "source": "baslik",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 6,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "aciklama",
+        "type": "text",
+        "title": "Açıklama"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "afis",
+        "type": "image",
+        "title": "Afiş (Instagram görseli)"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Akademi",
+              "value": "Akademi"
+            },
+            {
+              "title": "İçerik",
+              "value": "Icerik"
+            },
+            {
+              "title": "Proje",
+              "value": "Proje"
+            },
+            {
+              "title": "Eğitim & Gelişim",
+              "value": "EgitimGelisim"
+            },
+            {
+              "title": "Yayın",
+              "value": "Yayin"
+            },
+            {
+              "title": "Prodüksiyon",
+              "value": "Produksiyon"
+            }
+          ],
+          "layout": "dropdown"
+        },
+        "name": "birim",
+        "type": "string"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Üye Alımı",
+              "value": "UyeAlimi"
+            },
+            {
+              "title": "Staj",
+              "value": "Staj"
+            },
+            {
+              "title": "Gönüllü",
+              "value": "Gonullu"
+            },
+            {
+              "title": "Diğer",
+              "value": "Diger"
+            }
+          ],
+          "layout": "radio"
+        },
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "sonTarih",
+        "type": "datetime",
+        "title": "Son başvuru tarihi"
+      },
+      {
+        "initialValue": true,
+        "name": "aktif",
+        "type": "boolean"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Başvuruları görüntülemek için admin linki",
+        "name": "basvuruListesiLinki",
+        "type": "url",
+        "title": "Başvuru Listesi Linki"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "soru",
+                "type": "string",
+                "title": "Soru metni"
+              },
+              {
+                "options": {
+                  "list": [
+                    {
+                      "title": "Kısa metin",
+                      "value": "kisa-metin"
+                    },
+                    {
+                      "title": "Uzun metin",
+                      "value": "uzun-metin"
+                    },
+                    {
+                      "title": "Seçenekli",
+                      "value": "secenekli"
+                    }
+                  ],
+                  "layout": "radio"
+                },
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "valid",
+                        "constraint": [
+                          "kisa-metin",
+                          "uzun-metin",
+                          "secenekli"
+                        ]
+                      },
+                      {
+                        "flag": "presence",
+                        "constraint": "required"
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "tip",
+                "type": "string",
+                "title": "Soru tipi"
+              },
+              {
+                "of": [
+                  {
+                    "type": "string"
+                  }
+                ],
+                "hidden": "conditional",
+                "name": "secenekler",
+                "type": "array",
+                "title": "Seçenekler"
+              },
+              {
+                "initialValue": false,
+                "name": "zorunlu",
+                "type": "boolean"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "sorular",
+        "type": "array",
+        "title": "Başvuru soruları"
+      }
+    ],
+    "name": "ilan",
+    "type": "document",
+    "title": "İlan"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "to": [
+          {
+            "type": "ilan"
+          }
+        ],
+        "name": "ilan",
+        "type": "reference",
+        "title": "İlan"
+      },
+      {
+        "readOnly": true,
+        "name": "tarih",
+        "type": "datetime"
+      },
+      {
+        "of": [
+          {
+            "fields": [
+              {
+                "name": "soru",
+                "type": "string"
+              },
+              {
+                "name": "cevap",
+                "type": "text"
+              },
+              {
+                "validation": [
+                  {
+                    "rules": [
+                      {
+                        "flag": "uri",
+                        "constraint": {
+                          "options": {
+                            "scheme": [
+                              "/^http$/",
+                              "/^https$/"
+                            ],
+                            "allowRelative": false,
+                            "relativeOnly": false,
+                            "allowCredentials": false
+                          }
+                        }
+                      }
+                    ],
+                    "level": "error"
+                  }
+                ],
+                "name": "dosyaUrl",
+                "type": "url",
+                "title": "Dosya URL"
+              }
+            ],
+            "type": "object"
+          }
+        ],
+        "name": "cevaplar",
+        "type": "array"
+      },
+      {
+        "of": [
+          {
+            "type": "file"
+          }
+        ],
+        "name": "dosyalar",
+        "type": "array",
+        "title": "Yüklenen Dosyalar"
+      }
+    ],
+    "name": "basvuru",
+    "type": "document",
+    "title": "Başvuru"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "options": {
+          "source": "baslik",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "name": "altBaslik",
+        "type": "string",
+        "title": "Alt Başlık"
+      },
+      {
+        "name": "yil",
+        "type": "string",
+        "title": "Yıl"
+      },
+      {
+        "name": "tarih",
+        "type": "string"
+      },
+      {
+        "rows": 4,
+        "name": "ozet",
+        "type": "text",
+        "title": "Özet"
+      },
+      {
+        "rows": 3,
+        "name": "hedef",
+        "type": "text"
+      },
+      {
+        "name": "katilimciSayisi",
+        "type": "number",
+        "title": "Katılımcı Sayısı"
+      },
+      {
+        "description": "e.g. \"10-14 yaş\"",
+        "name": "yasGrubu",
+        "type": "string",
+        "title": "Yaş Grubu"
+      },
+      {
+        "description": "e.g. \"Ortaokul sınıfı\", \"Online\"",
+        "name": "mekan",
+        "type": "string"
+      },
+      {
+        "description": "e.g. \"Atölye\", \"Rol canlandırma\", \"Anket\"",
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "yontemler",
+        "type": "array",
+        "title": "Yöntemler"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "bulgular",
+        "type": "array"
+      },
+      {
+        "rows": 4,
+        "name": "sonuclar",
+        "type": "text",
+        "title": "Sonuçlar"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "kapakGorseli",
+        "type": "image",
+        "title": "Kapak Görseli"
+      },
+      {
+        "of": [
+          {
+            "options": {
+              "hotspot": true
+            },
+            "type": "image"
+          }
+        ],
+        "name": "gorselGalerisi",
+        "type": "array",
+        "title": "Görsel Galerisi"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "pdfUrl",
+        "type": "url",
+        "title": "PDF URL"
+      },
+      {
+        "name": "sayfaSayisi",
+        "type": "number",
+        "title": "Sayfa Sayısı"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "hazirlayanlar",
+        "type": "array",
+        "title": "Hazırlayanlar"
+      },
+      {
+        "name": "editor",
+        "type": "string",
+        "title": "Editör"
+      },
+      {
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "danismanlar",
+        "type": "array",
+        "title": "Danışmanlar"
+      },
+      {
+        "to": [
+          {
+            "type": "proje"
+          }
+        ],
+        "name": "ilgiliProje",
+        "type": "reference",
+        "title": "İlgili Proje"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaBaslik",
+        "type": "string",
+        "title": "SEO Meta Başlık"
+      },
+      {
+        "rows": 2,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaAciklama",
+        "type": "text",
+        "title": "SEO Meta Açıklama"
+      },
+      {
+        "options": {
+          "layout": "tags"
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "anahtarKelimeler",
+        "type": "array"
+      }
+    ],
+    "name": "projeRaporu",
+    "type": "document"
+  },
+  {
+    "fields": [
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "baslik",
+        "type": "string",
+        "title": "Başlık"
+      },
+      {
+        "options": {
+          "source": "baslik",
+          "maxLength": 96
+        },
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "custom"
+              },
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "slug",
+        "type": "slug"
+      },
+      {
+        "rows": 3,
+        "name": "ozet",
+        "type": "text",
+        "title": "Özet"
+      },
+      {
+        "name": "icerik",
+        "type": "text",
+        "title": "İçerik"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "presence",
+                "constraint": "required"
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "tarih",
+        "type": "date"
+      },
+      {
+        "options": {
+          "list": [
+            {
+              "title": "Araştırma",
+              "value": "Arastirma"
+            },
+            {
+              "title": "Klinik",
+              "value": "Klinik"
+            },
+            {
+              "title": "Gelişim",
+              "value": "Gelisim"
+            },
+            {
+              "title": "Sosyal",
+              "value": "Sosyal"
+            },
+            {
+              "title": "Güncel",
+              "value": "Guncel"
+            }
+          ],
+          "layout": "radio"
+        },
+        "name": "kategori",
+        "type": "string"
+      },
+      {
+        "options": {
+          "hotspot": true
+        },
+        "name": "kapakGorseli",
+        "type": "image",
+        "title": "Kapak Görseli"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Otomatik çekilen görsel URL'si",
+        "name": "kapakGorseliUrl",
+        "type": "url",
+        "title": "Kapak Görseli URL"
+      },
+      {
+        "description": "Haberin yazarı veya kaynak kişisi (isteğe bağlı)",
+        "to": [
+          {
+            "type": "ekipUyesi"
+          }
+        ],
+        "name": "yazar",
+        "type": "reference",
+        "title": "Yazar / Kaynak Kişi"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "uri",
+                "constraint": {
+                  "options": {
+                    "scheme": [
+                      "/^http$/",
+                      "/^https$/"
+                    ],
+                    "allowRelative": false,
+                    "relativeOnly": false,
+                    "allowCredentials": false
+                  }
+                }
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "description": "Harici kaynak bağlantısı (varsa tıklanınca bu açılır)",
+        "name": "kaynak",
+        "type": "url",
+        "title": "Kaynak URL"
+      },
+      {
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 60
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaBaslik",
+        "type": "string",
+        "title": "SEO Meta Başlık"
+      },
+      {
+        "rows": 2,
+        "validation": [
+          {
+            "rules": [
+              {
+                "flag": "max",
+                "constraint": 160
+              }
+            ],
+            "level": "error"
+          }
+        ],
+        "name": "metaAciklama",
+        "type": "text",
+        "title": "SEO Meta Açıklama"
+      },
+      {
+        "options": {
+          "layout": "tags"
+        },
+        "of": [
+          {
+            "type": "string"
+          }
+        ],
+        "name": "anahtarKelimeler",
+        "type": "array"
+      }
+    ],
+    "name": "haber",
+    "type": "document"
+  }
+]
