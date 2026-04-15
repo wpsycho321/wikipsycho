@@ -1,7 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
-import { client } from "@/lib/sanity";
+import { createClient } from "next-sanity";
+import { apiVersion, dataset, projectId } from "@/sanity/env";
 
 export async function POST(req: NextRequest) {
+  const token = process.env.SANITY_API_TOKEN;
+  if (!token) {
+    return NextResponse.json(
+      { error: "SANITY_API_TOKEN tanımlı değil" },
+      { status: 500 }
+    );
+  }
+
+  const client = createClient({
+    projectId: projectId!,
+    dataset: dataset!,
+    apiVersion,
+    token,
+    useCdn: false,
+  });
+
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
@@ -16,7 +33,10 @@ export async function POST(req: NextRequest) {
     });
 
     return NextResponse.json({ url: asset.url });
-  } catch {
-    return NextResponse.json({ error: "Yükleme hatası" }, { status: 500 });
+  } catch (err) {
+    return NextResponse.json(
+      { error: err instanceof Error ? err.message : "Yükleme hatası" },
+      { status: 500 }
+    );
   }
 }
