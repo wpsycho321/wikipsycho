@@ -4,7 +4,7 @@ import { apiVersion, dataset, projectId } from "@/sanity/env";
 
 type Body = {
   ilanSlug: string;
-  cevaplar: { soru: string; cevap: string }[];
+  cevaplar: { soru: string; cevap: string; dosyaUrl?: string }[];
 };
 
 export async function POST(request: Request) {
@@ -55,7 +55,7 @@ export async function POST(request: Request) {
       cevaplar: cevaplar.map((c) => ({
         _key: Math.random().toString(36).slice(2),
         soru: c.soru,
-        cevap: c.cevap,
+        cevap: c.dosyaUrl ? c.dosyaUrl : c.cevap,
       })),
     };
 
