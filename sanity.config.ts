@@ -13,6 +13,7 @@ import {apiVersion, dataset, projectId} from './sanity/env'
 import {schema} from './sanity/schemaTypes'
 import {structure} from './sanity/structure'
 import {AiDoldurAction} from './sanity/components/AiDoldurButon'
+import {BasvurulariGorAction} from './sanity/components/BasvurulariGorAction'
 
 // Test: basit aksiyon kayıt kontrolü için (çalışıyorsa menüde "Test Action" görünür)
 function TestAction() {
@@ -32,9 +33,12 @@ export default defineConfig([
     schema,
     document: {
       actions: (prev, { schemaType }) => {
-        const types = ['yazi', 'proje', 'eyayin', 'etkinlik']
-        if (schemaType && types.includes(schemaType)) {
+        const aiTypes = ['yazi', 'proje', 'eyayin', 'etkinlik']
+        if (schemaType && aiTypes.includes(schemaType)) {
           return [...prev, TestAction, AiDoldurAction]
+        }
+        if (schemaType === 'basvuru') {
+          return [...prev, BasvurulariGorAction]
         }
         return prev
       },
