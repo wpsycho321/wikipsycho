@@ -31,10 +31,7 @@ export function BasvurulariGorAction(props: {
       );
       const slug = ilan?.slug?.current;
       if (slug) {
-        window.open(
-          `https://wikipsycho.org.tr/ilanlar/${slug}/basvurular?token=wpadmin2024`,
-          "_blank"
-        );
+        window.location.href = `https://wikipsycho.org.tr/ilanlar/${slug}/basvurular?token=wpadmin2024`;
       }
     },
   };
