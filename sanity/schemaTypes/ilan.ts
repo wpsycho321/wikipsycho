@@ -97,6 +97,7 @@ export default defineType({
                   { title: "Kısa metin", value: "kisa-metin" },
                   { title: "Uzun metin", value: "uzun-metin" },
                   { title: "Seçenekli", value: "secenekli" },
+                  { title: "Dosya Yükleme", value: "dosya" },
                 ],
                 layout: "radio",
               },
