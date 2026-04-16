@@ -3,6 +3,7 @@
 import { Playfair_Display } from 'next/font/google';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import { client } from '@/lib/sanity';
 import { etkinliklerQuery } from '@/lib/queries';
 
@@ -18,6 +19,13 @@ type Etkinlik = {
   aciklama?: string;
   gorsel?: string;
   durum?: string;
+  sorumlular?: {
+    _id: string;
+    isim?: string;
+    unvan?: string;
+    slug?: string;
+    fotograf?: string;
+  }[];
 };
 
 function formatTarih(tarih: string | undefined) {
@@ -210,6 +218,49 @@ export default function EtkinliklerPage() {
                 <p className="mt-6 font-serif text-base leading-relaxed text-gray-700">
                   {selected.aciklama}
                 </p>
+              )}
+
+              {selected.sorumlular && selected.sorumlular.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="font-sans text-xs uppercase tracking-[0.2em] text-gray-400">
+                    Etkinlik Sorumluları
+                  </h3>
+                  <div className="mt-3 space-y-3">
+                    {selected.sorumlular.map((kisi) => (
+                      <Link
+                        key={kisi._id}
+                        href={`/ekip/${kisi.slug ?? ''}`}
+                        className="flex items-center gap-3 group"
+                      >
+                        {kisi.fotograf ? (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            src={kisi.fotograf}
+                            alt={kisi.isim ?? 'Sorumlu'}
+                            className="h-10 w-10 rounded-full object-cover"
+                          />
+                        ) : (
+                          <div className="h-10 w-10 rounded-full bg-gray-200 flex items-center justify-center font-sans text-sm text-gray-500">
+                            {kisi.isim?.charAt(0)}
+                          </div>
+                        )}
+                        <div>
+                          <p className="font-bold group-hover:underline">
+                            {kisi.isim}
+                          </p>
+                          {kisi.unvan && (
+                            <p className="font-sans text-xs text-gray-500">
+                              {kisi.unvan}
+                            </p>
+                          )}
+                        </div>
+                        <span className="ml-auto font-sans text-xs text-gray-400 group-hover:text-black">
+                          Profil →
+                        </span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
               )}
             </div>
           </div>

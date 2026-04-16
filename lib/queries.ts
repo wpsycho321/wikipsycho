@@ -179,7 +179,8 @@ export const eyayinlarHomepageQuery = `*[_type == "eyayin"] | order(tarih desc) 
 export const etkinliklerQuery = `*[_type == "etkinlik"] | order(tarih asc) {
   _id, baslik, slug, tarih, konum, kategori, aciklama,
   "gorsel": gorsel.asset->url,
-  durum
+  durum,
+  "sorumlular": sorumlular[]->{ _id, isim, unvan, "slug": slug.current, "fotograf": fotograf.asset->url }
 }`
 
 
