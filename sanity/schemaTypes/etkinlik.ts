@@ -70,5 +70,11 @@ export default defineType({
         layout: "radio",
       },
     }),
+    defineField({
+      name: "sorumlular",
+      title: "Etkinlik Sorumluları",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "ekipUyesi" }] }],
+    }),
   ],
 });
