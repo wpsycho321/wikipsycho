@@ -34,7 +34,7 @@ function slugToPathSegment(raw: string) {
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const [yaziDocs, haberDocs] = await Promise.all([
+  const [yaziDocs, haberDocs, ekipDocs] = await Promise.all([
     client
       .fetch<Array<{ slug?: string | null; _updatedAt?: string }>>(
         `*[_type == "yazi" && defined(slug.current)]{ "slug": slug.current, _updatedAt }`,
@@ -43,6 +43,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     client
       .fetch<Array<{ slug?: string | null; _updatedAt?: string }>>(
         `*[_type == "haber" && defined(slug.current)]{ "slug": slug.current, _updatedAt }`,
+      )
+      .catch(() => []),
+    client
+      .fetch<Array<{ slug?: string | null; _updatedAt?: string }>>(
+        `*[_type == "ekipUyesi" && aktif == true]{ "slug": slug.current, _updatedAt }`,
       )
       .catch(() => []),
   ]);
@@ -80,5 +85,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     })
     .filter((e): e is NonNullable<typeof e> => e !== null);
 
-  return [...staticEntries, ...yaziEntries, ...haberEntries];
+  const ekipEntries: MetadataRoute.Sitemap = ekipDocs
+    .map((doc) => {
+      const s = doc.slug != null ? slugToPathSegment(String(doc.slug)) : "";
+      if (!s) return null;
+      return {
+        url: `${BASE}/ekip/${encodeURIComponent(s)}`,
+        lastModified: doc._updatedAt ? new Date(doc._updatedAt) : new Date(),
+        changeFrequency: "weekly" as const,
+        priority: 0.7,
+      };
+    })
+    .filter((e): e is NonNullable<typeof e> => e !== null);
+
+  return [...staticEntries, ...yaziEntries, ...haberEntries, ...ekipEntries];
 }
