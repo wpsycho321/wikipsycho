@@ -167,6 +167,43 @@ export default async function YazıDetayPage({
                   ) : null}
                 </div>
               )}
+              {yazi.yazar && (
+                <div className="border-b border-gray-100 px-6 py-6 lg:hidden">
+                  <div className="flex items-center gap-4">
+                    {yazi.yazar.fotograf ? (
+                      <div className="relative h-12 w-12 flex-shrink-0 overflow-hidden rounded-full">
+                        <Image
+                          src={yazi.yazar.fotograf}
+                          alt={yazi.yazar.isim ?? "Yazar"}
+                          fill
+                          className="object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="h-12 w-12 flex-shrink-0 rounded-full bg-gray-200" />
+                    )}
+                    <div>
+                      <p className="font-sans text-xs uppercase tracking-wide text-gray-500">
+                        Yazan
+                      </p>
+                      <p className="font-bold">{yazi.yazar.isim ?? ""}</p>
+                      {yazi.yazar.unvan && (
+                        <p className="font-sans text-xs text-gray-500">
+                          {yazi.yazar.unvan}
+                        </p>
+                      )}
+                    </div>
+                    {yazarSlug && (
+                      <Link
+                        href={`/ekip/${yazarSlug}`}
+                        className="ml-auto font-sans text-xs text-gray-400 underline hover:text-black"
+                      >
+                        Profil →
+                      </Link>
+                    )}
+                  </div>
+                </div>
+              )}
               {yazi.icerik && yazi.icerik.length > 0 ? (
                 <article className="font-serif [&_p]:mb-8 [&_p]:text-lg [&_p]:leading-relaxed [&_blockquote]:mb-8 [&_blockquote]:border-l-4 [&_blockquote]:border-black [&_blockquote]:bg-gray-50 [&_blockquote]:py-6 [&_blockquote]:pl-6 [&_blockquote]:pr-6 [&_blockquote]:font-serif [&_blockquote]:text-2xl [&_blockquote]:italic">
                   <PortableText value={yazi.icerik as PortableTextBlock[]} />
