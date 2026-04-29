@@ -165,7 +165,7 @@ export const oncuYazarQuery = `*[_type == "ekipUyesi" && yazarGoster == true && 
   }
 }`
 
-export const yazilarHomepageQuery = `*[_type == "yazi" && durum == "yayinda"] | order(tarih desc) [0...7] {
+export const yazilarHomepageQuery = `*[_type == "yazi" && durum == "yayinda"] | order(tarih desc) [0..3] {
   _id, baslik, slug, tarih, kategori, ozet,
   "kapakGorseli": kapakGorseli.asset->url,
   "yazar": yazar->{ isim, unvan }
@@ -199,7 +199,7 @@ export const ilanBySlugQuery = `*[_type == "ilan" && slug.current == $slug][0] {
   "afis": afis.asset->url
 }`
 
-export const haberlerHomepageQuery = `*[_type == "haber"] | order(tarih desc, _createdAt desc) [0..2] {
+export const haberlerHomepageQuery = `*[_type == "haber"] | order(tarih desc, _createdAt desc) [0..9] {
   _id, baslik, slug, ozet, tarih, kategori,
   "kapakGorseli": kapakGorseli.asset->url,
   kaynak,
