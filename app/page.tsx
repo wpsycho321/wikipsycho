@@ -146,6 +146,13 @@ export default async function Home() {
   const sonEyayinCard = Array.isArray(eyayinlarRes) ? eyayinlarRes[0] : eyayinlarRes;
   const sonProje = Array.isArray(projelerRes) ? projelerRes[0] : null;
   const sonEtkinlik = Array.isArray(etkinliklerRes) ? etkinliklerRes[0] : null;
+  const ikinciEtkinlik = Array.isArray(etkinliklerRes)
+    ? etkinliklerRes[1]
+    : null;
+  const ucuncuEtkinlik = Array.isArray(etkinliklerRes)
+    ? etkinliklerRes[2]
+    : null;
+  const sonYazi = yazilar[0] ?? null;
 
   function getSlug(slug: { current: string } | string | undefined) {
     return typeof slug === "string" ? slug : slug?.current ?? "";
@@ -181,6 +188,36 @@ export default async function Home() {
         sonEtkinlik.gorsel ??
         "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800",
       href: `/hakkimizda/etkinlikler/${getSlug(sonEtkinlik.slug)}`,
+    },
+    ikinciEtkinlik && {
+      tag: "ETKİNLİK",
+      title: ikinciEtkinlik.baslik,
+      description: ikinciEtkinlik.aciklama ?? "",
+      meta: (formatTarih(ikinciEtkinlik.tarih) || ikinciEtkinlik.konum) ?? "",
+      image:
+        ikinciEtkinlik.gorsel ??
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800",
+      href: `/hakkimizda/etkinlikler`,
+    },
+    ucuncuEtkinlik && {
+      tag: "ETKİNLİK",
+      title: ucuncuEtkinlik.baslik,
+      description: ucuncuEtkinlik.aciklama ?? "",
+      meta: (formatTarih(ucuncuEtkinlik.tarih) || ucuncuEtkinlik.konum) ?? "",
+      image:
+        ucuncuEtkinlik.gorsel ??
+        "https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=800",
+      href: `/hakkimizda/etkinlikler`,
+    },
+    sonYazi && {
+      tag: "YAZI",
+      title: sonYazi.baslik,
+      description: sonYazi.ozet ?? "",
+      meta: sonYazi.yazar?.isim ?? "",
+      image:
+        sonYazi.kapakGorseli ??
+        "https://images.unsplash.com/photo-1516302752625-fcc3c50ae61f?w=800",
+      href: `/yazilar/${getSlug(sonYazi.slug)}`,
     },
   ].filter(Boolean) as { tag: string; title: string; description: string; meta: string; image: string; href: string }[];
 
