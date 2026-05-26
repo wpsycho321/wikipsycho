@@ -195,7 +195,7 @@ export default async function YazıDetayPage({
                     </div>
                     {yazarSlug && (
                       <Link
-                        href={`/ekip/${yazarSlug}`}
+                        href={`/bagimsiz-yazar/${yazarSlug}`}
                         className="ml-auto font-sans text-xs text-gray-400 underline hover:text-black"
                       >
                         Profil →
@@ -242,7 +242,7 @@ export default async function YazıDetayPage({
                 )}
                 {yazarSlug && (
                   <Link
-                    href={`/ekip/${yazarSlug}`}
+                    href={`/bagimsiz-yazar/${yazarSlug}`}
                     className="mt-4 block text-sm underline hover:no-underline"
                   >
                     Profili gör →
