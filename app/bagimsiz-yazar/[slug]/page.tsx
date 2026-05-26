@@ -25,6 +25,7 @@ export default async function BagimsizYazarPage({
     .fetch<{
       isim?: string;
       unvan?: string;
+      wikiRolu?: string;
       biyografi?: string;
       foto?: string;
       sosyalMedya?: SosyalMedya;
@@ -49,6 +50,16 @@ export default async function BagimsizYazarPage({
                 {yazar.unvan}
               </p>
             )}
+            <div className="mt-3 flex flex-wrap gap-2">
+              <span className="inline-block border border-black px-3 py-1 font-sans text-xs uppercase tracking-[0.2em]">
+                WikiPsycho Yazarı
+              </span>
+              {yazar.wikiRolu && (
+                <span className="inline-block border border-gray-400 px-3 py-1 font-sans text-xs uppercase tracking-[0.2em] text-gray-600">
+                  {yazar.wikiRolu}
+                </span>
+              )}
+            </div>
             <div className="mt-4 flex gap-3">
               {hasTwitter && (
                 <a

@@ -25,6 +25,13 @@ export default defineType({
       description: 'Psikolog, Araştırmacı vb.',
     }),
     defineField({
+      name: 'wikiRolu',
+      title: 'Wiki Rolü',
+      type: 'string',
+      description:
+        'Örn: İçerik Birimi Üyesi, Akademi Birimi Üyesi. Boş bırakılırsa sadece "WikiPsycho Yazarı" gösterilir.',
+    }),
+    defineField({
       name: 'biyografi',
       title: 'Biyografi',
       type: 'text',

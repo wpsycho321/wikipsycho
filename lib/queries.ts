@@ -30,7 +30,7 @@ export const bagimsizYazarlarQuery = `*[_type == "bagimsizYazar" && aktif == tru
 }`
 
 export const bagimsizYazarBySlugQuery = `*[_type == "bagimsizYazar" && slug.current == $slug][0] {
-  isim, unvan, biyografi,
+  isim, unvan, wikiRolu, biyografi,
   "foto": fotograf.asset->url,
   sosyalMedya
 }`
