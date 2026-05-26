@@ -109,7 +109,11 @@ export default function YazilarClient({
   const kategoriler = useMemo(() => getUniqueKategoriler(yazilar), [yazilar]);
   const tabs = ["Tümü", ...kategoriler.map((k) => KATEGORI_DISPLAY[k] ?? k)];
 
-  const [anaSekme, setAnaSekme] = useState<"Yazılar" | "Yazarlar">("Yazılar");
+  const [anaSekme, setAnaSekme] = useState<"Yazılar" | "Yazarlar">(() => {
+    if (typeof window !== "undefined" && window.location.hash === "#yazarlar")
+      return "Yazarlar";
+    return "Yazılar";
+  });
   const [seciliTab, setSeciliTab] = useState("Tümü");
 
   const seciliKategoriValue =
@@ -142,7 +146,12 @@ export default function YazilarClient({
             <button
               key={tab}
               type="button"
-              onClick={() => setAnaSekme(tab)}
+              onClick={() => {
+                setAnaSekme(tab);
+                if (typeof window !== "undefined")
+                  window.location.hash =
+                    tab === "Yazarlar" ? "yazarlar" : "yazilar";
+              }}
               className={`border-b-[3px] py-4 font-playfair text-3xl font-bold transition-colors md:text-4xl ${
                 anaSekme === tab
                   ? "border-black text-black"

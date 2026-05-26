@@ -41,7 +41,7 @@ export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(b
 }`;
 
 export const ekipUyesiBySlugQuery = `*[_type == "ekipUyesi" && slug.current == $slug][0] {
-  isim, rol, unvan,
+  isim, rol, unvan, yazarGoster,
   "sifat": sifat->ad,
   biyografi,
   "foto": fotograf.asset->url,

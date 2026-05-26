@@ -27,6 +27,7 @@ export default async function EkipProfilePage({
       isim?: string;
       rol?: string;
       unvan?: string;
+      yazarGoster?: boolean;
       sifat?: string;
       biyografi?: string;
       foto?: string;
@@ -60,6 +61,13 @@ export default async function EkipProfilePage({
             <p className="mt-2 font-serif text-2xl italic text-gray-600">
               {[uye.sifat, uye.unvan].filter(Boolean).join(" · ")}
             </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {uye.yazarGoster && (
+                <span className="inline-block border border-black px-3 py-1 font-sans text-xs uppercase tracking-[0.2em]">
+                  WikiPsycho Yazarı
+                </span>
+              )}
+            </div>
             <div className="mt-4 flex gap-3">
               {hasTwitter && (
                 <a
