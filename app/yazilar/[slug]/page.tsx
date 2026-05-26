@@ -40,6 +40,7 @@ type Yazi = {
   sesUrl?: string;
   sesDosyasiUrl?: string;
   yazar?: {
+    _type?: string;
     isim?: string;
     unvan?: string;
     biyografi?: string;
@@ -83,6 +84,11 @@ export default async function YazıDetayPage({
       ? yazi.yazar.slug.current
       : String(yazi.yazar.slug)
     : null;
+  const yazarTip = yazi.yazar?._type;
+  const yazarHref =
+    yazarTip === "ekipUyesi"
+      ? `/ekip/${yazarSlug}`
+      : `/bagimsiz-yazar/${yazarSlug}`;
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -195,7 +201,7 @@ export default async function YazıDetayPage({
                     </div>
                     {yazarSlug && (
                       <Link
-                        href={`/bagimsiz-yazar/${yazarSlug}`}
+                        href={yazarHref}
                         className="ml-auto font-sans text-xs text-gray-400 underline hover:text-black"
                       >
                         Profil →
@@ -242,7 +248,7 @@ export default async function YazıDetayPage({
                 )}
                 {yazarSlug && (
                   <Link
-                    href={`/bagimsiz-yazar/${yazarSlug}`}
+                    href={yazarHref}
                     className="mt-4 block text-sm underline hover:no-underline"
                   >
                     Profili gör →

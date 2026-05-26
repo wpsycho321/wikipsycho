@@ -8,7 +8,7 @@ export const yaziBySlugQuery = `*[_type == "yazi" && slug.current == $slug][0] {
   "kapakGorseli": kapakGorseli.asset->url,
   "sesUrl": ses.asset->url,
   sesDosyasiUrl,
-  "yazar": yazar->{ isim, unvan, biyografi, slug, "fotograf": fotograf.asset->url, sosyalMedya }
+  "yazar": yazar->{ _type, isim, unvan, biyografi, slug, "fotograf": fotograf.asset->url, sosyalMedya }
 }`;
 
 export const yazilarListQuery = `*[_type == "yazi"] | order(tarih desc) {
