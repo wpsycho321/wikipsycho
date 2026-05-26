@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Playfair_Display } from "next/font/google";
 import { client } from "@/lib/sanity";
 import {
@@ -21,12 +22,14 @@ export default async function YazilarPage() {
 
   return (
     <main className={`${playfair.className} min-h-screen bg-white`}>
-      <YazilarClient
-        yazilar={yazilar}
-        haberler={haberler}
-        yazarlar={yazarlar}
-        bagimsizYazarlar={bagimsizYazarlar}
-      />
+      <Suspense fallback={null}>
+        <YazilarClient
+          yazilar={yazilar}
+          haberler={haberler}
+          yazarlar={yazarlar}
+          bagimsizYazarlar={bagimsizYazarlar}
+        />
+      </Suspense>
     </main>
   );
 }

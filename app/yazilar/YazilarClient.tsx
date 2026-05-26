@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 
@@ -106,14 +107,28 @@ export default function YazilarClient({
   yazarlar,
   bagimsizYazarlar,
 }: Props) {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
+
+  const anaSekme = (
+    searchParams.get("sekme") === "yazarlar" ? "Yazarlar" : "Yazılar"
+  ) as "Yazılar" | "Yazarlar";
+
+  function setAnaSekme(tab: "Yazılar" | "Yazarlar") {
+    const params = new URLSearchParams(searchParams.toString());
+    if (tab === "Yazarlar") {
+      params.set("sekme", "yazarlar");
+    } else {
+      params.delete("sekme");
+    }
+    const qs = params.toString();
+    router.push(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+  }
+
   const kategoriler = useMemo(() => getUniqueKategoriler(yazilar), [yazilar]);
   const tabs = ["Tümü", ...kategoriler.map((k) => KATEGORI_DISPLAY[k] ?? k)];
 
-  const [anaSekme, setAnaSekme] = useState<"Yazılar" | "Yazarlar">(() => {
-    if (typeof window !== "undefined" && window.location.hash === "#yazarlar")
-      return "Yazarlar";
-    return "Yazılar";
-  });
   const [seciliTab, setSeciliTab] = useState("Tümü");
 
   const seciliKategoriValue =
@@ -146,12 +161,7 @@ export default function YazilarClient({
             <button
               key={tab}
               type="button"
-              onClick={() => {
-                setAnaSekme(tab);
-                if (typeof window !== "undefined")
-                  window.location.hash =
-                    tab === "Yazarlar" ? "yazarlar" : "yazilar";
-              }}
+              onClick={() => setAnaSekme(tab)}
               className={`border-b-[3px] py-4 font-playfair text-3xl font-bold transition-colors md:text-4xl ${
                 anaSekme === tab
                   ? "border-black text-black"
