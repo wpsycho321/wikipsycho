@@ -30,9 +30,16 @@ export const bagimsizYazarlarQuery = `*[_type == "bagimsizYazar" && aktif == tru
 }`
 
 export const bagimsizYazarBySlugQuery = `*[_type == "bagimsizYazar" && slug.current == $slug][0] {
-  isim, unvan, wikiRolu, biyografi,
+  _id, isim, unvan, wikiRolu, biyografi,
   "foto": fotograf.asset->url,
-  sosyalMedya
+  sosyalMedya,
+  "yazilari": *[_type == "yazi" && (
+    references(^._id) ||
+    yazar->slug.current == ^.slug.current
+  ) && (!defined(durum) || durum == "yayinda")] | order(coalesce(tarih, string::split(string(_createdAt), "T")[0]) desc, _createdAt desc) {
+    baslik, slug, kategori, ozet, tarih,
+    "kapak": kapakGorseli.asset->url
+  }
 }`
 
 export const ekibimizQuery = `*[_type == "ekipUyesi" && aktif == true] | order(birim asc, isim asc) {

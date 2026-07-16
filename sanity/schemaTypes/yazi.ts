@@ -25,7 +25,7 @@ export default defineType({
       name: 'yazar',
       title: 'Yazar',
       type: 'reference',
-      to: [{ type: 'yazar' }, { type: 'ekipUyesi' }],
+      to: [{ type: 'yazar' }, { type: 'ekipUyesi' }, { type: 'bagimsizYazar' }],
     }),
     defineField({
       name: 'tarih',

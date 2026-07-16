@@ -3,6 +3,7 @@ import Image from "next/image";
 import { client } from "@/lib/sanity";
 import { bagimsizYazarBySlugQuery } from "@/lib/queries";
 import { notFound } from "next/navigation";
+import EkipTabs from "@/components/EkipTabs";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +30,14 @@ export default async function BagimsizYazarPage({
       biyografi?: string;
       foto?: string;
       sosyalMedya?: SosyalMedya;
+      yazilari?: {
+        baslik: string;
+        slug?: { current: string };
+        kategori?: string;
+        ozet?: string;
+        tarih?: string;
+        kapak?: string;
+      }[];
     } | null>(bagimsizYazarBySlugQuery, { slug })
     .catch(() => null);
 
@@ -38,6 +47,7 @@ export default async function BagimsizYazarPage({
   const hasTwitter = !!sosyal.twitter;
   const hasInstagram = !!sosyal.instagram;
   const hasLinkedIn = !!sosyal.linkedin;
+  const yazilari = yazar.yazilari ?? [];
 
   return (
     <div className={`${playfair.className} min-h-screen bg-white text-black`}>
@@ -143,6 +153,8 @@ export default async function BagimsizYazarPage({
           </div>
         </div>
       </section>
+
+      <EkipTabs yazilari={yazilari} />
     </div>
   );
 }
