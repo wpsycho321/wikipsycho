@@ -1,4 +1,4 @@
-export const yazilarQuery = `*[_type == "yazi"] | order(tarih desc) {
+export const yazilarQuery = `*[_type == "yazi"] | order(coalesce(tarih, string::split(string(_createdAt), "T")[0]) desc, _createdAt desc) {
   _id, baslik, slug, tarih, kategori, ozet, kapakGorseli, birim,
   "yazar": yazar->{ isim, unvan, fotograf }
 }`
@@ -11,7 +11,7 @@ export const yaziBySlugQuery = `*[_type == "yazi" && slug.current == $slug][0] {
   "yazar": yazar->{ _type, isim, unvan, biyografi, slug, "fotograf": fotograf.asset->url, sosyalMedya }
 }`;
 
-export const yazilarListQuery = `*[_type == "yazi"] | order(tarih desc) {
+export const yazilarListQuery = `*[_type == "yazi" && (!defined(durum) || durum == "yayinda")] | order(coalesce(tarih, string::split(string(_createdAt), "T")[0]) desc, _createdAt desc) {
   _id, baslik, slug, tarih, kategori, ozet,
   "kapakGorseli": kapakGorseli.asset->url,
   "yazar": yazar->{ isim, unvan }
@@ -46,7 +46,7 @@ export const ekipUyesiBySlugQuery = `*[_type == "ekipUyesi" && slug.current == $
   biyografi,
   "foto": fotograf.asset->url,
   sosyalMedya,
-  "yazilari": *[_type == "yazi" && references(^._id)] | order(tarih desc) {
+  "yazilari": *[_type == "yazi" && references(^._id)] | order(coalesce(tarih, string::split(string(_createdAt), "T")[0]) desc, _createdAt desc) {
     baslik, slug, kategori, ozet, tarih,
     "kapak": kapakGorseli.asset->url
   }
@@ -159,13 +159,13 @@ export const ayinTemasiQuery = `*[_type == "ayinTemasi"] | order(_createdAt desc
 export const oncuYazarQuery = `*[_type == "ekipUyesi" && yazarGoster == true && aktif == true] | order(sira asc) [0] {
   _id, isim, slug, unvan, biyografi,
   "fotograf": fotograf.asset->url,
-  "yazilari": *[_type == "yazi" && references(^._id) && durum == "yayinda"] | order(tarih desc) [0..3] {
+  "yazilari": *[_type == "yazi" && references(^._id) && durum == "yayinda"] | order(coalesce(tarih, string::split(string(_createdAt), "T")[0]) desc, _createdAt desc) [0..3] {
     baslik, slug, ozet,
     "kapakGorseli": kapakGorseli.asset->url
   }
 }`
 
-export const yazilarHomepageQuery = `*[_type == "yazi" && durum == "yayinda"] | order(tarih desc) [0..3] {
+export const yazilarHomepageQuery = `*[_type == "yazi" && durum == "yayinda"] | order(coalesce(tarih, string::split(string(_createdAt), "T")[0]) desc, _createdAt desc) [0..3] {
   _id, baslik, slug, tarih, kategori, ozet,
   "kapakGorseli": kapakGorseli.asset->url,
   "yazar": yazar->{ isim, unvan }

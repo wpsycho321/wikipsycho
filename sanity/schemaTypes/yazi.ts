@@ -31,6 +31,7 @@ export default defineType({
       name: 'tarih',
       title: 'Tarih',
       type: 'date',
+      initialValue: () => new Date().toISOString().split('T')[0],
     }),
     defineField({
       name: 'kategori',
