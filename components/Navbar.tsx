@@ -170,7 +170,7 @@ export default function Navbar() {
             </button>
           )}
           <Link
-            href="/studio"
+            href="https://panel.wikipsycho.org.tr"
             className="rounded border border-white px-3 py-1.5 font-sans text-xs font-medium transition hover:bg-white/10"
           >
             Ekip Girişi
