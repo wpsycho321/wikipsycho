@@ -19,6 +19,7 @@ const STATIC_PATHS: string[] = [
   "/projeler",
   "/ilanlar",
   "/iletisim",
+  "/wikisosyal",
 ];
 
 function absUrl(path: string) {
