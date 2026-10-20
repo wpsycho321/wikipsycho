@@ -18,6 +18,7 @@ import ilan from "./ilan";
 import basvuru from "./basvuru";
 import projeRaporu from "./projeRaporu";
 import haber from "./haber";
+import wikisosyalBekleyen from "./wikisosyalBekleyen";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
@@ -40,6 +41,7 @@ export const schema: { types: SchemaTypeDefinition[] } = {
     basvuru,
     projeRaporu,
     haber,
+    wikisosyalBekleyen,
   ],
 };
 
