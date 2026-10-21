@@ -288,8 +288,8 @@ export default function Navbar() {
 
       {/* Mobil çekmece */}
       <div
-        className={`fixed right-0 top-0 z-[60] flex h-full w-[85%] max-w-sm flex-col bg-white text-[#111] shadow-2xl transition-transform duration-300 ease-[cubic-bezier(.2,.8,.2,1)] lg:hidden ${
-          isMobileMenuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
+        className={`fixed right-0 top-0 z-[60] flex h-full w-[85%] max-w-sm flex-col bg-white text-[#111] transition-[transform,box-shadow] duration-300 ease-[cubic-bezier(.2,.8,.2,1)] lg:hidden ${
+          isMobileMenuOpen ? "translate-x-0 shadow-2xl" : "pointer-events-none translate-x-full shadow-none"
         }`}
       >
         <div className="flex h-[84px] items-center justify-between border-b border-black/[0.07] px-5">
