@@ -1,11 +1,17 @@
 "use client";
 
-import { Playfair_Display } from "next/font/google";
+import { Figtree, Playfair_Display } from "next/font/google";
 import Link from "next/link";
 import { useState } from "react";
 
 const playfair = Playfair_Display({
-  subsets: ["latin"],
+  subsets: ["latin", "latin-ext"],
+});
+
+// Menü yazıları: küçük boyda ve siyah zeminde net okunan sade tip. Logo Playfair'de kalır.
+const figtree = Figtree({
+  subsets: ["latin", "latin-ext"],
+  weight: ["400", "500", "600"],
 });
 
 const navItems = [
@@ -50,13 +56,13 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`${playfair.className} sticky top-0 z-50 bg-black text-white`}
+      className={`${figtree.className} sticky top-0 z-50 bg-black text-white`}
     >
       <div className="relative z-[55] mx-auto flex max-w-7xl items-center justify-between bg-black px-4 py-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link
           href="/"
-          className="text-xl font-semibold tracking-tight hover:text-white/90"
+          className={`${playfair.className} text-xl font-semibold tracking-tight hover:text-white/90`}
         >
           WikiPsycho
         </Link>
@@ -71,7 +77,7 @@ export default function Navbar() {
               >
                 <button
                   type="button"
-                  className="flex items-center gap-1 text-sm hover:text-white/90"
+                  className="flex items-center gap-1 text-[15px] font-medium hover:text-white/80"
                 >
                   {item.label}
                   <svg
@@ -106,7 +112,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className="text-sm hover:text-white/90"
+                className="text-[15px] font-medium hover:text-white/80"
               >
                 {item.label}
               </Link>
@@ -271,7 +277,7 @@ export default function Navbar() {
         }`}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-4 py-4">
-          <span className="text-lg font-semibold">Menü</span>
+          <span className={`${playfair.className} text-lg font-semibold`}>Menü</span>
           <button
             type="button"
             onClick={() => {
