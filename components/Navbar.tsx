@@ -1,6 +1,7 @@
 "use client";
 
 import { Figtree, Playfair_Display } from "next/font/google";
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -141,15 +142,17 @@ export default function Navbar() {
         @media (prefers-reduced-motion: reduce){.ws-dugme,.ws-parilti{animation:none}}
       `}</style>
 
-      <div className="relative z-[55] mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
+      <div className="relative z-[55] mx-auto flex h-[92px] max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="group/logo flex shrink-0 items-center gap-2.5">
-          <span
-            className={`${playfair.className} flex h-8 w-8 items-center justify-center rounded-[9px] bg-black text-[17px] font-bold text-white transition-transform duration-300 group-hover/logo:-rotate-6`}
-          >
-            W
-          </span>
-          <span className={`${playfair.className} text-[22px] font-bold tracking-tight`}>WikiPsycho</span>
+        <Link href="/" className="group/logo flex shrink-0 items-center" aria-label="WikiPsycho ana sayfa">
+          <Image
+            src="/logo-wikipsycho.svg"
+            alt="WikiPsycho"
+            width={172}
+            height={37}
+            priority
+            className="h-[37px] w-auto transition-opacity duration-300 group-hover/logo:opacity-70"
+          />
         </Link>
 
         {/* Masaüstü menü */}
@@ -161,7 +164,7 @@ export default function Navbar() {
               <div key={item.label} className="group/oge relative isolate">
                 <button
                   type="button"
-                  className={`relative flex items-center gap-1 rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors duration-300 ${renk}`}
+                  className={`relative flex items-center gap-1 rounded-full px-4 py-2.5 text-[15px] font-medium transition-colors duration-300 ${renk}`}
                 >
                   <Kapsul aktif={aktif} />
                   {item.label}
@@ -187,7 +190,7 @@ export default function Navbar() {
               <Link
                 key={item.label}
                 href={item.href}
-                className={`group/oge relative isolate rounded-full px-3.5 py-2 text-[15px] font-medium transition-colors duration-300 ${renk}`}
+                className={`group/oge relative isolate rounded-full px-4 py-2.5 text-[15px] font-medium transition-colors duration-300 ${renk}`}
               >
                 <Kapsul aktif={aktif} />
                 {item.label}
@@ -289,7 +292,7 @@ export default function Navbar() {
           isMobileMenuOpen ? "translate-x-0" : "pointer-events-none translate-x-full"
         }`}
       >
-        <div className="flex h-[72px] items-center justify-between border-b border-black/[0.07] px-5">
+        <div className="flex h-[84px] items-center justify-between border-b border-black/[0.07] px-5">
           <span className={`${playfair.className} text-xl font-bold`}>Menü</span>
           <button
             type="button"
