@@ -57,7 +57,7 @@ const navItems: Oge[] = [
   { label: "İlanlar", href: "/ilanlar" },
 ];
 
-const EKIP_GIRISI = "https://panel.wikipsycho.org.tr";
+const EKIP_GIRISI = "https://sosyal.wikipsycho.org.tr";
 
 function Ok({ className = "" }: { className?: string }) {
   return (
