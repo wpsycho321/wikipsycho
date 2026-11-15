@@ -58,6 +58,8 @@ const navItems: Oge[] = [
 ];
 
 const EKIP_GIRISI = "https://sosyal.wikipsycho.org.tr";
+/** Psikoloğum Ol: danışanların uzman bulup randevu aldığı site (WikiPsycho ekibi üretimi) */
+const PSIKOLOGUM_OL = "https://psikologumol.wikipsycho.org.tr";
 
 function Ok({ className = "" }: { className?: string }) {
   return (
@@ -297,6 +299,12 @@ export default function Navbar() {
             >
               Ekip Girişi
             </Link>
+            <a
+              href={PSIKOLOGUM_OL}
+              className="rounded-full bg-[#BDEBD5] px-4 py-2.5 text-[14px] font-semibold text-[#111] transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#a9e3c7]"
+            >
+              Psikoloğum Ol
+            </a>
             <WikiSosyalDugmesi />
           </div>
 
@@ -457,6 +465,12 @@ export default function Navbar() {
 
         <div className="space-y-2.5 border-t border-black/[0.07] p-4">
           <WikiSosyalDugmesi tam onClick={kapat} />
+          <a
+            href={PSIKOLOGUM_OL}
+            className="flex w-full items-center justify-center rounded-full bg-[#BDEBD5] py-2.5 text-[14px] font-semibold text-[#111]"
+          >
+            Psikoloğum Ol · psikolog bul
+          </a>
           <Link
             href={EKIP_GIRISI}
             className="flex w-full items-center justify-center rounded-full border border-black py-2.5 text-[14px] font-semibold transition hover:bg-black hover:text-white"
