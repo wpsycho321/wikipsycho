@@ -134,9 +134,6 @@ function WikiSosyalDugmesi({
         <span className="relative inline-flex h-2 w-2 rounded-full bg-white" />
       </span>
       <span className="relative">WikiSosyal</span>
-      <span className="relative rounded-full bg-white/20 px-1.5 py-0.5 text-[9.5px] font-bold tracking-[0.08em]">
-        YAKINDA
-      </span>
     </Link>
   );
 }
